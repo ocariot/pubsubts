@@ -19,16 +19,16 @@ const options = {
     }
 };
 describe('Broker Connection', () => {
-    it('Trying connect, should return TRUE if bound', () => {
-        // let pubsub : ManagerConnection = new ManagerConnection();
+    it('Trying connect, should return TRUE if bound - Not Implemented', () => {
+        // let pubsub : EventBus = new EventBus();
         //
         // pubsub.connect('ip-machine', 5671, 'guest', 'guest', options).then((result)=>{
         //     console.log("Tudo Certo!!!" + result)
         //     expect(result).to.equal(true)
         // })
     });
-    it('Get status connections', () => {
-        // let pubsub : ManagerConnection = new ManagerConnection();
+    it('Get status connections - Not Implemented', () => {
+        // let pubsub : EventBus = new EventBus();
         //
         // let result = pubsub.isConnected;
         //

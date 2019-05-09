@@ -1,6 +1,6 @@
 import { Connection } from 'amqp-ts';
-import { IConnectionEventBus } from './connection.event.bus.interface';
-import { Options } from "./configuration.inteface";
+import { IConnectionEventBus } from '../port/connection.event.bus.interface';
+import { IOptions } from "../port/configuration.inteface";
 /**
  * Implementation of the interface that provides conn with RabbitMQ.
  * To implement the RabbitMQ abstraction the amqp-ts library was used.
@@ -25,6 +25,6 @@ export declare class ConnectionRabbitMQ implements IConnectionEventBus {
      * @param password
      * @param options
      */
-    tryConnect(host: string, port: number, username: string, password: string, options?: Options): Promise<Connection>;
+    tryConnect(host: string, port: number, username: string, password: string, options?: IOptions): Promise<Connection>;
     closeConnection(): boolean | undefined;
 }

@@ -1,18 +1,18 @@
 import { Connection } from 'amqp-ts'
-import { IConnectionFactory } from './connection.factory.interface'
+import { IConnectionFactory } from '../port/connection.factory.interface'
 import { Default } from '../utils/default'
 
-import { Configuration, Options } from './configuration.inteface'
+import { IConfiguration, IOptions } from '../port/configuration.inteface'
 import * as fs from "fs"
 
 
-const defaultValues: Configuration = {
+const defaultValues: IConfiguration = {
     vhost: Default.RABBITMQ_VHOST,
     host: Default.RABBITMQ_HOST,
     port: Default.RABBITMQ_PORT,
     username: Default.RABBITMQ_USERNAME,
     password: Default.RABBITMQ_PASSWORD,
-    options: <Options> {
+    options: <IOptions> {
         retries: 0,
         interval: 1000,
         ssl: {
@@ -24,9 +24,9 @@ const defaultValues: Configuration = {
 
 export class ConnectionFactoryRabbitMQ implements IConnectionFactory {
 
-    private configuration: Configuration;
+    private configuration: IConfiguration;
     
-    constructor(host : string, port : number, username : string, password : string, options ?: Options){
+    constructor(host : string, port : number, username : string, password : string, options ?: IOptions){
         this.configuration = defaultValues;
         this.configuration.host = host;
         this.configuration.port = port;

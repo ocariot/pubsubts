@@ -1,2 +1,2 @@
-export { ManagerConnection } from './src/managerconection';
-export { Options } from './src/rabbitmq/configuration.inteface';
+export { IOptions } from './src/port/configuration.inteface';
+export { OcariotPubsub } from './src/app/ocariot.pubsub';

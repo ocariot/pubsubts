@@ -1,9 +1,9 @@
 import { Connection } from 'amqp-ts';
-import { IConnectionFactory } from './connection.factory.interface';
-import { Options } from './configuration.inteface';
+import { IConnectionFactory } from '../port/connection.factory.interface';
+import { IOptions } from '../port/configuration.inteface';
 export declare class ConnectionFactoryRabbitMQ implements IConnectionFactory {
     private configuration;
-    constructor(host: string, port: number, username: string, password: string, options?: Options);
+    constructor(host: string, port: number, username: string, password: string, options?: IOptions);
     /**
      * Create instance of {@link Connection} Class belonging
      * to the amqp-ts library to connect to RabbitMQ.

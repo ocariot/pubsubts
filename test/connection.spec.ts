@@ -1,11 +1,11 @@
 // 'use strict';
-import {ManagerConnection, Options} from '../index';
+import {IOptions} from '../index';
 import { expect } from 'chai';
 import * as fs from "fs"
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import 'mocha';
 
-const options: Options = {
+const options: IOptions = {
     retries: 1,
     interval: 1000,
     ssl: {
@@ -17,7 +17,7 @@ const options: Options = {
 describe('Broker Connection', () => {
     it('Trying connect, should return TRUE if bound - Not Implemented', () => {
 
-        // let pubsub : ManagerConnection = new ManagerConnection();
+        // let pubsub : EventBus = new EventBus();
         //
         // pubsub.connect('ip-machine', 5671, 'guest', 'guest', options).then((result)=>{
         //     console.log("Tudo Certo!!!" + result)
@@ -27,7 +27,7 @@ describe('Broker Connection', () => {
     });
     it('Get status connections - Not Implemented', () => {
 
-        // let pubsub : ManagerConnection = new ManagerConnection();
+        // let pubsub : EventBus = new EventBus();
         //
         // let result = pubsub.isConnected;
         //

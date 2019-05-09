@@ -1,8 +1,8 @@
 import { Connection } from 'amqp-ts'
-import { IConnectionEventBus } from './connection.event.bus.interface'
+import { IConnectionEventBus } from '../port/connection.event.bus.interface'
 import { ConnectionFactoryRabbitMQ } from './connection.factory.rabbitmq'
 
-import {Options} from "./configuration.inteface"
+import {IOptions} from "../port/configuration.inteface"
 
 
 /**
@@ -38,7 +38,7 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
      * @param password
      * @param options
      */
-    public tryConnect(host : string, port : number, username : string, password : string, options ?: Options): Promise<Connection> {
+    public tryConnect(host : string, port : number, username : string, password : string, options ?: IOptions): Promise<Connection> {
         return new Promise<Connection>((resolve, reject) => {
             if (this._connection) return resolve(this._connection)
 

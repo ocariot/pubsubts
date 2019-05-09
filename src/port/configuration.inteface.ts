@@ -1,13 +1,13 @@
-export interface Configuration{
+export interface IConfiguration{
     vhost: string,
     host: string,
     port: Number,
     username: string,
     password: string,
-    options: Options
+    options: IOptions
 }
 
-export interface Options {
+export interface IOptions {
     retries: number; // number of retries, 0 is forever
     interval: number; // retry interval in ms
     ssl: {
