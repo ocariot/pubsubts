@@ -19,4 +19,23 @@ Default.RABBITMQ_USERNAME = 'guest';
 Default.RABBITMQ_PASSWORD = 'guest';
 Default.OCARIOT_ACCOUNT_SERVICE = 'ocariot-account-service';
 Default.OCARIOT_ACTIVITY_SERVICE = 'ocariot-activity-service';
+//RESOURCES_CAMEL_CASE
+Default.PHYSICAL_ACTIVITIES_RESOURCE_EVENT = 'PhysicalActivity';
+Default.SLEEP_RESOURCE_EVENT = 'Sleep';
+Default.ENVIRONMENTS_RESOURCE_EVENT = 'Environment';
+//RESOURCES_PLURAL
+Default.PHYSICAL_ACTIVITIES_RESOURCE = 'physicalactivities';
+Default.SLEEP_RESOURCE = 'sleep';
+Default.ENVIRONMENTS_RESOURCE = 'environments';
+//ACTIONS
+Default.DELETE_ACTION = '.delete';
+Default.SAVE_ACTION = '.save';
+Default.UPDATE_ACTION = '.update';
+//EVENTS
+Default.DELETE_EVENT = 'DeleteEvent';
+Default.SAVE_EVENT = 'SaveEvent';
+Default.UPDATE_EVENT = 'UpdateEvent';
+Default.RESOURCE_PHYSICAL_ACTIVITIES = 'physicalactivity';
+Default.RESOURCE_SLEEP = 'sleep';
+Default.RESOURCE_ENVIRONMENTSS = 'environment';
 exports.Default = Default;

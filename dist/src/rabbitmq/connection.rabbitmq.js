@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const amqp_ts_1 = require("amqp-ts");
 const connection_factory_rabbitmq_1 = require("./connection.factory.rabbitmq");
 /**
  * Implementation of the interface that provides conn with RabbitMQ.
@@ -37,8 +38,6 @@ class ConnectionRabbitMQ {
             new connection_factory_rabbitmq_1.ConnectionFactoryRabbitMQ(host, port, username, password, options)
                 .createConnection()
                 .then((connection) => {
-                // connection.declareExchange('topic_logs', 'topic', {durable: false});
-                // connection.declareQueue('', {exclusive: true});
                 this._connection = connection;
                 return resolve(this._connection);
             })
@@ -56,6 +55,38 @@ class ConnectionRabbitMQ {
         }
         else
             return false;
+    }
+    sendMessage(exchangeName, topicKey, message) {
+        return new Promise((resolve, reject) => {
+            try {
+                if (this._connection) {
+                    let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
+                    exchange.send(new amqp_ts_1.Message(message), topicKey);
+                    return resolve(true);
+                }
+                return resolve(false);
+            }
+            catch (err) {
+                return reject(err);
+            }
+        });
+    }
+    receiveMessage(exchangeName, queueName, topicKey, callback) {
+        return new Promise((resolve, reject) => {
+            try {
+                if (this._connection) {
+                    let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
+                    let queue = this._connection.declareQueue(queueName, { exclusive: true });
+                    queue.bind(exchange, topicKey);
+                    queue.activateConsumer(callback);
+                    return resolve(true);
+                }
+                return resolve(false);
+            }
+            catch (err) {
+                return reject(err);
+            }
+        });
     }
 }
 exports.ConnectionRabbitMQ = ConnectionRabbitMQ;

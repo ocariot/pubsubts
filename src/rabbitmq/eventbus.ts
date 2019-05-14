@@ -1,56 +1,67 @@
 
 import { IOptions } from "../port/configuration.inteface"
 
-
 import { ConnectionRabbitMQ } from './connection.rabbitmq'
 import {EventEmitter} from 'events';
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 import { IEventbusInterface } from '../port/eventbus.interface'
 
-
-
 export class EventBus extends EventEmitter implements IEventbusInterface{
 
-    private pubconection: ConnectionRabbitMQ = new ConnectionRabbitMQ;
-    private subconection: ConnectionRabbitMQ = new ConnectionRabbitMQ;
+    private pubconnection: ConnectionRabbitMQ = new ConnectionRabbitMQ;
+    private subconnection: ConnectionRabbitMQ = new ConnectionRabbitMQ;
 
     public connect(host : string, port : number, username : string, password : string, options ?: IOptions): Promise<boolean | OcariotPubSubException>{
 
-        return new Promise<boolean | OcariotPubSubException>((resolve, reject) => {
-            this.pubconection.tryConnect(host, port, username, password, options).then( () =>{
-                this.subconection.tryConnect(host, port, username, password, options).then(()=>{
-                    return resolve(true);
-                }).catch(err =>{
-                    reject(new OcariotPubSubException(err).toJson());
-                })
-            }).catch(err =>{
-                reject(new OcariotPubSubException(err).toJson());
-            })
-            return false;
+        return new Promise<boolean | OcariotPubSubException>(async (resolve, reject) => {
+            try {
+                await this.pubconnection.tryConnect(host, port, username, password, options)
+                await this.subconnection.tryConnect(host, port, username, password, options)
+                return resolve(true);
+            }catch (err) {
+                reject(new OcariotPubSubException(err));
+                return false;
+            }
         })
     }
 
-    public close():boolean{
-        if (this.pubconection.closeConnection() && this.subconection.closeConnection()) {
-            return true;
-        }
-        return false;
+    public close():Promise<boolean | OcariotPubSubException> {
+        return new Promise<boolean | OcariotPubSubException>((resolve,reject) =>{
+            try {
+                if (this.pubconnection.closeConnection() && this.subconnection.closeConnection()) {
+                    return resolve(true);
+                }
+            } catch (err) {
+                reject(new OcariotPubSubException(err));
+                return false;
+            }
+        })
     }
 
     get isConnected(): boolean {
-        if (!this.pubconection.isConnected || !this.pubconection.isConnected)
+        if (!this.pubconnection.isConnected || !this.pubconnection.isConnected)
             return false
         return true;
     }
 
-    public publish(): boolean{
+    public publish(exchangeName: string, topicKey: string, message: any ):  Promise<boolean | OcariotPubSubException>{
 
-        // var exchange = connection.declareExchange('topic_logs', 'topic', {durable: true});
-
-        return false;
+        return new Promise<boolean | OcariotPubSubException>(async (resolve, reject) => {
+            try{
+                return resolve(this.pubconnection.sendMessage(exchangeName, topicKey, message))
+            }catch (err) {
+                reject(new OcariotPubSubException(err));
+            }
+        })
     }
 
-    public subscribe(): boolean{
-        return false;
+    public subscribe(exchangeName: string, queueName: string, routing_key: string,  callback: (message:any) => void ): Promise<boolean | OcariotPubSubException>{
+        return new Promise<boolean | OcariotPubSubException>(async (resolve, reject) => {
+            try{
+                return resolve(this.subconnection.receiveMessage(exchangeName, queueName, routing_key, callback))
+            }catch (err) {
+                reject(new OcariotPubSubException(err));
+            }
+        })
     }
 }

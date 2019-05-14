@@ -6,9 +6,9 @@ export interface IEventbusInterface {
 
     connect(host : string, port : number, username : string, password : string, options ?: IOptions): Promise<boolean | OcariotPubSubException>
 
-    close():boolean
+    close():Promise<boolean | OcariotPubSubException>
 
-    publish(): boolean
+    publish(exchangeName: string, exchangeType: string, message: any ): Promise<boolean | OcariotPubSubException>
 
-    subscribe(): boolean
+    subscribe(exchangeName: string, queueName: string, routing_key: string, callback: Function): Promise<boolean | OcariotPubSubException>
 }

@@ -3,20 +3,20 @@ import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 
 export interface IOcariotSubInterface extends ISubInterface{
 
-    subSavePhysicalActivity(callback: Function): boolean | OcariotPubSubException
+    subSavePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException>
 
-    subUpdatePhysicalActivity(callback: Function): boolean | OcariotPubSubException
+    subUpdatePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException>
 
-    subDeletePhysicalActivity(callback: Function): boolean | OcariotPubSubException
+    subDeletePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException>
 
-    subSaveSleep(callback: Function): boolean | OcariotPubSubException
+    subSaveSleep(callback: Function): Promise<boolean | OcariotPubSubException>
 
-    subUpdateSleep(callback: Function): boolean | OcariotPubSubException
+    subUpdateSleep(callback: Function): Promise<boolean | OcariotPubSubException>
 
-    subDeleteSleep(callback: Function): boolean | OcariotPubSubException
+    subDeleteSleep(callback: Function): Promise<boolean | OcariotPubSubException>
 
-    subSaveEnvironment(callback: Function): boolean | OcariotPubSubException
+    subSaveEnvironment(callback: Function): Promise<boolean | OcariotPubSubException>
 
-    subDeleteEnvironment(callback: Function): boolean | OcariotPubSubException
+    subDeleteEnvironment(callback: Function): Promise<boolean | OcariotPubSubException>
 
 }
