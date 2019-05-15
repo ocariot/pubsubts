@@ -2,7 +2,7 @@ import { EventBus } from '../rabbitmq/eventbus'
 import { IOcariotPubInterface } from '../port/ocariot.pub.interface'
 import { IOcariotSubInterface } from '../port/ocariot.sub.interface'
 import { EventEmitter } from "events"
-    import { IOptions } from '../port/configuration.inteface'
+import { IOptions } from '../port/configuration.inteface'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 import { IMessage, IMessageEnvironment } from '../port/message.interface'
 import { Default } from '../utils/default'
