@@ -1,0 +1,35 @@
+{
+  "name": "ocariot-pubsubjs",
+  "version": "1.0.0",
+  "description": "Library for publish and subscribe events on the OCARIoT platform message bus.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha -r ts-node/register --reporter spec test/**/*.spec.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nutes-uepb/ocariot-pubsubjs.git"
+  },
+  "keywords": [],
+  "author": "Lucas Barbosa Oliveira <lucboluc@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nutes-uepb/ocariot-pubsubjs/issues"
+  },
+  "homepage": "https://github.com/nutes-uepb/ocariot-pubsubjs#readme",
+  "devDependencies": {
+    "@types/node": "^11.13.9",
+    "amqp-ts": "git+https://github.com/nutes-uepb/amqp-ts.git",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "sinon": "^7.3.2",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "@types/bluebird": "^3.5.26",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "ts-node": "^8.1.0"
+  }
+}
