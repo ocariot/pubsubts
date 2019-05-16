@@ -4,10 +4,17 @@ import { IOcariotSubInterface } from '../port/ocariot.sub.interface'
 import { EventEmitter } from "events"
 import { IOptions } from '../port/configuration.inteface'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
-import { IMessage, IMessageEnvironment } from '../port/message.interface'
+import {
+    IMessage, IMessageApplication,
+    IMessageChild, IMessageEducator,
+    IMessageEnvironment, IMessageFamily, IMessageHealthProfessional, IMessageInstitution,
+    IMessagePhysicalActivity,
+    IMessageSleep, IMessageUser
+} from '../port/message.interface'
 import { Default } from '../utils/default'
 
 export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface, IOcariotSubInterface{
+
 
     private connection: EventBus = new EventBus();
 
@@ -47,43 +54,244 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
         }
     }
 
-    pubDeleteEnvironment(environment: any): Promise<boolean | OcariotPubSubException> {
+    pubSavePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessagePhysicalActivity= {
+            event_name: Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + Default.SAVE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            physicalactivity: activity
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.PHYSICAL_ACTIVITIES_RESOURCE, Default.PHYSICAL_ACTIVITIES_RESOURCE+Default.SAVE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
+    }
+
+    pubUpdatePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessagePhysicalActivity= {
+            event_name: Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + Default.UPDATE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            physicalactivity: activity
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.PHYSICAL_ACTIVITIES_RESOURCE, Default.PHYSICAL_ACTIVITIES_RESOURCE+Default.UPDATE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
+    }
+
+    pubDeletePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessagePhysicalActivity= {
+            event_name: Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + Default.DELETE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            physicalactivity: activity
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.PHYSICAL_ACTIVITIES_RESOURCE, Default.PHYSICAL_ACTIVITIES_RESOURCE+Default.DELETE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
+    }
+
+    pubSaveSleep(sleep: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageSleep = {
+            event_name: Default.SLEEP_RESOURCE_EVENT + Default.SAVE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            sleep: sleep
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.SLEEP_RESOURCE, Default.SLEEP_RESOURCE+Default.SAVE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
+    }
+
+    pubUpdateSleep(sleep: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageSleep = {
+            event_name: Default.SLEEP_RESOURCE_EVENT + Default.UPDATE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            sleep: sleep
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.SLEEP_RESOURCE, Default.SLEEP_RESOURCE+Default.UPDATE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
+    }
+
+    pubDeleteSleep(sleep: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageSleep = {
+            event_name: Default.SLEEP_RESOURCE_EVENT + Default.DELETE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            sleep: sleep
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.SLEEP_RESOURCE, Default.SLEEP_RESOURCE+Default.DELETE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
+    }
+
+    pubSaveEnvironment(environment: any): Promise<boolean | OcariotPubSubException> {
         let message: IMessageEnvironment = {
-            event_name: Default.ENVIRONMENTS_RESOURCE_EVENT + Default.DELETE_EVENT ,
-            timestamp: "1557774482",
+            event_name: Default.ENVIRONMENT_RESOURCE_EVENT + Default.SAVE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
             environment: environment
         }
 
-        this.connection.publish(Default.ENVIRONMENTS_RESOURCE, Default.ENVIRONMENTS_RESOURCE+Default.DELETE_ACTION, message)
-        return undefined;
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.ENVIRONMENTS_RESOURCE, Default.ENVIRONMENTS_RESOURCE+Default.SAVE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
     }
 
-    pubDeletePhysicalActivity(activity: IMessage): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    pubDeleteEnvironment(environment: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageEnvironment = {
+            event_name: Default.ENVIRONMENT_RESOURCE_EVENT + Default.DELETE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            environment: environment
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.ENVIRONMENTS_RESOURCE, Default.ENVIRONMENTS_RESOURCE+Default.DELETE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
     }
 
-    pubDeleteSleep(sleep: IMessage): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    pubUpdateChild(child: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageChild = {
+            event_name: Default.CHILD_RESOURCE_EVENT + Default.UPDATE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            child: child
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.CHILDREN_RESOURCE, Default.CHILDREN_RESOURCE+Default.UPDATE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
     }
 
-    pubSaveEnvironment(environment: IMessage): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    pubUpdateFamily(family: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageFamily = {
+            event_name: Default.FAMILY_RESOURCE_EVENT + Default.UPDATE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            family: family
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.FAMILIES_RESOURCE, Default.FAMILIES_RESOURCE+Default.UPDATE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
     }
 
-    pubSavePhysicalActivity(activity: IMessage): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    pubUpdateEducator(educator: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageEducator = {
+            event_name: Default.EDUCATOR_RESOURCE_EVENT + Default.UPDATE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            educator: educator
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.EDUCATORS_RESOURCE, Default.EDUCATORS_RESOURCE+Default.UPDATE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
     }
 
-    pubSaveSleep(sleep: IMessage): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    pubUpdateHealthProfessional(healthprofessional: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageHealthProfessional = {
+            event_name: Default.HEALTH_PROFESSIONAL_RESOURCE_EVENT + Default.UPDATE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            healthprofessional: healthprofessional
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.HEALTH_PROFESSIONALS_RESOURCE, Default.HEALTH_PROFESSIONALS_RESOURCE+Default.UPDATE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
     }
 
-    pubUpdatePhysicalActivity(activity: IMessage): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    pubUpdateApplication(application: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageApplication = {
+            event_name: Default.APPLICATION_RESOURCE_EVENT + Default.UPDATE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            application: application
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.APPLICATIONS_RESOURCE, Default.APPLICATIONS_RESOURCE+Default.UPDATE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
     }
 
-    pubUpdateSleep(sleep: IMessage): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    pubDeleteUser(user: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageUser = {
+            event_name: Default.USER_RESOURCE_EVENT + Default.DELETE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            user: user
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.USERS_RESOURCE, Default.USERS_RESOURCE+Default.DELETE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
+    }
+
+    pubDeleteInstitution(institution: any): Promise<boolean | OcariotPubSubException> {
+        let message: IMessageInstitution = {
+            event_name: Default.INSTITUTION_RESOURCE_EVENT + Default.DELETE_EVENT,
+            timestamp: Default.getDataTimeUTC(),
+            institution: institution
+        }
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+            this.connection.publish(Default.INSTITUTIONS_RESOURCE, Default.INSTITUTIONS_RESOURCE+Default.DELETE_ACTION, message).then((result) =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        });
     }
 
     sub(exchangeName: string, queueName: string, routing_key: string,  callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {

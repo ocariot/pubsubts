@@ -78,7 +78,9 @@ class ConnectionRabbitMQ {
                     let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
                     let queue = this._connection.declareQueue(queueName, { exclusive: true });
                     queue.bind(exchange, topicKey);
-                    queue.activateConsumer(callback);
+                    console.log(queue.initialized);
+                    if (!queue.initialized)
+                        queue.activateConsumer(callback);
                     return resolve(true);
                 }
                 return resolve(false);

@@ -76,7 +76,6 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                     exchange.send(new Message(message), topicKey)
                     return resolve(true);
                 }
-                return resolve(false);
             }catch (err) {
                 return reject(err)
             }
@@ -93,7 +92,10 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
 
                    queue.bind(exchange, topicKey)
 
+                   console.log(queue.initialized)
+
                    queue.activateConsumer(callback)
+
                    return resolve(true);
                }
 
