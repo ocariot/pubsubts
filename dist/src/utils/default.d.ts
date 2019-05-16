@@ -13,8 +13,8 @@ export declare abstract class Default {
     static readonly RABBITMQ_PORT: number;
     static readonly RABBITMQ_USERNAME: string;
     static readonly RABBITMQ_PASSWORD: string;
-    static readonly OCARIOT_ACCOUNT_SERVICE: string;
     static readonly OCARIOT_ACTIVITY_SERVICE: string;
+    static readonly OCARIOT_ACCOUNT_SERVICE: string;
     static readonly PHYSICAL_ACTIVITY_RESOURCE_EVENT: string;
     static readonly SLEEP_RESOURCE_EVENT: string;
     static readonly ENVIRONMENT_RESOURCE_EVENT: string;

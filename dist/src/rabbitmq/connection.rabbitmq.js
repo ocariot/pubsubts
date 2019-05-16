@@ -64,7 +64,6 @@ class ConnectionRabbitMQ {
                     exchange.send(new amqp_ts_1.Message(message), topicKey);
                     return resolve(true);
                 }
-                return resolve(false);
             }
             catch (err) {
                 return reject(err);
@@ -78,9 +77,7 @@ class ConnectionRabbitMQ {
                     let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
                     let queue = this._connection.declareQueue(queueName, { exclusive: true });
                     queue.bind(exchange, topicKey);
-                    console.log(queue.initialized);
-                    if (!queue.initialized)
-                        queue.activateConsumer(callback);
+                    queue.activateConsumer(callback);
                     return resolve(true);
                 }
                 return resolve(false);

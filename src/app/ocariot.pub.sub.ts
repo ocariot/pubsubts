@@ -15,7 +15,6 @@ import { Default } from '../utils/default'
 
 export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface, IOcariotSubInterface{
 
-
     private connection: EventBus = new EventBus();
 
     connect(host : string, port : number, username : string, password : string, options ?: IOptions): Promise<boolean | OcariotPubSubException>{
@@ -303,36 +302,71 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
         }
     }
 
-    subDeleteEnvironment(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
-    }
+    subSavePhysicalActivity(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
 
-    subDeletePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
-    }
-
-    subDeleteSleep(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
-    }
-
-    subSaveEnvironment(callback: Function): Promise<boolean | OcariotPubSubException>{
-        return undefined;
-    }
-
-    subSavePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException>{
-        return undefined;
-    }
-
-    subSaveSleep(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+        try {
+            return Promise.resolve(this.connection.subscribe(Default.PHYSICAL_ACTIVITIES_RESOURCE,
+                Default.OCARIOT_ACTIVITY_SERVICE,
+                Default.PHYSICAL_ACTIVITIES_RESOURCE+Default.SAVE_ACTION, callback))
+        }catch (err) {
+            return Promise.reject(err);
+        }
     }
 
     subUpdatePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+        throw new Error("Method not implemented.");
+    }
+
+    subDeletePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subSaveSleep(callback: Function): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
     }
 
     subUpdateSleep(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+        throw new Error("Method not implemented.");
+    }
+
+    subDeleteSleep(callback: Function): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subSaveEnvironment(callback: Function): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subDeleteEnvironment(callback: Function): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subUpdateChild(callback: any): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subUpdateFamily(callback: any): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subUpdateEducator(callback: any): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subUpdateHealthProfessional(callback: any): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subUpdateApplication(callback: any): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subDeleteUser(callback: any): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
+    }
+
+    subDeleteInstitution(callback: any): Promise<boolean | OcariotPubSubException> {
+        throw new Error("Method not implemented.");
     }
 
 }

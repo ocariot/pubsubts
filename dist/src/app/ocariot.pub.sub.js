@@ -259,29 +259,55 @@ class OcariotPubSub extends events_1.EventEmitter {
             return Promise.reject(err);
         }
     }
-    subDeleteEnvironment(callback) {
-        return undefined;
-    }
-    subDeletePhysicalActivity(callback) {
-        return undefined;
-    }
-    subDeleteSleep(callback) {
-        return undefined;
-    }
-    subSaveEnvironment(callback) {
-        return undefined;
-    }
     subSavePhysicalActivity(callback) {
-        return undefined;
-    }
-    subSaveSleep(callback) {
-        return undefined;
+        try {
+            return Promise.resolve(this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.SAVE_ACTION, callback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subUpdatePhysicalActivity(callback) {
-        return undefined;
+        throw new Error("Method not implemented.");
+    }
+    subDeletePhysicalActivity(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subSaveSleep(callback) {
+        throw new Error("Method not implemented.");
     }
     subUpdateSleep(callback) {
-        return undefined;
+        throw new Error("Method not implemented.");
+    }
+    subDeleteSleep(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subSaveEnvironment(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subDeleteEnvironment(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subUpdateChild(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subUpdateFamily(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subUpdateEducator(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subUpdateHealthProfessional(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subUpdateApplication(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subDeleteUser(callback) {
+        throw new Error("Method not implemented.");
+    }
+    subDeleteInstitution(callback) {
+        throw new Error("Method not implemented.");
     }
 }
 exports.OcariotPubSub = OcariotPubSub;

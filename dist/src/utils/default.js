@@ -20,8 +20,8 @@ Default.RABBITMQ_HOST = 'localhost';
 Default.RABBITMQ_PORT = 5671;
 Default.RABBITMQ_USERNAME = 'guest';
 Default.RABBITMQ_PASSWORD = 'guest';
-Default.OCARIOT_ACCOUNT_SERVICE = 'ocariot-account-service';
 Default.OCARIOT_ACTIVITY_SERVICE = 'ocariot-activity-service';
+Default.OCARIOT_ACCOUNT_SERVICE = 'ocariot-account-service';
 //RESOURCES_CAMEL_CASE - Event Name
 Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT = 'PhysicalActivity';
 Default.SLEEP_RESOURCE_EVENT = 'Sleep';

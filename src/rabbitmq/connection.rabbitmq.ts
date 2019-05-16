@@ -92,8 +92,6 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
 
                    queue.bind(exchange, topicKey)
 
-                   console.log(queue.initialized)
-
                    queue.activateConsumer(callback)
 
                    return resolve(true);

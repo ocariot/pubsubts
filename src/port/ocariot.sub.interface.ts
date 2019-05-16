@@ -19,4 +19,18 @@ export interface IOcariotSubInterface extends ISubInterface{
 
     subDeleteEnvironment(callback: Function): Promise<boolean | OcariotPubSubException>
 
+    subUpdateChild(callback): Promise<boolean | OcariotPubSubException>
+
+    subUpdateFamily(callback): Promise<boolean | OcariotPubSubException>
+
+    subUpdateEducator(callback): Promise<boolean | OcariotPubSubException>
+
+    subUpdateHealthProfessional(callback): Promise<boolean | OcariotPubSubException>
+
+    subUpdateApplication(callback): Promise<boolean | OcariotPubSubException>
+
+    subDeleteUser(callback): Promise<boolean | OcariotPubSubException>
+
+    subDeleteInstitution(callback): Promise<boolean | OcariotPubSubException>
+
 }

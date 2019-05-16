@@ -15,8 +15,8 @@ export abstract class Default {
     public static readonly RABBITMQ_USERNAME: string = 'guest'
     public static readonly RABBITMQ_PASSWORD: string = 'guest'
 
-    public static readonly OCARIOT_ACCOUNT_SERVICE: string = 'ocariot-account-service'
     public static readonly OCARIOT_ACTIVITY_SERVICE: string = 'ocariot-activity-service'
+    public static readonly OCARIOT_ACCOUNT_SERVICE: string = 'ocariot-account-service'
 
     //RESOURCES_CAMEL_CASE - Event Name
     public static readonly PHYSICAL_ACTIVITY_RESOURCE_EVENT: string = 'PhysicalActivity'
