@@ -253,7 +253,11 @@ class OcariotPubSub extends events_1.EventEmitter {
     }
     sub(exchangeName, queueName, routing_key, callback) {
         try {
-            return Promise.resolve(this.connection.subscribe(exchangeName, queueName, routing_key, callback));
+            let eventCallback = {
+                event_name: undefined,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(exchangeName, queueName, routing_key, eventCallback));
         }
         catch (err) {
             return Promise.reject(err);
@@ -261,53 +265,183 @@ class OcariotPubSub extends events_1.EventEmitter {
     }
     subSavePhysicalActivity(callback) {
         try {
-            return Promise.resolve(this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.SAVE_ACTION, callback));
+            let eventCallback = {
+                event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.SAVE_ACTION, eventCallback));
         }
         catch (err) {
             return Promise.reject(err);
         }
     }
     subUpdatePhysicalActivity(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subDeletePhysicalActivity(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subSaveSleep(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.SLEEP_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.SLEEP_RESOURCE + default_1.Default.SAVE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subUpdateSleep(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.SLEEP_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.SLEEP_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subDeleteSleep(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.SLEEP_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.SLEEP_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subSaveEnvironment(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.ENVIRONMENTS_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.ENVIRONMENTS_RESOURCE + default_1.Default.SAVE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subDeleteEnvironment(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.ENVIRONMENTS_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.ENVIRONMENTS_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subUpdateChild(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.CHILD_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.CHILDREN_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.CHILDREN_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subUpdateFamily(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.FAMILY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.FAMILIES_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.FAMILIES_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subUpdateEducator(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.EDUCATOR_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.EDUCATORS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.EDUCATORS_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subUpdateHealthProfessional(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.HEALTH_PROFESSIONAL_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.HEALTH_PROFESSIONALS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.HEALTH_PROFESSIONALS_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subUpdateApplication(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.APPLICATION_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.APPLICATIONS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.APPLICATIONS_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subDeleteUser(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.USER_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.USERS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.USERS_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
     subDeleteInstitution(callback) {
-        throw new Error("Method not implemented.");
+        try {
+            let eventCallback = {
+                event_name: default_1.Default.INSTITUTION_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+                handle: callback
+            };
+            return Promise.resolve(this.connection.subscribe(default_1.Default.INSTITUTIONS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.INSTITUTIONS_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
+        }
+        catch (err) {
+            return Promise.reject(err);
+        }
     }
 }
 exports.OcariotPubSub = OcariotPubSub;

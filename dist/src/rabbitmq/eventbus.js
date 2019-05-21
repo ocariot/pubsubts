@@ -9,11 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const connection_rabbitmq_1 = require("./connection.rabbitmq");
-const events_1 = require("events");
 const ocariotPubSub_exception_1 = require("../exception/ocariotPubSub.exception");
-class EventBus extends events_1.EventEmitter {
+class EventBus {
     constructor() {
-        super(...arguments);
         this.pubconnection = new connection_rabbitmq_1.ConnectionRabbitMQ;
         this.subconnection = new connection_rabbitmq_1.ConnectionRabbitMQ;
     }

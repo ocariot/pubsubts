@@ -5,6 +5,7 @@ import { ConnectionFactoryRabbitMQ } from './connection.factory.rabbitmq'
 import {IOptions} from "../port/configuration.inteface"
 import { Default } from '../utils/default'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
+import { IEventHandler } from '../port/event.handler.interface'
 
 
 /**
@@ -15,6 +16,10 @@ import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
  * @implements {IConnectionEventBus}
  */
 export class ConnectionRabbitMQ implements IConnectionEventBus {
+
+    private event_handlers: Map<string, IEventHandler<any>> = new Map<string, IEventHandler<any>>();
+
+    private consumerInitialized: boolean = false;
 
     private _connection?: Connection
 
@@ -82,25 +87,57 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
         })
     }
 
-    public receiveMessage(exchangeName: string, queueName: string, topicKey: string, callback: (message: any) => void): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-           try {
-               if (this._connection) {
-                   let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
+    public receiveMessage(exchangeName: string, queueName: string, topicKey: string, callback: IEventHandler<any>): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
+            try {
+                if (this._connection) {
+                    let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
 
-                   let queue = this._connection.declareQueue(queueName, { exclusive: true });
+                    if (await exchange.initialized) {
+                        this.event_handlers.set(callback.event_name, callback)
+                    }
 
-                   queue.bind(exchange, topicKey)
+                    let queue = this._connection.declareQueue(queueName, { exclusive: true });
 
-                   queue.activateConsumer(callback)
+                    queue.bind(exchange, topicKey)
 
-                   return resolve(true);
-               }
+                    if(!this.consumerInitialized){
+                        this.consumerInitialized = true;
 
-               return resolve(false);
-           }catch (err) {
-               return reject(err)
-           }
+                        queue.activateConsumer((message: Message) => {
+                            message.ack() // acknowledge that the message has been received (and processed)
+
+                            // if (message.properties.appId === Default.APP_ID && this._receive_from_yourself === false) return
+
+                            // this._logger.info(`Bus event message received!`)
+                            const event_name: string = message.getContent().event_name
+
+                            if (event_name) {
+                                const event_handler: IEventHandler<any> | undefined =
+                                    this.event_handlers.get(event_name)
+                                if (event_handler) {
+                                    event_handler.handle(message.getContent())
+                                }
+                            }
+                        }, { noAck: false })
+                            .catch(err => {
+                                return reject(err)
+                            })
+                    }
+                    // queue.initialized.then((result)=>{
+                    //     console.log(result)
+                    // })
+
+                    // console.log(queue.initialized)
+
+
+                        return resolve(true);
+                }
+
+                return resolve(false);
+            } catch (err) {
+                return reject(err)
+            }
         })
     }
 

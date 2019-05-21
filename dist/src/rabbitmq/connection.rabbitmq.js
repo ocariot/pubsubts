@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const amqp_ts_1 = require("amqp-ts");
 const connection_factory_rabbitmq_1 = require("./connection.factory.rabbitmq");
@@ -10,6 +18,10 @@ const connection_factory_rabbitmq_1 = require("./connection.factory.rabbitmq");
  * @implements {IConnectionEventBus}
  */
 class ConnectionRabbitMQ {
+    constructor() {
+        this.event_handlers = new Map();
+        this.consumerInitialized = false;
+    }
     get isConnected() {
         if (!this._connection)
             return false;
@@ -71,13 +83,37 @@ class ConnectionRabbitMQ {
         });
     }
     receiveMessage(exchangeName, queueName, topicKey, callback) {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
                 if (this._connection) {
                     let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
+                    if (yield exchange.initialized) {
+                        this.event_handlers.set(callback.event_name, callback);
+                    }
                     let queue = this._connection.declareQueue(queueName, { exclusive: true });
                     queue.bind(exchange, topicKey);
-                    queue.activateConsumer(callback);
+                    if (!this.consumerInitialized) {
+                        this.consumerInitialized = true;
+                        queue.activateConsumer((message) => {
+                            message.ack(); // acknowledge that the message has been received (and processed)
+                            // if (message.properties.appId === Default.APP_ID && this._receive_from_yourself === false) return
+                            // this._logger.info(`Bus event message received!`)
+                            const event_name = message.getContent().event_name;
+                            if (event_name) {
+                                const event_handler = this.event_handlers.get(event_name);
+                                if (event_handler) {
+                                    event_handler.handle(message.getContent());
+                                }
+                            }
+                        }, { noAck: false })
+                            .catch(err => {
+                            return reject(err);
+                        });
+                    }
+                    // queue.initialized.then((result)=>{
+                    //     console.log(result)
+                    // })
+                    // console.log(queue.initialized)
                     return resolve(true);
                 }
                 return resolve(false);
@@ -85,7 +121,7 @@ class ConnectionRabbitMQ {
             catch (err) {
                 return reject(err);
             }
-        });
+        }));
     }
 }
 exports.ConnectionRabbitMQ = ConnectionRabbitMQ;

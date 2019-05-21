@@ -1,6 +1,7 @@
 import {IOptions} from "./configuration.inteface"
 import { Connection } from 'amqp-ts'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
+import { IEventHandler } from './event.handler.interface'
 
 export interface IConnectionEventBus {
     isConnected: boolean
@@ -13,5 +14,5 @@ export interface IConnectionEventBus {
 
     sendMessage(exchangeName: string, topicKey: string, message: any): Promise<boolean>
 
-    receiveMessage(exchangeName: string, queueName: string, topicKey: string, callback: (message:any) => void): Promise<boolean>
+    receiveMessage(exchangeName: string, queueName: string, topicKey: string, callback: IEventHandler<any>): Promise<boolean>
 }
