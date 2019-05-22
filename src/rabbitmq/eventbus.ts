@@ -2,11 +2,11 @@
 import { IOptions } from "../port/configuration.inteface"
 
 import { ConnectionRabbitMQ } from './connection.rabbitmq'
-import {EventEmitter} from 'events';
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 import { IEventbusInterface } from '../port/eventbus.interface'
+import { IEventHandler } from '../port/event.handler.interface'
 
-export class EventBus extends EventEmitter implements IEventbusInterface{
+export class EventBus implements IEventbusInterface{
 
     private pubconnection: ConnectionRabbitMQ = new ConnectionRabbitMQ;
     private subconnection: ConnectionRabbitMQ = new ConnectionRabbitMQ;
@@ -47,21 +47,21 @@ export class EventBus extends EventEmitter implements IEventbusInterface{
     public publish(exchangeName: string, topicKey: string, message: any ):  Promise<boolean | OcariotPubSubException>{
 
         return new Promise<boolean | OcariotPubSubException>(async (resolve, reject) => {
-            try{
-                return resolve(this.pubconnection.sendMessage(exchangeName, topicKey, message))
-            }catch (err) {
-                reject(new OcariotPubSubException(err));
-            }
+            this.pubconnection.sendMessage(exchangeName, topicKey, message).then(result =>{
+                resolve(result)
+            }).catch(err =>{
+                reject(err)
+            })
         })
     }
 
-    public subscribe(exchangeName: string, queueName: string, routing_key: string,  callback: (message:any) => void ): Promise<boolean | OcariotPubSubException>{
+    public subscribe(exchangeName: string, queueName: string, routing_key: string,  callback: IEventHandler<any> ): Promise<boolean | OcariotPubSubException>{
         return new Promise<boolean | OcariotPubSubException>(async (resolve, reject) => {
-            try{
-                return resolve(this.subconnection.receiveMessage(exchangeName, queueName, routing_key, callback))
-            }catch (err) {
-                reject(new OcariotPubSubException(err));
-            }
+            this.subconnection.receiveMessage(exchangeName, queueName, routing_key, callback).then(result => {
+                resolve(result)
+            }).catch(err =>{
+                reject(err)
+            })
         })
     }
 }

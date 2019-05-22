@@ -1,5 +1,6 @@
 import { IOptions } from './configuration.inteface'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
+import { IEventHandler } from './event.handler.interface'
 
 export interface IEventbusInterface {
     isConnected : boolean
@@ -10,5 +11,5 @@ export interface IEventbusInterface {
 
     publish(exchangeName: string, exchangeType: string, message: any ): Promise<boolean | OcariotPubSubException>
 
-    subscribe(exchangeName: string, queueName: string, routing_key: string, callback: Function): Promise<boolean | OcariotPubSubException>
+    subscribe(exchangeName: string, queueName: string, routing_key: string, callback: IEventHandler<any>): Promise<boolean | OcariotPubSubException>
 }

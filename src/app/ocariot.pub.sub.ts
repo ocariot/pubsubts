@@ -12,9 +12,9 @@ import {
     IMessageSleep, IMessageUser
 } from '../port/message.interface'
 import { Default } from '../utils/default'
+import { IEventHandler } from '../port/event.handler.interface'
 
 export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface, IOcariotSubInterface{
-
 
     private connection: EventBus = new EventBus();
 
@@ -297,42 +297,270 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     sub(exchangeName: string, queueName: string, routing_key: string,  callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
 
         try {
-            return Promise.resolve(this.connection.subscribe(exchangeName, queueName, routing_key, callback))
+            let eventCallback: IEventHandler<any> = {
+                event_name: undefined,
+                handle: callback
+            }
+
+            return Promise.resolve(this.connection.subscribe(exchangeName, queueName, routing_key, eventCallback))
         }catch (err) {
             return Promise.reject(err);
         }
     }
 
-    subDeleteEnvironment(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    subSavePhysicalActivity(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+
+        let eventCallback: IEventHandler<any> = {
+            event_name: Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + Default.SAVE_EVENT,
+            handle: callback};
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+            this.connection.subscribe(Default.PHYSICAL_ACTIVITIES_RESOURCE,
+                Default.OCARIOT_ACTIVITY_SERVICE,
+                Default.PHYSICAL_ACTIVITIES_RESOURCE+Default.SAVE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        })
+
     }
 
-    subDeletePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    subUpdatePhysicalActivity(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+
+        let eventCallback: IEventHandler<any> = {
+            event_name: Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + Default.UPDATE_EVENT,
+            handle: callback}
+
+        return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+            this.connection.subscribe(Default.PHYSICAL_ACTIVITIES_RESOURCE,
+                Default.OCARIOT_ACTIVITY_SERVICE,
+                Default.PHYSICAL_ACTIVITIES_RESOURCE+Default.UPDATE_ACTION, eventCallback).then(result =>{
+                resolve(result)
+            }).catch( err =>{
+                reject(new OcariotPubSubException(err))
+            })
+        })
     }
 
-    subDeleteSleep(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    subDeletePhysicalActivity(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + Default.DELETE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.PHYSICAL_ACTIVITIES_RESOURCE,
+                    Default.OCARIOT_ACTIVITY_SERVICE,
+                    Default.PHYSICAL_ACTIVITIES_RESOURCE+Default.DELETE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
     }
 
-    subSaveEnvironment(callback: Function): Promise<boolean | OcariotPubSubException>{
-        return undefined;
+    subSaveSleep(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.SLEEP_RESOURCE_EVENT + Default.SAVE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.SLEEP_RESOURCE,
+                    Default.OCARIOT_ACTIVITY_SERVICE,
+                    Default.SLEEP_RESOURCE+Default.SAVE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
     }
 
-    subSavePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException>{
-        return undefined;
+    subUpdateSleep(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.SLEEP_RESOURCE_EVENT + Default.UPDATE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.SLEEP_RESOURCE,
+                    Default.OCARIOT_ACTIVITY_SERVICE,
+                    Default.SLEEP_RESOURCE+Default.UPDATE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
     }
 
-    subSaveSleep(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    subDeleteSleep(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.SLEEP_RESOURCE_EVENT + Default.DELETE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.SLEEP_RESOURCE,
+                    Default.OCARIOT_ACTIVITY_SERVICE,
+                    Default.SLEEP_RESOURCE+Default.DELETE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
     }
 
-    subUpdatePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    subSaveEnvironment(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.ENVIRONMENT_RESOURCE_EVENT + Default.SAVE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.ENVIRONMENTS_RESOURCE,
+                    Default.OCARIOT_ACTIVITY_SERVICE,
+                    Default.ENVIRONMENTS_RESOURCE+Default.SAVE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
+
+
     }
 
-    subUpdateSleep(callback: Function): Promise<boolean | OcariotPubSubException> {
-        return undefined;
+    subDeleteEnvironment(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.ENVIRONMENT_RESOURCE_EVENT + Default.DELETE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.ENVIRONMENTS_RESOURCE,
+                    Default.OCARIOT_ACTIVITY_SERVICE,
+                    Default.ENVIRONMENTS_RESOURCE+Default.DELETE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
+
+    }
+
+    subUpdateChild(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.CHILD_RESOURCE_EVENT + Default.UPDATE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.CHILDREN_RESOURCE,
+                    Default.OCARIOT_ACCOUNT_SERVICE,
+                    Default.CHILDREN_RESOURCE+Default.UPDATE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
+
+    }
+
+    subUpdateFamily(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.FAMILY_RESOURCE_EVENT + Default.UPDATE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.FAMILIES_RESOURCE,
+                    Default.OCARIOT_ACCOUNT_SERVICE,
+                    Default.FAMILIES_RESOURCE+Default.UPDATE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
+
+    }
+
+    subUpdateEducator(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.EDUCATOR_RESOURCE_EVENT + Default.UPDATE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.EDUCATORS_RESOURCE,
+                    Default.OCARIOT_ACCOUNT_SERVICE,
+                    Default.EDUCATORS_RESOURCE+Default.UPDATE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
+
+    }
+
+    subUpdateHealthProfessional(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.HEALTH_PROFESSIONAL_RESOURCE_EVENT + Default.UPDATE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.HEALTH_PROFESSIONALS_RESOURCE,
+                    Default.OCARIOT_ACCOUNT_SERVICE,
+                    Default.HEALTH_PROFESSIONALS_RESOURCE+Default.UPDATE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
+
+    }
+
+    subUpdateApplication(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.APPLICATION_RESOURCE_EVENT + Default.UPDATE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.APPLICATIONS_RESOURCE,
+                    Default.OCARIOT_ACCOUNT_SERVICE,
+                    Default.APPLICATIONS_RESOURCE+Default.UPDATE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
+
+    }
+
+    subDeleteUser(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.USER_RESOURCE_EVENT + Default.DELETE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.USERS_RESOURCE,
+                    Default.OCARIOT_ACCOUNT_SERVICE,
+                    Default.USERS_RESOURCE+Default.DELETE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
+
+    }
+
+    subDeleteInstitution(callback: (message:any) => void): Promise<boolean | OcariotPubSubException> {
+            let eventCallback: IEventHandler<any> = {
+                event_name: Default.INSTITUTION_RESOURCE_EVENT + Default.DELETE_EVENT,
+                handle: callback}
+
+            return new Promise<boolean|OcariotPubSubException>((resolve, reject) =>{
+                this.connection.subscribe(Default.INSTITUTIONS_RESOURCE,
+                    Default.OCARIOT_ACCOUNT_SERVICE,
+                    Default.INSTITUTIONS_RESOURCE+Default.DELETE_ACTION, eventCallback).then(result =>{
+                    resolve(result)
+                }).catch( err =>{
+                    reject(new OcariotPubSubException(err))
+                })
+            })
+
     }
 
 }

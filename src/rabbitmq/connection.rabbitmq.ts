@@ -5,6 +5,7 @@ import { ConnectionFactoryRabbitMQ } from './connection.factory.rabbitmq'
 import {IOptions} from "../port/configuration.inteface"
 import { Default } from '../utils/default'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
+import { IEventHandler } from '../port/event.handler.interface'
 
 
 /**
@@ -15,6 +16,10 @@ import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
  * @implements {IConnectionEventBus}
  */
 export class ConnectionRabbitMQ implements IConnectionEventBus {
+
+    private event_handlers: Map<string, IEventHandler<any>> = new Map<string, IEventHandler<any>>();
+
+    private consumersInitialized: Map<string, boolean> = new Map<string, boolean>();
 
     private _connection?: Connection
 
@@ -76,33 +81,58 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                     exchange.send(new Message(message), topicKey)
                     return resolve(true);
                 }
+                return resolve(false);
             }catch (err) {
                 return reject(err)
             }
         })
     }
 
-    public receiveMessage(exchangeName: string, queueName: string, topicKey: string, callback: (message: any) => void): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-           try {
-               if (this._connection) {
-                   let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
+    public receiveMessage(exchangeName: string, queueName: string, topicKey: string, callback: IEventHandler<any>): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
+            try {
+                if (this._connection) {
+                    let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
 
-                   let queue = this._connection.declareQueue(queueName, { exclusive: true });
+                    if (await exchange.initialized) {
+                        this.event_handlers.set(callback.event_name, callback)
+                    }
 
-                   queue.bind(exchange, topicKey)
+                    let queue = this._connection.declareQueue(queueName, { exclusive: true });
 
-                   console.log(queue.initialized)
+                    queue.bind(exchange, topicKey)
 
-                   queue.activateConsumer(callback)
+                    if(!this.consumersInitialized.get(queueName)){
+                        this.consumersInitialized.set(queueName,true);
 
-                   return resolve(true);
-               }
+                        queue.activateConsumer((message: Message) => {
+                            message.ack() // acknowledge that the message has been received (and processed)
 
-               return resolve(false);
-           }catch (err) {
-               return reject(err)
-           }
+                            // if (message.properties.appId === Default.APP_ID && this._receive_from_yourself === false) return
+
+                            // this._logger.info(`Bus event message received!`)
+                            const event_name: string = message.getContent().event_name
+
+                            const event_handler: IEventHandler<any> | undefined =
+                                this.event_handlers.get(event_name)
+
+                            this.event_handlers.get(event_name)
+                            if (event_handler) {
+                                event_handler.handle(message.getContent())
+                            }
+                        }, { noAck: false })
+                            .catch(err => {
+                                return reject(err)
+                            })
+                    }
+
+                        return resolve(true);
+                }
+
+                return resolve(false);
+            } catch (err) {
+                return reject(err)
+            }
         })
     }
 

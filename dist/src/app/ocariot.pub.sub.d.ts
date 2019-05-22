@@ -26,12 +26,19 @@ export declare class OcariotPubSub extends EventEmitter implements IOcariotPubIn
     pubDeleteUser(user: any): Promise<boolean | OcariotPubSubException>;
     pubDeleteInstitution(institution: any): Promise<boolean | OcariotPubSubException>;
     sub(exchangeName: string, queueName: string, routing_key: string, callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
-    subDeleteEnvironment(callback: Function): Promise<boolean | OcariotPubSubException>;
-    subDeletePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException>;
-    subDeleteSleep(callback: Function): Promise<boolean | OcariotPubSubException>;
-    subSaveEnvironment(callback: Function): Promise<boolean | OcariotPubSubException>;
-    subSavePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException>;
-    subSaveSleep(callback: Function): Promise<boolean | OcariotPubSubException>;
-    subUpdatePhysicalActivity(callback: Function): Promise<boolean | OcariotPubSubException>;
-    subUpdateSleep(callback: Function): Promise<boolean | OcariotPubSubException>;
+    subSavePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subUpdatePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subDeletePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subSaveSleep(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subUpdateSleep(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subDeleteSleep(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subSaveEnvironment(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subDeleteEnvironment(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subUpdateChild(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subUpdateFamily(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subUpdateEducator(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subUpdateHealthProfessional(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subUpdateApplication(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subDeleteUser(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    subDeleteInstitution(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
 }
