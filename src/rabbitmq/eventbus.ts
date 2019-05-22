@@ -11,8 +11,6 @@ export class EventBus implements IEventbusInterface{
     private pubconnection: ConnectionRabbitMQ = new ConnectionRabbitMQ;
     private subconnection: ConnectionRabbitMQ = new ConnectionRabbitMQ;
 
-    private event_handlers: Map<string, IEventHandler<any>>
-
     public connect(host : string, port : number, username : string, password : string, options ?: IOptions): Promise<boolean | OcariotPubSubException>{
 
         return new Promise<boolean | OcariotPubSubException>(async (resolve, reject) => {
@@ -49,21 +47,21 @@ export class EventBus implements IEventbusInterface{
     public publish(exchangeName: string, topicKey: string, message: any ):  Promise<boolean | OcariotPubSubException>{
 
         return new Promise<boolean | OcariotPubSubException>(async (resolve, reject) => {
-            try{
-                return resolve(this.pubconnection.sendMessage(exchangeName, topicKey, message))
-            }catch (err) {
-                reject(new OcariotPubSubException(err));
-            }
+            this.pubconnection.sendMessage(exchangeName, topicKey, message).then(result =>{
+                resolve(result)
+            }).catch(err =>{
+                reject(err)
+            })
         })
     }
 
     public subscribe(exchangeName: string, queueName: string, routing_key: string,  callback: IEventHandler<any> ): Promise<boolean | OcariotPubSubException>{
         return new Promise<boolean | OcariotPubSubException>(async (resolve, reject) => {
-            try{
-                return resolve(this.subconnection.receiveMessage(exchangeName, queueName, routing_key, callback))
-            }catch (err) {
-                reject(new OcariotPubSubException(err));
-            }
+            this.subconnection.receiveMessage(exchangeName, queueName, routing_key, callback).then(result => {
+                resolve(result)
+            }).catch(err =>{
+                reject(err)
+            })
         })
     }
 }

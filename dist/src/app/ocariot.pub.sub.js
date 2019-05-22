@@ -264,184 +264,199 @@ class OcariotPubSub extends events_1.EventEmitter {
         }
     }
     subSavePhysicalActivity(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.SAVE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.SAVE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subUpdatePhysicalActivity(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subDeletePhysicalActivity(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subSaveSleep(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.SLEEP_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.SLEEP_RESOURCE + default_1.Default.SAVE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.SLEEP_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.SLEEP_RESOURCE + default_1.Default.SAVE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subUpdateSleep(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.SLEEP_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.SLEEP_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.SLEEP_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.SLEEP_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subDeleteSleep(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.SLEEP_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.SLEEP_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.SLEEP_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.SLEEP_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subSaveEnvironment(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.ENVIRONMENTS_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.ENVIRONMENTS_RESOURCE + default_1.Default.SAVE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.ENVIRONMENTS_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.ENVIRONMENTS_RESOURCE + default_1.Default.SAVE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subDeleteEnvironment(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.ENVIRONMENTS_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.ENVIRONMENTS_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.ENVIRONMENTS_RESOURCE, default_1.Default.OCARIOT_ACTIVITY_SERVICE, default_1.Default.ENVIRONMENTS_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subUpdateChild(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.CHILD_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.CHILDREN_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.CHILDREN_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.CHILD_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.CHILDREN_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.CHILDREN_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subUpdateFamily(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.FAMILY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.FAMILIES_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.FAMILIES_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.FAMILY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.FAMILIES_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.FAMILIES_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subUpdateEducator(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.EDUCATOR_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.EDUCATORS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.EDUCATORS_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.EDUCATOR_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.EDUCATORS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.EDUCATORS_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subUpdateHealthProfessional(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.HEALTH_PROFESSIONAL_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.HEALTH_PROFESSIONALS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.HEALTH_PROFESSIONALS_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.HEALTH_PROFESSIONAL_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.HEALTH_PROFESSIONALS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.HEALTH_PROFESSIONALS_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subUpdateApplication(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.APPLICATION_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.APPLICATIONS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.APPLICATIONS_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.APPLICATION_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.APPLICATIONS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.APPLICATIONS_RESOURCE + default_1.Default.UPDATE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subDeleteUser(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.USER_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.USERS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.USERS_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.USER_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.USERS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.USERS_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
     subDeleteInstitution(callback) {
-        try {
-            let eventCallback = {
-                event_name: default_1.Default.INSTITUTION_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
-                handle: callback
-            };
-            return Promise.resolve(this.connection.subscribe(default_1.Default.INSTITUTIONS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.INSTITUTIONS_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback));
-        }
-        catch (err) {
-            return Promise.reject(err);
-        }
+        let eventCallback = {
+            event_name: default_1.Default.INSTITUTION_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
+            handle: callback
+        };
+        return new Promise((resolve, reject) => {
+            this.connection.subscribe(default_1.Default.INSTITUTIONS_RESOURCE, default_1.Default.OCARIOT_ACCOUNT_SERVICE, default_1.Default.INSTITUTIONS_RESOURCE + default_1.Default.DELETE_ACTION, eventCallback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+            });
+        });
     }
 }
 exports.OcariotPubSub = OcariotPubSub;

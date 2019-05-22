@@ -19,7 +19,7 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
 
     private event_handlers: Map<string, IEventHandler<any>> = new Map<string, IEventHandler<any>>();
 
-    private consumerInitialized: boolean = false;
+    private consumersInitialized: Map<string, boolean> = new Map<string, boolean>();
 
     private _connection?: Connection
 
@@ -81,6 +81,7 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                     exchange.send(new Message(message), topicKey)
                     return resolve(true);
                 }
+                return resolve(false);
             }catch (err) {
                 return reject(err)
             }
@@ -101,8 +102,8 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
 
                     queue.bind(exchange, topicKey)
 
-                    if(!this.consumerInitialized){
-                        this.consumerInitialized = true;
+                    if(!this.consumersInitialized.get(queueName)){
+                        this.consumersInitialized.set(queueName,true);
 
                         queue.activateConsumer((message: Message) => {
                             message.ack() // acknowledge that the message has been received (and processed)
@@ -112,24 +113,18 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                             // this._logger.info(`Bus event message received!`)
                             const event_name: string = message.getContent().event_name
 
-                            if (event_name) {
-                                const event_handler: IEventHandler<any> | undefined =
-                                    this.event_handlers.get(event_name)
-                                if (event_handler) {
-                                    event_handler.handle(message.getContent())
-                                }
+                            const event_handler: IEventHandler<any> | undefined =
+                                this.event_handlers.get(event_name)
+
+                            this.event_handlers.get(event_name)
+                            if (event_handler) {
+                                event_handler.handle(message.getContent())
                             }
                         }, { noAck: false })
                             .catch(err => {
                                 return reject(err)
                             })
                     }
-                    // queue.initialized.then((result)=>{
-                    //     console.log(result)
-                    // })
-
-                    // console.log(queue.initialized)
-
 
                         return resolve(true);
                 }

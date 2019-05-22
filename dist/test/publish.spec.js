@@ -21,7 +21,6 @@ const chai_1 = require("chai");
 const fs = __importStar(require("fs"));
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 require("mocha");
-const ocariotPubSub_exception_1 = require("../src/exception/ocariotPubSub.exception");
 const options = {
     retries: 1,
     interval: 1000,
@@ -32,11 +31,11 @@ const options = {
 };
 describe('Publish in a Connection', () => {
     let pubsub;
-    let pubsubWithoutConnectio;
+    let pubsubWithoutConnection;
     before(function () {
         return __awaiter(this, void 0, void 0, function* () {
             pubsub = new index_1.OcariotPubSub();
-            pubsubWithoutConnectio = new index_1.OcariotPubSub();
+            pubsubWithoutConnection = new index_1.OcariotPubSub();
             try {
                 yield pubsub.connect('ip-machine', 5671, 'guest', 'guest', options).then((result) => {
                     chai_1.expect(result).to.equal(true);
@@ -47,11 +46,9 @@ describe('Publish in a Connection', () => {
             }
         });
     });
-    afterEach(function () {
-    });
     it('pubSavePhysicalActivity() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubSavePhysicalActivity({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubSavePhysicalActivity({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubSavePhysicalActivity() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -64,8 +61,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubUpdatePhysicalActivity() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubUpdatePhysicalActivity({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubUpdatePhysicalActivity({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubUpdatePhysicalActivity() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -78,8 +75,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubDeletePhysicalActivity() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubDeletePhysicalActivity({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubDeletePhysicalActivity({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubDeletePhysicalActivity() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -92,8 +89,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubSaveSleep() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubSaveSleep({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubSaveSleep({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubSaveSleep() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -106,8 +103,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubUpdateSleep() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubUpdateSleep({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubUpdateSleep({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubUpdateSleep() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -120,8 +117,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubDeleteSleep() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubDeleteSleep({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubDeleteSleep({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubDeleteSleep() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -134,8 +131,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubSaveEnvironment() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubSaveEnvironment({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubSaveEnvironment({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubSaveEnvironment() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -148,8 +145,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubDeleteEnvironment() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubDeleteEnvironment({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubDeleteEnvironment({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubDeleteEnvironment() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -162,8 +159,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubUpdateChild() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubUpdateChild({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubUpdateChild({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubUpdateChild() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -176,8 +173,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubUpdateFamily() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubUpdateFamily({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubUpdateFamily({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubUpdateFamily() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -190,8 +187,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubUpdateEducator() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubUpdateEducator({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubUpdateEducator({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubUpdateEducator() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -204,8 +201,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubUpdateHealthProfessional() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubUpdateHealthProfessional({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubUpdateHealthProfessional({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubUpdateHealthProfessional() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -218,8 +215,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubUpdateApplication() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubUpdateApplication({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubUpdateApplication({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubUpdateApplication() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -232,8 +229,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubDeleteUser() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubDeleteUser({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubDeleteUser({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubDeleteUser() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {
@@ -246,8 +243,8 @@ describe('Publish in a Connection', () => {
         }
     }));
     it('pubDeleteInstitution() - should return OcariotPubSubException when it haven\'t connection', () => {
-        pubsubWithoutConnectio.pubDeleteInstitution({ mesage: "I'am here" }).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        pubsubWithoutConnection.pubDeleteInstitution({ mesage: "I'am here" }).then(result => {
+            chai_1.expect(result).to.equal(false);
         });
     });
     it('pubDeleteInstitution() - should return TRUE when publised in a connection', () => __awaiter(this, void 0, void 0, function* () {

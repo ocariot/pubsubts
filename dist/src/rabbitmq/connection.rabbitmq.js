@@ -20,7 +20,7 @@ const connection_factory_rabbitmq_1 = require("./connection.factory.rabbitmq");
 class ConnectionRabbitMQ {
     constructor() {
         this.event_handlers = new Map();
-        this.consumerInitialized = false;
+        this.consumersInitialized = new Map();
     }
     get isConnected() {
         if (!this._connection)
@@ -76,6 +76,7 @@ class ConnectionRabbitMQ {
                     exchange.send(new amqp_ts_1.Message(message), topicKey);
                     return resolve(true);
                 }
+                return resolve(false);
             }
             catch (err) {
                 return reject(err);
@@ -92,28 +93,23 @@ class ConnectionRabbitMQ {
                     }
                     let queue = this._connection.declareQueue(queueName, { exclusive: true });
                     queue.bind(exchange, topicKey);
-                    if (!this.consumerInitialized) {
-                        this.consumerInitialized = true;
+                    if (!this.consumersInitialized.get(queueName)) {
+                        this.consumersInitialized.set(queueName, true);
                         queue.activateConsumer((message) => {
                             message.ack(); // acknowledge that the message has been received (and processed)
                             // if (message.properties.appId === Default.APP_ID && this._receive_from_yourself === false) return
                             // this._logger.info(`Bus event message received!`)
                             const event_name = message.getContent().event_name;
-                            if (event_name) {
-                                const event_handler = this.event_handlers.get(event_name);
-                                if (event_handler) {
-                                    event_handler.handle(message.getContent());
-                                }
+                            const event_handler = this.event_handlers.get(event_name);
+                            this.event_handlers.get(event_name);
+                            if (event_handler) {
+                                event_handler.handle(message.getContent());
                             }
                         }, { noAck: false })
                             .catch(err => {
                             return reject(err);
                         });
                     }
-                    // queue.initialized.then((result)=>{
-                    //     console.log(result)
-                    // })
-                    // console.log(queue.initialized)
                     return resolve(true);
                 }
                 return resolve(false);

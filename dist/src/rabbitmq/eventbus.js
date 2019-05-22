@@ -48,22 +48,20 @@ class EventBus {
     }
     publish(exchangeName, topicKey, message) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                return resolve(this.pubconnection.sendMessage(exchangeName, topicKey, message));
-            }
-            catch (err) {
-                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
-            }
+            this.pubconnection.sendMessage(exchangeName, topicKey, message).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(err);
+            });
         }));
     }
     subscribe(exchangeName, queueName, routing_key, callback) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                return resolve(this.subconnection.receiveMessage(exchangeName, queueName, routing_key, callback));
-            }
-            catch (err) {
-                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
-            }
+            this.subconnection.receiveMessage(exchangeName, queueName, routing_key, callback).then(result => {
+                resolve(result);
+            }).catch(err => {
+                reject(err);
+            });
         }));
     }
 }

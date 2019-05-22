@@ -5,7 +5,6 @@ import { IEventHandler } from '../port/event.handler.interface';
 export declare class EventBus implements IEventbusInterface {
     private pubconnection;
     private subconnection;
-    private event_handlers;
     connect(host: string, port: number, username: string, password: string, options?: IOptions): Promise<boolean | OcariotPubSubException>;
     close(): Promise<boolean | OcariotPubSubException>;
     readonly isConnected: boolean;

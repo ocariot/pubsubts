@@ -11,7 +11,7 @@ import { IEventHandler } from '../port/event.handler.interface';
  */
 export declare class ConnectionRabbitMQ implements IConnectionEventBus {
     private event_handlers;
-    private consumerInitialized;
+    private consumersInitialized;
     private _connection?;
     readonly isConnected: boolean;
     readonly conn: Connection | undefined;
