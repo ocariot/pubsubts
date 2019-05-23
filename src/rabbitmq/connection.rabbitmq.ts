@@ -157,4 +157,8 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
         this._receive_from_yourself = value
     }
 
+    get receive_from_yourself() {
+        return this._receive_from_yourself
+    }
+
 }

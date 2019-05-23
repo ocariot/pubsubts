@@ -259,4 +259,22 @@ describe('Subscriber in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
+    it('receiveFromYourself() - should return FALSE when receiveFromYourself it\'s NOT activied', () => __awaiter(this, void 0, void 0, function* () {
+        try {
+            let result = yield pubsub.receiveFromYourself(false);
+            chai_1.expect(result).to.equal(false);
+        }
+        catch (err) {
+            throw new Error('Failure on EventBus test: ' + err.message);
+        }
+    }));
+    it('receiveFromYourself() - should return TRUE when receiveFromYourself it\'s activied', () => __awaiter(this, void 0, void 0, function* () {
+        try {
+            let result = yield pubsub.receiveFromYourself(true);
+            chai_1.expect(result).to.equal(true);
+        }
+        catch (err) {
+            throw new Error('Failure on EventBus test: ' + err.message);
+        }
+    }));
 });
