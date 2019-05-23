@@ -566,4 +566,24 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public receiveFromYourself(status :boolean):boolean{
         return this.connection.receiveFromYourself(status)
     }
+
+    public logger(enabled: boolean, level?: string): boolean {
+
+        if(!level)
+            return this.connection.loggerConnection(!enabled)
+
+        switch(level){
+            case 'dev':
+                return this.connection.loggerConnection(!enabled, 'debug')
+                break
+            case 'prod':
+                return this.connection.loggerConnection(!enabled, 'info')
+                break
+            default:
+                return false
+        }
+
+
+
+    }
 }

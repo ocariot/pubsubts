@@ -65,8 +65,16 @@ class EventBus {
         }));
     }
     receiveFromYourself(value) {
-        this.subconnection.receive_from_yourself = value;
-        return this.subconnection.receive_from_yourself;
+        this.subconnection.receiveFromYourself = value;
+        return this.subconnection.receiveFromYourself;
+    }
+    loggerConnection(enabled, level) {
+        try {
+            return this.pubconnection.logger(enabled, level) && this.subconnection.logger(enabled, level);
+        }
+        catch (e) {
+            return false;
+        }
     }
 }
 exports.EventBus = EventBus;

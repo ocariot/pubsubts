@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const amqp_ts_1 = require("amqp-ts");
 const connection_factory_rabbitmq_1 = require("./connection.factory.rabbitmq");
+const custom_logger_1 = require("../utils/custom.logger");
 /**
  * Implementation of the interface that provides conn with RabbitMQ.
  * To implement the RabbitMQ abstraction the amqp-ts library was used.
@@ -21,7 +22,8 @@ class ConnectionRabbitMQ {
     constructor() {
         this.event_handlers = new Map();
         this.consumersInitialized = new Map();
-        this._receive_from_yourself = false;
+        this._receiveFromYourself = false;
+        this._logger = new custom_logger_1.CustomLogger();
     }
     get isConnected() {
         if (!this._connection)
@@ -102,12 +104,9 @@ class ConnectionRabbitMQ {
                         this.consumersInitialized.set(queueName, true);
                         queue.activateConsumer((message) => {
                             message.ack(); // acknowledge that the message has been received (and processed)
-                            console.log(message.properties.appId);
-                            console.log(ConnectionRabbitMQ.idConnection);
-                            console.log();
-                            if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receive_from_yourself === false)
+                            if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receiveFromYourself === false)
                                 return;
-                            // this._logger.info(`Bus event message received!`)
+                            this._logger.warn(`Bus event message received!`);
                             const event_name = message.getContent().event_name;
                             const event_handler = this.event_handlers.get(event_name);
                             this.event_handlers.get(event_name);
@@ -128,11 +127,14 @@ class ConnectionRabbitMQ {
             }
         }));
     }
-    set receive_from_yourself(value) {
-        this._receive_from_yourself = value;
+    set receiveFromYourself(value) {
+        this._receiveFromYourself = value;
     }
-    get receive_from_yourself() {
-        return this._receive_from_yourself;
+    get receiveFromYourself() {
+        return this._receiveFromYourself;
+    }
+    logger(enabled, level) {
+        return this._logger.changeLoggerConfiguration(enabled, level);
     }
 }
 exports.ConnectionRabbitMQ = ConnectionRabbitMQ;

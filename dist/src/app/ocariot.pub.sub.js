@@ -461,5 +461,19 @@ class OcariotPubSub extends events_1.EventEmitter {
     receiveFromYourself(status) {
         return this.connection.receiveFromYourself(status);
     }
+    logger(enabled, level) {
+        if (!level)
+            return this.connection.loggerConnection(!enabled);
+        switch (level) {
+            case 'dev':
+                return this.connection.loggerConnection(!enabled, 'debug');
+                break;
+            case 'prod':
+                return this.connection.loggerConnection(!enabled, 'info');
+                break;
+            default:
+                return false;
+        }
+    }
 }
 exports.OcariotPubSub = OcariotPubSub;

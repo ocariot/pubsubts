@@ -66,7 +66,15 @@ export class EventBus implements IEventbusInterface{
     }
 
     public receiveFromYourself(value: boolean): boolean {
-        this.subconnection.receive_from_yourself = value
-        return this.subconnection.receive_from_yourself;
+        this.subconnection.receiveFromYourself = value
+        return this.subconnection.receiveFromYourself;
+    }
+
+    public loggerConnection(enabled: boolean, level?: string):boolean{
+        try {
+            return this.pubconnection.logger(enabled, level) && this.subconnection.logger(enabled, level);
+        }catch (e) {
+            return false
+        }
     }
 }

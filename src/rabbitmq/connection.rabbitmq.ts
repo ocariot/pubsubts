@@ -6,6 +6,7 @@ import {IOptions} from "../port/configuration.inteface"
 import { Default } from '../utils/default'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 import { IEventHandler } from '../port/event.handler.interface'
+import { CustomLogger, ILogger } from '../utils/custom.logger'
 
 
 /**
@@ -25,7 +26,9 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
 
     private static idConnection: string;
 
-    private _receive_from_yourself: boolean = false;
+    private _receiveFromYourself: boolean = false;
+
+    private readonly _logger: ILogger = new CustomLogger();
 
     get isConnected(): boolean {
         if (!this._connection) return false
@@ -119,15 +122,9 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                         queue.activateConsumer((message: Message) => {
                             message.ack() // acknowledge that the message has been received (and processed)
 
-                            console.log(message.properties.appId)
+                            if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receiveFromYourself === false) return
 
-                            console.log(ConnectionRabbitMQ.idConnection)
-
-                            console.log()
-
-                            if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receive_from_yourself === false) return
-
-                            // this._logger.info(`Bus event message received!`)
+                            this._logger.warn(`Bus event message received!`)
                             const event_name: string = message.getContent().event_name
 
                             const event_handler: IEventHandler<any> | undefined =
@@ -153,12 +150,15 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
         })
     }
 
-    set receive_from_yourself(value: boolean) {
-        this._receive_from_yourself = value
+    set receiveFromYourself(value: boolean) {
+        this._receiveFromYourself = value
     }
 
-    get receive_from_yourself() {
-        return this._receive_from_yourself
+    get receiveFromYourself() {
+        return this._receiveFromYourself
     }
 
+    public logger(enabled: boolean, level?: string): boolean{
+        return this._logger.changeLoggerConfiguration(enabled, level)
+    }
 }
