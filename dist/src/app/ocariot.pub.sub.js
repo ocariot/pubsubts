@@ -458,5 +458,8 @@ class OcariotPubSub extends events_1.EventEmitter {
             });
         });
     }
+    receiveFromYourself(status) {
+        return this.connection.receiveFromYourself(status);
+    }
 }
 exports.OcariotPubSub = OcariotPubSub;

@@ -46,7 +46,7 @@ describe('Publish in a Connection', () => {
             }
         });
     });
-    it('pubSavePhysicalActivity() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubSavePhysicalActivity() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubSavePhysicalActivity({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -60,7 +60,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubUpdatePhysicalActivity() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubUpdatePhysicalActivity() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubUpdatePhysicalActivity({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -74,7 +74,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubDeletePhysicalActivity() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubDeletePhysicalActivity() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubDeletePhysicalActivity({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -88,7 +88,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubSaveSleep() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubSaveSleep() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubSaveSleep({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -102,7 +102,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubUpdateSleep() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubUpdateSleep() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubUpdateSleep({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -116,7 +116,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubDeleteSleep() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubDeleteSleep() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubDeleteSleep({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -130,7 +130,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubSaveEnvironment() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubSaveEnvironment() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubSaveEnvironment({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -144,7 +144,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubDeleteEnvironment() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubDeleteEnvironment() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubDeleteEnvironment({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -158,7 +158,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubUpdateChild() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubUpdateChild() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubUpdateChild({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -172,7 +172,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubUpdateFamily() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubUpdateFamily() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubUpdateFamily({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -186,7 +186,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubUpdateEducator() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubUpdateEducator() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubUpdateEducator({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -200,7 +200,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubUpdateHealthProfessional() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubUpdateHealthProfessional() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubUpdateHealthProfessional({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -214,7 +214,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubUpdateApplication() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubUpdateApplication() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubUpdateApplication({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -228,7 +228,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubDeleteUser() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubDeleteUser() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubDeleteUser({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });
@@ -242,7 +242,7 @@ describe('Publish in a Connection', () => {
             throw new Error('Failure on EventBus test: ' + err.message);
         }
     }));
-    it('pubDeleteInstitution() - should return OcariotPubSubException when it haven\'t connection', () => {
+    it('pubDeleteInstitution() - should return FALSE when it haven\'t connection', () => {
         pubsubWithoutConnection.pubDeleteInstitution({ mesage: "I'am here" }).then(result => {
             chai_1.expect(result).to.equal(false);
         });

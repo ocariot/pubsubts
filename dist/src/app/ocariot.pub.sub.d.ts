@@ -41,4 +41,5 @@ export declare class OcariotPubSub extends EventEmitter implements IOcariotPubIn
     subUpdateApplication(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
     subDeleteUser(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
     subDeleteInstitution(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
+    receiveFromYourself(status: boolean): boolean;
 }

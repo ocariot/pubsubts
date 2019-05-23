@@ -23,6 +23,10 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
 
     private _connection?: Connection
 
+    private static idConnection: string;
+
+    private _receive_from_yourself: boolean = false;
+
     get isConnected(): boolean {
         if (!this._connection) return false
         return this._connection.isConnected
@@ -76,9 +80,16 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
         return new Promise<boolean>((resolve, reject) => {
             try {
                 if (this._connection) {
+
+                    if(!ConnectionRabbitMQ.idConnection)
+                        ConnectionRabbitMQ.idConnection = 'id-' + Math.random().toString(36).substr(2, 16);
+
                     let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
 
-                    exchange.send(new Message(message), topicKey)
+                    const msg: Message = new Message(message)
+                    msg.properties.appId = ConnectionRabbitMQ.idConnection
+
+                    exchange.send(msg, topicKey)
                     return resolve(true);
                 }
                 return resolve(false);
@@ -108,7 +119,13 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                         queue.activateConsumer((message: Message) => {
                             message.ack() // acknowledge that the message has been received (and processed)
 
-                            // if (message.properties.appId === Default.APP_ID && this._receive_from_yourself === false) return
+                            console.log(message.properties.appId)
+
+                            console.log(ConnectionRabbitMQ.idConnection)
+
+                            console.log()
+
+                            if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receive_from_yourself === false) return
 
                             // this._logger.info(`Bus event message received!`)
                             const event_name: string = message.getContent().event_name
@@ -126,7 +143,7 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                             })
                     }
 
-                        return resolve(true);
+                    return resolve(true);
                 }
 
                 return resolve(false);
@@ -134,6 +151,14 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                 return reject(err)
             }
         })
+    }
+
+    set receive_from_yourself(value: boolean) {
+        this._receive_from_yourself = value
+    }
+
+    get receive_from_yourself() {
+        return this._receive_from_yourself
     }
 
 }

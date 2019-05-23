@@ -13,6 +13,8 @@ export declare class ConnectionRabbitMQ implements IConnectionEventBus {
     private event_handlers;
     private consumersInitialized;
     private _connection?;
+    private static idConnection;
+    private _receive_from_yourself;
     readonly isConnected: boolean;
     readonly conn: Connection | undefined;
     /**
@@ -32,4 +34,5 @@ export declare class ConnectionRabbitMQ implements IConnectionEventBus {
     closeConnection(): boolean | undefined;
     sendMessage(exchangeName: string, topicKey: string, message: any): Promise<boolean>;
     receiveMessage(exchangeName: string, queueName: string, topicKey: string, callback: IEventHandler<any>): Promise<boolean>;
+    receive_from_yourself: boolean;
 }

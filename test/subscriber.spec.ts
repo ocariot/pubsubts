@@ -263,4 +263,22 @@ describe('Subscriber in a Connection', () => {
         }
     });
 
+    it('receiveFromYourself() - should return FALSE when receiveFromYourself it\'s NOT activied',    async () => {
+        try {
+            let result = await pubsub.receiveFromYourself(false)
+            expect(result).to.equal(false)
+        } catch (err) {
+            throw new Error('Failure on EventBus test: ' + err.message)
+        }
+    });
+
+    it('receiveFromYourself() - should return TRUE when receiveFromYourself it\'s activied',   async() => {
+        try {
+            let result = await pubsub.receiveFromYourself(true)
+            expect(result).to.equal(true)
+        } catch (err) {
+            throw new Error('Failure on EventBus test: ' + err.message)
+        }
+    });
+
 });
