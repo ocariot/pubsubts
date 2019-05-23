@@ -64,4 +64,8 @@ export class EventBus implements IEventbusInterface{
             })
         })
     }
+
+    public receiveFromYourself(value: boolean): void {
+        this.subconnection.receive_from_yourself = value
+    }
 }

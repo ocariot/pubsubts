@@ -64,5 +64,8 @@ class EventBus {
             });
         }));
     }
+    receiveFromYourself(value) {
+        this.subconnection.receive_from_yourself = value;
+    }
 }
 exports.EventBus = EventBus;

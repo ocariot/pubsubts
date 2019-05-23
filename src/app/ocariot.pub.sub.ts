@@ -563,4 +563,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
 
     }
 
+    public receiveFromYourself(status :boolean):void{
+        this.connection.receiveFromYourself(status)
+    }
 }

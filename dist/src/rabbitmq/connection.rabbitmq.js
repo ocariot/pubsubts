@@ -21,6 +21,7 @@ class ConnectionRabbitMQ {
     constructor() {
         this.event_handlers = new Map();
         this.consumersInitialized = new Map();
+        this._receive_from_yourself = false;
     }
     get isConnected() {
         if (!this._connection)
@@ -72,8 +73,12 @@ class ConnectionRabbitMQ {
         return new Promise((resolve, reject) => {
             try {
                 if (this._connection) {
+                    if (!ConnectionRabbitMQ.idConnection)
+                        ConnectionRabbitMQ.idConnection = 'id-' + Math.random().toString(36).substr(2, 16);
                     let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
-                    exchange.send(new amqp_ts_1.Message(message), topicKey);
+                    const msg = new amqp_ts_1.Message(message);
+                    msg.properties.appId = ConnectionRabbitMQ.idConnection;
+                    exchange.send(msg, topicKey);
                     return resolve(true);
                 }
                 return resolve(false);
@@ -97,7 +102,11 @@ class ConnectionRabbitMQ {
                         this.consumersInitialized.set(queueName, true);
                         queue.activateConsumer((message) => {
                             message.ack(); // acknowledge that the message has been received (and processed)
-                            // if (message.properties.appId === Default.APP_ID && this._receive_from_yourself === false) return
+                            console.log(message.properties.appId);
+                            console.log(ConnectionRabbitMQ.idConnection);
+                            console.log();
+                            if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receive_from_yourself === false)
+                                return;
                             // this._logger.info(`Bus event message received!`)
                             const event_name = message.getContent().event_name;
                             const event_handler = this.event_handlers.get(event_name);
@@ -118,6 +127,9 @@ class ConnectionRabbitMQ {
                 return reject(err);
             }
         }));
+    }
+    set receive_from_yourself(value) {
+        this._receive_from_yourself = value;
     }
 }
 exports.ConnectionRabbitMQ = ConnectionRabbitMQ;
