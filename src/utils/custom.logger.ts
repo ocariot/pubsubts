@@ -28,7 +28,7 @@ export class CustomLogger implements ILogger {
 
     private initOptions(): void {
         this._options = {
-            level: 'debug',
+            level: 'error',
             silent: true,
             handleExceptions: true,
             format: format.combine(
@@ -80,7 +80,7 @@ export class CustomLogger implements ILogger {
         this._logger.clear()
         this._logger.add(new transports.Console(this._options))
 
-        return (1 == this._logger.transports.length) ? true : false
+        return 1 == this._logger.transports.length
     }
 }
 

@@ -38,6 +38,10 @@ describe('Subscriber in a Connection', () => {
 
     });
 
+    after(function(){
+        pubsub.close()
+    });
+
     it('subSavePhysicalActivity() - should return FALSE when it haven\'t connection',    async () => {
         await pubsubWithoutConnection.subSavePhysicalActivity(receiveMessageLucas).then(result => {
             expect(result).to.equal(false)

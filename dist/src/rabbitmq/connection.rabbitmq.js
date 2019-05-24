@@ -54,9 +54,21 @@ class ConnectionRabbitMQ {
                 .createConnection()
                 .then((connection) => {
                 this._connection = connection;
+                this._logger.info('Connection realized with success! ');
                 return resolve(this._connection);
             })
                 .catch(err => {
+                switch (err.code) {
+                    case 'ENOTFOUND' || 'SELF_SIGNED_CERT_IN_CHAIN' || 'ECONNREFUSED':
+                        this._logger.error('Error during the connection. Error code: ' + err.code);
+                        break;
+                    case '...':
+                        this._logger.warn('Error during the connection Error code: ' + err.code);
+                        break;
+                    default:
+                        this._logger.error('Error during the connection no mapped');
+                        break;
+                }
                 this._connection = undefined;
                 return reject(err);
             });
@@ -66,6 +78,7 @@ class ConnectionRabbitMQ {
         if (this._connection) {
             this._connection.close();
             this._connection = undefined;
+            this._logger.info('Connection closed with success!');
             return true;
         }
         else
@@ -81,6 +94,7 @@ class ConnectionRabbitMQ {
                     const msg = new amqp_ts_1.Message(message);
                     msg.properties.appId = ConnectionRabbitMQ.idConnection;
                     exchange.send(msg, topicKey);
+                    this._logger.info('Bus event message sent with success!');
                     return resolve(true);
                 }
                 return resolve(false);
@@ -97,23 +111,27 @@ class ConnectionRabbitMQ {
                     let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
                     if (yield exchange.initialized) {
                         this.event_handlers.set(callback.event_name, callback);
+                        this._logger.info('Callback message ' + callback.event_name + ' registered!');
                     }
                     let queue = this._connection.declareQueue(queueName, { exclusive: true });
                     queue.bind(exchange, topicKey);
                     if (!this.consumersInitialized.get(queueName)) {
                         this.consumersInitialized.set(queueName, true);
+                        this._logger.info('Queue creation ' + queueName + ' realized with success!');
                         queue.activateConsumer((message) => {
                             message.ack(); // acknowledge that the message has been received (and processed)
                             if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receiveFromYourself === false)
                                 return;
-                            this._logger.warn(`Bus event message received!`);
+                            this._logger.info(`Bus event message received with success!`);
                             const event_name = message.getContent().event_name;
                             const event_handler = this.event_handlers.get(event_name);
                             this.event_handlers.get(event_name);
                             if (event_handler) {
                                 event_handler.handle(message.getContent());
                             }
-                        }, { noAck: false })
+                        }, { noAck: false }).then((result) => {
+                            this._logger.info('Queue consumer' + queue.name + 'successfully created! ');
+                        })
                             .catch(err => {
                             return reject(err);
                         });

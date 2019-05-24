@@ -21,7 +21,7 @@ class CustomLogger {
     }
     initOptions() {
         this._options = {
-            level: 'debug',
+            level: 'error',
             silent: true,
             handleExceptions: true,
             format: winston_1.format.combine(winston_1.format.colorize(), winston_1.format.splat(), winston_1.format.timestamp(), winston_1.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`))
@@ -54,7 +54,7 @@ class CustomLogger {
             this._options.level = level;
         this._logger.clear();
         this._logger.add(new winston_1.transports.Console(this._options));
-        return (1 == this._logger.transports.length) ? true : false;
+        return 1 == this._logger.transports.length;
     }
 }
 exports.CustomLogger = CustomLogger;

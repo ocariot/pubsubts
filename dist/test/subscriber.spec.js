@@ -49,6 +49,9 @@ describe('Subscriber in a Connection', () => {
             }
         });
     });
+    after(function () {
+        pubsub.close();
+    });
     it('subSavePhysicalActivity() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
         yield pubsubWithoutConnection.subSavePhysicalActivity(receiveMessageLucas).then(result => {
             chai_1.expect(result).to.equal(false);

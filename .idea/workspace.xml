@@ -2,21 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f48b49ab-2dd0-4784-a7ee-1fde50f0a5b9" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dist/src/utils/custom.logger.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dist/src/utils/custom.logger.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/custom.logger.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/app/ocariot.pub.sub.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/app/ocariot.pub.sub.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/src/app/ocariot.pub.sub.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/app/ocariot.pub.sub.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/rabbitmq/connection.rabbitmq.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/rabbitmq/connection.rabbitmq.d.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist/src/rabbitmq/connection.rabbitmq.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/rabbitmq/connection.rabbitmq.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/rabbitmq/eventbus.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/rabbitmq/eventbus.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/src/rabbitmq/eventbus.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/rabbitmq/eventbus.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/src/utils/custom.logger.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/src/utils/custom.logger.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/test/publish.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/test/publish.spec.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/test/subscriber.spec.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/test/subscriber.spec.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rabbitmq/eventbus.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/rabbitmq/eventbus.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/custom.logger.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/custom.logger.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/publish.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/publish.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/subscriber.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/subscriber.spec.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -32,24 +28,18 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/app/ocariot.pub.sub.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="597">
-              <caret line="577" column="21" selection-start-line="577" selection-start-column="21" selection-end-line="577" selection-end-column="21" />
+            <state relative-caret-position="412">
+              <caret line="571" selection-start-line="571" selection-end-line="571" />
               <folding>
                 <element signature="n#!!block;n#connect#0;n#OcariotPubSub#0" />
                 <element signature="e#1115#1444#0" />
                 <element signature="e#1203#1301#0" />
                 <element signature="e#1315#1432#0" />
                 <element signature="n#!!block;n#close#0;n#OcariotPubSub#0" />
-                <element signature="e#1594#1831#0" />
-                <element signature="e#1641#1737#0" />
-                <element signature="e#1751#1820#0" />
                 <element signature="n#!!block;n#isConnected#0;n#OcariotPubSub#0" />
                 <element signature="n#!!block;n#pub#0;n#OcariotPubSub#0" />
-                <element signature="e#2046#2150#0" />
                 <element signature="e#2163#2214#0" />
-                <element signature="n#!!block;n#pubSavePhysicalActivity#0;n#OcariotPubSub#0" />
                 <element signature="e#2357#2543#0" />
-                <element signature="e#2625#2928#0" />
                 <element signature="e#2784#2831#0" />
                 <element signature="e#2846#2917#0" />
                 <element signature="n#!!block;n#pubUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
@@ -155,8 +145,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/rabbitmq/eventbus.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="74" column="42" selection-start-line="74" selection-start-column="42" selection-end-line="74" selection-end-column="42" />
+            <state relative-caret-position="254">
+              <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
               <folding>
                 <element signature="n#!!block;n#connect#0;n#EventBus#0" />
                 <element signature="e#766#1147#0" />
@@ -168,10 +158,6 @@
                 <element signature="e#1417#1478#0" />
                 <element signature="e#1505#1607#0" />
                 <element signature="n#!!block;n#isConnected#0;n#EventBus#0" />
-                <element signature="n#!!block;n#publish#0;n#EventBus#0" />
-                <element signature="e#2000#2207#0" />
-                <element signature="e#2092#2139#0" />
-                <element signature="e#2153#2196#0" />
                 <element signature="n#!!block;n#subscribe#0;n#EventBus#0" />
                 <element signature="e#2463#2689#0" />
                 <element signature="e#2574#2621#0" />
@@ -183,34 +169,56 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/rabbitmq/connection.factory.rabbitmq.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+              <folding>
+                <element signature="e#0#36#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="632">
-              <caret line="131" lean-forward="true" selection-start-line="131" selection-end-line="131" />
+            <state relative-caret-position="60">
+              <caret line="19" column="31" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="31" />
               <folding>
                 <element signature="n#!!doc;n#ConnectionRabbitMQ#0" />
                 <element signature="n#!!block;n#isConnected#0;n#ConnectionRabbitMQ#0" />
                 <element signature="n#!!block;n#conn#0;n#ConnectionRabbitMQ#0" />
                 <element signature="n#!!doc;n#tryConnect#0;n#ConnectionRabbitMQ#0" />
-                <element signature="n#!!block;n#tryConnect#0;n#ConnectionRabbitMQ#0" />
-                <element signature="e#1873#2384#0" />
-                <element signature="e#2112#2234#0" />
-                <element signature="e#2266#2373#0" />
                 <element signature="n#!!block;n#closeConnection#0;n#ConnectionRabbitMQ#0" />
-                <element signature="e#2469#2584#0" />
-                <element signature="e#5246#5352#0" />
-                <element signature="e#5440#5522#0" />
-                <element signature="n#!!block;n#receive_from_yourself#1;n#ConnectionRabbitMQ#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/subscriber.spec.ts">
+        <entry file="file://$PROJECT_DIR$/node_modules/amqp-ts/lib/amqp-ts.d.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="912">
-              <caret line="284" selection-start-line="284" selection-end-line="284" />
+            <state relative-caret-position="207">
+              <caret line="146" column="4" selection-start-line="146" selection-start-column="4" selection-end-line="146" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/amqp-ts/src/amqp-ts.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="207">
+              <caret line="659" column="19" selection-start-line="659" selection-start-column="19" selection-end-line="659" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/connection.spec.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="37" selection-start-line="37" selection-end-line="37" />
               <folding>
                 <element signature="e#17#68#0" expanded="true" />
                 <element signature="e#230#245#0" expanded="true" />
@@ -219,11 +227,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/utils/custom.logger.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="25" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="25" />
+            <state relative-caret-position="60">
+              <caret line="7" column="55" selection-start-line="7" selection-start-column="55" selection-end-line="7" selection-end-column="55" />
               <folding>
                 <element signature="n#!!doc;n#ILogger#0" />
               </folding>
@@ -232,10 +240,26 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.dom.d.ts">
+        <entry file="file://$PROJECT_DIR$/test/custom.logger.spec.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="17900" column="12" selection-start-line="17900" selection-start-column="12" selection-end-line="17900" selection-end-column="12" />
+            <state relative-caret-position="531">
+              <caret line="42" column="103" selection-start-line="42" selection-start-column="103" selection-end-line="42" selection-end-column="103" />
+              <folding>
+                <element signature="e#17#68#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test/publish.spec.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="419">
+              <caret line="36" column="10" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
+              <folding>
+                <element signature="e#17#68#0" expanded="true" />
+                <element signature="e#230#245#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -299,21 +323,22 @@
         <option value="$PROJECT_DIR$/src/port/eventbus.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/ocariot.sub.interface.ts" />
         <option value="$PROJECT_DIR$/src/exception/ocariotPubSub.exception.ts" />
+        <option value="$PROJECT_DIR$/src/rabbitmq/eventbus.ts" />
+        <option value="$PROJECT_DIR$/test/subscriber.spec.ts" />
         <option value="$PROJECT_DIR$/test/connection.spec.ts" />
         <option value="$PROJECT_DIR$/test/publish.spec.ts" />
-        <option value="$PROJECT_DIR$/test/subscriber.spec.ts" />
-        <option value="$PROJECT_DIR$/src/rabbitmq/eventbus.ts" />
-        <option value="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" />
         <option value="$PROJECT_DIR$/src/utils/custom.logger.ts" />
         <option value="$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts" />
+        <option value="$PROJECT_DIR$/test/custom.logger.spec.ts" />
+        <option value="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="33" />
     <option name="y" value="24" />
-    <option name="width" value="1333" />
-    <option name="height" value="744" />
+    <option name="width" value="1337" />
+    <option name="height" value="1048" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -347,8 +372,12 @@
             <path>
               <item name="ocariot-pubsubjs" type="b2602c69:ProjectViewProjectNode" />
               <item name="ocariot-pubsubjs" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
+              <item name="ssl" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ocariot-pubsubjs" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ocariot-pubsubjs" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -422,11 +451,12 @@
       <workItem from="1558132528508" duration="1237000" />
       <workItem from="1558381471462" duration="14794000" />
       <workItem from="1558613600186" duration="799000" />
+      <workItem from="1558722506276" duration="14820000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="195125000" />
+    <option name="totallyTimeSpent" value="210240000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -439,9 +469,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="33" y="-4" width="1887" height="1084" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993498" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993498" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" sideWeight="0.50065017" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -456,7 +485,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49946353" weight="0.32925585" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5005365" side_tool="true" weight="0.32925585" />
       <window_info anchor="bottom" id="TypeScript" order="10" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.21610601" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.31396535" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -492,7 +521,6 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/managerconection.ts" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -607,8 +635,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/amqp-ts/lib/amqp-ts.d.ts" />
-    <entry file="file://$PROJECT_DIR$/node_modules/amqp-ts/src/amqp-ts.ts" />
     <entry file="file://$PROJECT_DIR$/src/port/event.handler.interface.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -643,16 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rabbitmq/connection.factory.rabbitmq.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="48" column="85" selection-start-line="48" selection-start-column="80" selection-end-line="48" selection-end-column="85" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.es2015.promise.d.ts" />
     <entry file="file://$PROJECT_DIR$/src/exception/ocariotPubSub.exception.ts">
       <provider selected="true" editor-type-id="text-editor">
@@ -667,39 +683,6 @@
           <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/connection.spec.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="38" column="91" selection-start-line="38" selection-start-column="91" selection-end-line="38" selection-end-column="91" />
-          <folding>
-            <element signature="e#17#68#0" expanded="true" />
-            <element signature="e#230#245#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/publish.spec.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4065">
-          <caret line="274" column="52" selection-start-line="274" selection-start-column="52" selection-end-line="274" selection-end-column="52" />
-          <folding>
-            <element signature="e#17#68#0" expanded="true" />
-            <element signature="e#230#245#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/subscriber.spec.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="912">
-          <caret line="284" selection-start-line="284" selection-end-line="284" />
-          <folding>
-            <element signature="e#17#68#0" expanded="true" />
-            <element signature="e#230#245#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -737,15 +720,68 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/typescript/lib/lib.dom.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
+        <state relative-caret-position="268305">
           <caret line="17900" column="12" selection-start-line="17900" selection-start-column="12" selection-end-line="17900" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/subscriber.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="40" selection-start-line="40" selection-end-line="42" selection-end-column="7" />
+          <folding>
+            <element signature="e#17#68#0" expanded="true" />
+            <element signature="e#230#245#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/publish.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="36" column="10" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
+          <folding>
+            <element signature="e#17#68#0" expanded="true" />
+            <element signature="e#230#245#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/connection.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
+          <folding>
+            <element signature="e#17#68#0" expanded="true" />
+            <element signature="e#230#245#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/custom.logger.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="55" selection-start-line="7" selection-start-column="55" selection-end-line="7" selection-end-column="55" />
+          <folding>
+            <element signature="n#!!doc;n#ILogger#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rabbitmq/connection.factory.rabbitmq.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rabbitmq/eventbus.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="74" column="42" selection-start-line="74" selection-start-column="42" selection-end-line="74" selection-end-column="42" />
+        <state relative-caret-position="254">
+          <caret line="49" column="37" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
           <folding>
             <element signature="n#!!block;n#connect#0;n#EventBus#0" />
             <element signature="e#766#1147#0" />
@@ -757,10 +793,6 @@
             <element signature="e#1417#1478#0" />
             <element signature="e#1505#1607#0" />
             <element signature="n#!!block;n#isConnected#0;n#EventBus#0" />
-            <element signature="n#!!block;n#publish#0;n#EventBus#0" />
-            <element signature="e#2000#2207#0" />
-            <element signature="e#2092#2139#0" />
-            <element signature="e#2153#2196#0" />
             <element signature="n#!!block;n#subscribe#0;n#EventBus#0" />
             <element signature="e#2463#2689#0" />
             <element signature="e#2574#2621#0" />
@@ -770,26 +802,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/amqp-ts/lib/amqp-ts.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="146" column="4" selection-start-line="146" selection-start-column="4" selection-end-line="146" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/amqp-ts/src/amqp-ts.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="659" column="19" selection-start-line="659" selection-start-column="19" selection-end-line="659" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/custom.logger.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="531">
+          <caret line="42" column="103" selection-start-line="42" selection-start-column="103" selection-end-line="42" selection-end-column="103" />
+          <folding>
+            <element signature="e#17#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/app/ocariot.pub.sub.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="597">
-          <caret line="577" column="21" selection-start-line="577" selection-start-column="21" selection-end-line="577" selection-end-column="21" />
+        <state relative-caret-position="412">
+          <caret line="571" selection-start-line="571" selection-end-line="571" />
           <folding>
             <element signature="n#!!block;n#connect#0;n#OcariotPubSub#0" />
             <element signature="e#1115#1444#0" />
             <element signature="e#1203#1301#0" />
             <element signature="e#1315#1432#0" />
             <element signature="n#!!block;n#close#0;n#OcariotPubSub#0" />
-            <element signature="e#1594#1831#0" />
-            <element signature="e#1641#1737#0" />
-            <element signature="e#1751#1820#0" />
             <element signature="n#!!block;n#isConnected#0;n#OcariotPubSub#0" />
             <element signature="n#!!block;n#pub#0;n#OcariotPubSub#0" />
-            <element signature="e#2046#2150#0" />
             <element signature="e#2163#2214#0" />
-            <element signature="n#!!block;n#pubSavePhysicalActivity#0;n#OcariotPubSub#0" />
             <element signature="e#2357#2543#0" />
-            <element signature="e#2625#2928#0" />
             <element signature="e#2784#2831#0" />
             <element signature="e#2846#2917#0" />
             <element signature="n#!!block;n#pubUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
@@ -893,32 +943,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="632">
-          <caret line="131" lean-forward="true" selection-start-line="131" selection-end-line="131" />
+        <state relative-caret-position="60">
+          <caret line="19" column="31" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="31" />
           <folding>
             <element signature="n#!!doc;n#ConnectionRabbitMQ#0" />
             <element signature="n#!!block;n#isConnected#0;n#ConnectionRabbitMQ#0" />
             <element signature="n#!!block;n#conn#0;n#ConnectionRabbitMQ#0" />
             <element signature="n#!!doc;n#tryConnect#0;n#ConnectionRabbitMQ#0" />
-            <element signature="n#!!block;n#tryConnect#0;n#ConnectionRabbitMQ#0" />
-            <element signature="e#1873#2384#0" />
-            <element signature="e#2112#2234#0" />
-            <element signature="e#2266#2373#0" />
             <element signature="n#!!block;n#closeConnection#0;n#ConnectionRabbitMQ#0" />
-            <element signature="e#2469#2584#0" />
-            <element signature="e#5246#5352#0" />
-            <element signature="e#5440#5522#0" />
-            <element signature="n#!!block;n#receive_from_yourself#1;n#ConnectionRabbitMQ#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/custom.logger.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="25" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="25" />
-          <folding>
-            <element signature="n#!!doc;n#ILogger#0" />
           </folding>
         </state>
       </provider>

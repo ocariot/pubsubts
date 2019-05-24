@@ -569,21 +569,10 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
 
     public logger(enabled: boolean, level?: string): boolean {
 
-        if(!level)
-            return this.connection.loggerConnection(!enabled)
+        if (level === 'warn' || level === 'error' || level === 'info' || !level)
+                return this.connection.loggerConnection(!enabled, level)
 
-        switch(level){
-            case 'dev':
-                return this.connection.loggerConnection(!enabled, 'debug')
-                break
-            case 'prod':
-                return this.connection.loggerConnection(!enabled, 'info')
-                break
-            default:
-                return false
-        }
-
-
+        return false
 
     }
 }

@@ -34,6 +34,12 @@ describe('Publish in a Connection', () => {
 
     });
 
+    after(function () {
+        setTimeout(() => {
+            pubsub.close();
+        },1000)
+    });
+
     it('pubSavePhysicalActivity() - should return FALSE when it haven\'t connection',    () => {
 
         pubsubWithoutConnection.pubSavePhysicalActivity({ mesage: "I'am here" }).then(result => {

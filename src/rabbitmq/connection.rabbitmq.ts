@@ -1,4 +1,4 @@
-import { Connection, Message } from 'amqp-ts'
+import { Connection, Message, Queue } from 'amqp-ts'
 import { IConnectionEventBus } from '../port/connection.event.bus.interface'
 import { ConnectionFactoryRabbitMQ } from './connection.factory.rabbitmq'
 
@@ -7,6 +7,7 @@ import { Default } from '../utils/default'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 import { IEventHandler } from '../port/event.handler.interface'
 import { CustomLogger, ILogger } from '../utils/custom.logger'
+import StartConsumerResult = Queue.StartConsumerResult
 
 
 /**
@@ -60,9 +61,23 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                 .createConnection()
                 .then((connection: Connection) => {
                     this._connection = connection
+                    this._logger.info('Connection realized with success! ')
                     return resolve(this._connection)
                 })
                 .catch(err => {
+
+                    switch (err.code) {
+                        case 'ENOTFOUND' || 'SELF_SIGNED_CERT_IN_CHAIN' || 'ECONNREFUSED':
+                            this._logger.error('Error during the connection. Error code: ' + err.code)
+                            break
+                        case '...':
+                            this._logger.warn('Error during the connection Error code: ' + err.code)
+                            break
+                        default:
+                            this._logger.error('Error during the connection no mapped')
+                            break
+                    }
+
                     this._connection = undefined
                     return reject(err)
                 })
@@ -74,6 +89,7 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
         if (this._connection) {
             this._connection.close();
             this._connection = undefined
+            this._logger.info('Connection closed with success!')
             return true;
         } else
             return false;
@@ -93,6 +109,9 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                     msg.properties.appId = ConnectionRabbitMQ.idConnection
 
                     exchange.send(msg, topicKey)
+
+                    this._logger.info('Bus event message sent with success!')
+
                     return resolve(true);
                 }
                 return resolve(false);
@@ -110,6 +129,7 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
 
                     if (await exchange.initialized) {
                         this.event_handlers.set(callback.event_name, callback)
+                        this._logger.info('Callback message ' + callback.event_name + ' registered!')
                     }
 
                     let queue = this._connection.declareQueue(queueName, { exclusive: true });
@@ -118,13 +138,15 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
 
                     if(!this.consumersInitialized.get(queueName)){
                         this.consumersInitialized.set(queueName,true);
+                        this._logger.info('Queue creation ' + queueName + ' realized with success!')
+
 
                         queue.activateConsumer((message: Message) => {
                             message.ack() // acknowledge that the message has been received (and processed)
 
                             if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receiveFromYourself === false) return
 
-                            this._logger.warn(`Bus event message received!`)
+                            this._logger.info(`Bus event message received with success!`)
                             const event_name: string = message.getContent().event_name
 
                             const event_handler: IEventHandler<any> | undefined =
@@ -134,7 +156,9 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                             if (event_handler) {
                                 event_handler.handle(message.getContent())
                             }
-                        }, { noAck: false })
+                        }, { noAck: false }).then((result: StartConsumerResult) => {
+                            this._logger.info('Queue consumer' + queue.name + 'successfully created! ')
+                        })
                             .catch(err => {
                                 return reject(err)
                             })
