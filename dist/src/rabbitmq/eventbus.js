@@ -12,8 +12,8 @@ const connection_rabbitmq_1 = require("./connection.rabbitmq");
 const ocariotPubSub_exception_1 = require("../exception/ocariotPubSub.exception");
 class EventBus {
     constructor() {
-        this.pubconnection = new connection_rabbitmq_1.ConnectionRabbitMQ;
-        this.subconnection = new connection_rabbitmq_1.ConnectionRabbitMQ;
+        this.pubconnection = new connection_rabbitmq_1.ConnectionRabbitMQ();
+        this.subconnection = new connection_rabbitmq_1.ConnectionRabbitMQ();
     }
     connect(host, port, username, password, options) {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {

@@ -1,4 +1,4 @@
-import { IOptions } from "../port/configuration.inteface";
+import { IOptions } from '../port/configuration.inteface';
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception';
 import { IEventbusInterface } from '../port/eventbus.interface';
 import { IEventHandler } from '../port/event.handler.interface';

@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { IOcariotPubInterface } from '../port/ocariot.pub.interface';
 import { IOcariotSubInterface } from '../port/ocariot.sub.interface';
-import { EventEmitter } from "events";
+import { EventEmitter } from 'events';
 import { IOptions } from '../port/configuration.inteface';
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception';
 export declare class OcariotPubSub extends EventEmitter implements IOcariotPubInterface, IOcariotSubInterface {

@@ -90,7 +90,7 @@ class ConnectionRabbitMQ {
                 if (this._connection) {
                     if (!ConnectionRabbitMQ.idConnection)
                         ConnectionRabbitMQ.idConnection = 'id-' + Math.random().toString(36).substr(2, 16);
-                    let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
+                    const exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
                     const msg = new amqp_ts_1.Message(message);
                     msg.properties.appId = ConnectionRabbitMQ.idConnection;
                     exchange.send(msg, topicKey);
@@ -108,24 +108,25 @@ class ConnectionRabbitMQ {
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
                 if (this._connection) {
-                    let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
+                    const exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
                     if (yield exchange.initialized) {
                         this.event_handlers.set(callback.event_name, callback);
                         this._logger.info('Callback message ' + callback.event_name + ' registered!');
                     }
-                    let queue = this._connection.declareQueue(queueName, { exclusive: true });
+                    const queue = this._connection.declareQueue(queueName, { exclusive: true });
                     queue.bind(exchange, topicKey);
                     if (!this.consumersInitialized.get(queueName)) {
                         this.consumersInitialized.set(queueName, true);
                         this._logger.info('Queue creation ' + queueName + ' realized with success!');
                         queue.activateConsumer((message) => {
                             message.ack(); // acknowledge that the message has been received (and processed)
-                            if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receiveFromYourself === false)
+                            if (message.properties.appId === ConnectionRabbitMQ.idConnection &&
+                                this._receiveFromYourself === false)
                                 return;
                             this._logger.info(`Bus event message received with success!`);
                             const event_name = message.getContent().event_name;
                             const event_handler = this.event_handlers.get(event_name);
-                            this.event_handlers.get(event_name);
+                            // this.event_handlers.get(event_name)
                             if (event_handler) {
                                 event_handler.handle(message.getContent());
                             }

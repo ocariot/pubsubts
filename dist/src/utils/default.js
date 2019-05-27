@@ -22,7 +22,7 @@ Default.RABBITMQ_USERNAME = 'guest';
 Default.RABBITMQ_PASSWORD = 'guest';
 Default.OCARIOT_ACTIVITY_SERVICE = 'ocariot-activity-service';
 Default.OCARIOT_ACCOUNT_SERVICE = 'ocariot-account-service';
-//RESOURCES_CAMEL_CASE - Event Name
+// RESOURCES_CAMEL_CASE - Event Name
 Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT = 'PhysicalActivity';
 Default.SLEEP_RESOURCE_EVENT = 'Sleep';
 Default.ENVIRONMENT_RESOURCE_EVENT = 'Environment';
@@ -33,7 +33,7 @@ Default.HEALTH_PROFESSIONAL_RESOURCE_EVENT = 'HealthProfessional';
 Default.APPLICATION_RESOURCE_EVENT = 'Application';
 Default.USER_RESOURCE_EVENT = 'User';
 Default.INSTITUTION_RESOURCE_EVENT = 'Institution';
-//RESOURCES_PLURAL - Exchange Name
+// RESOURCES_PLURAL - Exchange Name
 Default.PHYSICAL_ACTIVITIES_RESOURCE = 'physicalactivities';
 Default.SLEEP_RESOURCE = 'sleep';
 Default.ENVIRONMENTS_RESOURCE = 'environments';
@@ -44,11 +44,11 @@ Default.HEALTH_PROFESSIONALS_RESOURCE = 'healthprofessionals';
 Default.APPLICATIONS_RESOURCE = 'applications';
 Default.USERS_RESOURCE = 'users';
 Default.INSTITUTIONS_RESOURCE = 'institutions';
-//ACTIONS
+// ACTIONS
 Default.DELETE_ACTION = '.delete';
 Default.SAVE_ACTION = '.save';
 Default.UPDATE_ACTION = '.update';
-//EVENTS
+// EVENTS
 Default.DELETE_EVENT = 'DeleteEvent';
 Default.SAVE_EVENT = 'SaveEvent';
 Default.UPDATE_EVENT = 'UpdateEvent';

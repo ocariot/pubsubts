@@ -2,11 +2,11 @@ export declare class OcariotPubSubException extends Error implements IExceptionE
     code: number;
     description?: string;
     constructor(err: any);
-    toJson(): Object;
+    toJson(): object;
 }
 export interface IExceptionError {
     code: number;
     message: string;
     description?: string;
-    toJson(): Object;
+    toJson(): object;
 }

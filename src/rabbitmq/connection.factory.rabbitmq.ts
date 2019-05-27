@@ -3,8 +3,7 @@ import { IConnectionFactory } from '../port/connection.factory.interface'
 import { Default } from '../utils/default'
 
 import { IConfiguration, IOptions } from '../port/configuration.inteface'
-import * as fs from "fs"
-
+import * as fs from 'fs'
 
 const defaultValues: IConfiguration = {
     vhost: Default.RABBITMQ_VHOST,
@@ -12,28 +11,28 @@ const defaultValues: IConfiguration = {
     port: Default.RABBITMQ_PORT,
     username: Default.RABBITMQ_USERNAME,
     password: Default.RABBITMQ_PASSWORD,
-    options: <IOptions> {
+    options: {
         retries: 0,
         interval: 1000,
         ssl: {
             enabled: false,
             ca: [fs.readFileSync('./ssl/certifications/ca_certificate.pem')]
         }
-    }
+    } as IOptions
 }
 
 export class ConnectionFactoryRabbitMQ implements IConnectionFactory {
 
-    private configuration: IConfiguration;
-    
-    constructor(host : string, port : number, username : string, password : string, options ?: IOptions){
-        this.configuration = defaultValues;
-        this.configuration.host = host;
-        this.configuration.port = port;
-        this.configuration.username = username;
-        this.configuration.password = password;
-        if(options)
-            this.configuration.options = options;
+    private configuration: IConfiguration
+
+    constructor(host: string, port: number, username: string, password: string, options?: IOptions){
+        this.configuration = defaultValues
+        this.configuration.host = host
+        this.configuration.port = port
+        this.configuration.username = username
+        this.configuration.password = password
+        if (options)
+            this.configuration.options = options
     }
 
     /**
@@ -47,14 +46,15 @@ export class ConnectionFactoryRabbitMQ implements IConnectionFactory {
     public async createConnection(): Promise<Connection> {
         try {
             const conn = new Connection('protocol://username:password@host:port/vhost'
-                    .replace('protocol', this.configuration.options.ssl.enabled ? 'amqps':'amqps')
+                    .replace('protocol', this.configuration.options.ssl.enabled ? 'amqps' : 'amqps')
                     .replace('host', process.env.RABBITMQ_HOST || this.configuration.host)
                     .replace('port', (process.env.RABBITMQ_PORT || this.configuration.port).toString())
                     .replace('vhost', this.configuration.vhost)
                     .replace('username', process.env.RABBITMQ_USERNAME || this.configuration.username)
                     .replace('password', process.env.RABBITMQ_PASSWORD || this.configuration.password)
                 ,
-                {ca:this.configuration.options.ssl.ca}, { retries: this.configuration.options.retries, interval: this.configuration.options.interval })
+                {ca: this.configuration.options.ssl.ca},
+                { retries: this.configuration.options.retries, interval: this.configuration.options.interval })
             await conn.initialized
             return Promise.resolve(conn)
         } catch (err) {

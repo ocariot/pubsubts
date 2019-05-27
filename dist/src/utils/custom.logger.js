@@ -54,7 +54,7 @@ class CustomLogger {
             this._options.level = level;
         this._logger.clear();
         this._logger.add(new winston_1.transports.Console(this._options));
-        return 1 == this._logger.transports.length;
+        return 1 === this._logger.transports.length;
     }
 }
 exports.CustomLogger = CustomLogger;

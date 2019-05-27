@@ -25,9 +25,9 @@ describe('Broker Connection', () => {
         pubsub = new OcariotPubSub();
         connectionSpy = sinon.spy();
 
-        pubsub.on('connection_open', connectionSpy)
-        pubsub.on('connection_close', connectionSpy)
-        pubsub.on('connection_error', connectionSpy)
+        pubsub.on('connected', connectionSpy)
+        pubsub.on('disconnected', connectionSpy)
+        pubsub.on('error', connectionSpy)
 
     });
 

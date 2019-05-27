@@ -42,8 +42,3 @@ export interface IMessageUser extends IMessage{
 export interface IMessageInstitution extends IMessage{
     institution: object
 }
-
-
-
-
-

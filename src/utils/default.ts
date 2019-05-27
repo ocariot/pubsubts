@@ -18,7 +18,7 @@ export abstract class Default {
     public static readonly OCARIOT_ACTIVITY_SERVICE: string = 'ocariot-activity-service'
     public static readonly OCARIOT_ACCOUNT_SERVICE: string = 'ocariot-account-service'
 
-    //RESOURCES_CAMEL_CASE - Event Name
+    // RESOURCES_CAMEL_CASE - Event Name
     public static readonly PHYSICAL_ACTIVITY_RESOURCE_EVENT: string = 'PhysicalActivity'
     public static readonly SLEEP_RESOURCE_EVENT: string = 'Sleep'
     public static readonly ENVIRONMENT_RESOURCE_EVENT: string = 'Environment'
@@ -30,7 +30,7 @@ export abstract class Default {
     public static readonly USER_RESOURCE_EVENT: string = 'User'
     public static readonly INSTITUTION_RESOURCE_EVENT: string = 'Institution'
 
-    //RESOURCES_PLURAL - Exchange Name
+    // RESOURCES_PLURAL - Exchange Name
     public static readonly PHYSICAL_ACTIVITIES_RESOURCE: string = 'physicalactivities'
     public static readonly SLEEP_RESOURCE: string = 'sleep'
     public static readonly ENVIRONMENTS_RESOURCE: string = 'environments'
@@ -42,19 +42,18 @@ export abstract class Default {
     public static readonly USERS_RESOURCE: string = 'users'
     public static readonly INSTITUTIONS_RESOURCE: string = 'institutions'
 
-    //ACTIONS
+    // ACTIONS
     public static readonly DELETE_ACTION: string = '.delete'
     public static readonly SAVE_ACTION: string = '.save'
     public static readonly UPDATE_ACTION: string = '.update'
 
-    //EVENTS
+    // EVENTS
     public static readonly DELETE_EVENT: string = 'DeleteEvent'
     public static readonly SAVE_EVENT: string = 'SaveEvent'
     public static readonly UPDATE_EVENT: string = 'UpdateEvent'
 
-
     public static getDataTimeUTC(): string{
-        return new Date(new Date(Date.now()).toISOString()).getTime().toString();
+        return new Date(new Date(Date.now()).toISOString()).getTime().toString()
     }
 
 }

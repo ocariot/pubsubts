@@ -74,13 +74,13 @@ export class CustomLogger implements ILogger {
 
         this._options.silent = enabled
 
-        if(level)
+        if (level)
             this._options.level = level
 
         this._logger.clear()
         this._logger.add(new transports.Console(this._options))
 
-        return 1 == this._logger.transports.length
+        return 1 === this._logger.transports.length
     }
 }
 

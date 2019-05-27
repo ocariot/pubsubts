@@ -8,8 +8,8 @@ class OcariotPubSubException extends Error {
     }
     toJson() {
         return {
-            'code': this.code,
-            'message': this.message,
+            code: this.code,
+            message: this.message,
         };
     }
 }

@@ -12,10 +12,10 @@ class OcariotPubSub extends events_1.EventEmitter {
     connect(host, port, username, password, options) {
         return new Promise((resolve, reject) => {
             this.connection.connect(host, port, username, password, options).then(() => {
-                this.emit("connection_open");
+                this.emit('connected');
                 return resolve(true);
             }).catch(err => {
-                this.emit("connection_error");
+                this.emit('error');
                 reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
             });
         });
@@ -23,7 +23,7 @@ class OcariotPubSub extends events_1.EventEmitter {
     close() {
         return new Promise((resolve, reject) => {
             this.connection.close().then(() => {
-                this.emit("connection_close");
+                this.emit('disconnected');
                 return resolve(true);
             }).catch(err => {
                 reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
@@ -42,13 +42,14 @@ class OcariotPubSub extends events_1.EventEmitter {
         }
     }
     pubSavePhysicalActivity(activity) {
-        let message = {
+        const message = {
             event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
             physicalactivity: activity
         };
         return new Promise((resolve, reject) => {
-            this.connection.publish(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE + default_1.Default.SAVE_ACTION, message).then((result) => {
+            this.connection.publish(default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE, default_1.Default.PHYSICAL_ACTIVITIES_RESOURCE +
+                default_1.Default.SAVE_ACTION, message).then((result) => {
                 resolve(result);
             }).catch(err => {
                 reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
@@ -56,7 +57,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubUpdatePhysicalActivity(activity) {
-        let message = {
+        const message = {
             event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
             physicalactivity: activity
@@ -70,7 +71,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubDeletePhysicalActivity(activity) {
-        let message = {
+        const message = {
             event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
             physicalactivity: activity
@@ -84,10 +85,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubSaveSleep(sleep) {
-        let message = {
+        const message = {
             event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            sleep: sleep
+            sleep
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.SLEEP_RESOURCE, default_1.Default.SLEEP_RESOURCE + default_1.Default.SAVE_ACTION, message).then((result) => {
@@ -98,10 +99,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubUpdateSleep(sleep) {
-        let message = {
+        const message = {
             event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            sleep: sleep
+            sleep
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.SLEEP_RESOURCE, default_1.Default.SLEEP_RESOURCE + default_1.Default.UPDATE_ACTION, message).then((result) => {
@@ -112,10 +113,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubDeleteSleep(sleep) {
-        let message = {
+        const message = {
             event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            sleep: sleep
+            sleep
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.SLEEP_RESOURCE, default_1.Default.SLEEP_RESOURCE + default_1.Default.DELETE_ACTION, message).then((result) => {
@@ -126,10 +127,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubSaveEnvironment(environment) {
-        let message = {
+        const message = {
             event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            environment: environment
+            environment
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.ENVIRONMENTS_RESOURCE, default_1.Default.ENVIRONMENTS_RESOURCE + default_1.Default.SAVE_ACTION, message).then((result) => {
@@ -140,10 +141,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubDeleteEnvironment(environment) {
-        let message = {
+        const message = {
             event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            environment: environment
+            environment
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.ENVIRONMENTS_RESOURCE, default_1.Default.ENVIRONMENTS_RESOURCE + default_1.Default.DELETE_ACTION, message).then((result) => {
@@ -154,10 +155,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubUpdateChild(child) {
-        let message = {
+        const message = {
             event_name: default_1.Default.CHILD_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            child: child
+            child
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.CHILDREN_RESOURCE, default_1.Default.CHILDREN_RESOURCE + default_1.Default.UPDATE_ACTION, message).then((result) => {
@@ -168,10 +169,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubUpdateFamily(family) {
-        let message = {
+        const message = {
             event_name: default_1.Default.FAMILY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            family: family
+            family
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.FAMILIES_RESOURCE, default_1.Default.FAMILIES_RESOURCE + default_1.Default.UPDATE_ACTION, message).then((result) => {
@@ -182,10 +183,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubUpdateEducator(educator) {
-        let message = {
+        const message = {
             event_name: default_1.Default.EDUCATOR_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            educator: educator
+            educator
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.EDUCATORS_RESOURCE, default_1.Default.EDUCATORS_RESOURCE + default_1.Default.UPDATE_ACTION, message).then((result) => {
@@ -196,10 +197,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubUpdateHealthProfessional(healthprofessional) {
-        let message = {
+        const message = {
             event_name: default_1.Default.HEALTH_PROFESSIONAL_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            healthprofessional: healthprofessional
+            healthprofessional
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.HEALTH_PROFESSIONALS_RESOURCE, default_1.Default.HEALTH_PROFESSIONALS_RESOURCE + default_1.Default.UPDATE_ACTION, message).then((result) => {
@@ -210,10 +211,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubUpdateApplication(application) {
-        let message = {
+        const message = {
             event_name: default_1.Default.APPLICATION_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            application: application
+            application
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.APPLICATIONS_RESOURCE, default_1.Default.APPLICATIONS_RESOURCE + default_1.Default.UPDATE_ACTION, message).then((result) => {
@@ -224,10 +225,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubDeleteUser(user) {
-        let message = {
+        const message = {
             event_name: default_1.Default.USER_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            user: user
+            user
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.USERS_RESOURCE, default_1.Default.USERS_RESOURCE + default_1.Default.DELETE_ACTION, message).then((result) => {
@@ -238,10 +239,10 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     pubDeleteInstitution(institution) {
-        let message = {
+        const message = {
             event_name: default_1.Default.INSTITUTION_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             timestamp: default_1.Default.getDataTimeUTC(),
-            institution: institution
+            institution
         };
         return new Promise((resolve, reject) => {
             this.connection.publish(default_1.Default.INSTITUTIONS_RESOURCE, default_1.Default.INSTITUTIONS_RESOURCE + default_1.Default.DELETE_ACTION, message).then((result) => {
@@ -253,7 +254,7 @@ class OcariotPubSub extends events_1.EventEmitter {
     }
     sub(exchangeName, queueName, routing_key, callback) {
         try {
-            let eventCallback = {
+            const eventCallback = {
                 event_name: undefined,
                 handle: callback
             };
@@ -264,7 +265,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         }
     }
     subSavePhysicalActivity(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
             handle: callback
         };
@@ -277,7 +278,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subUpdatePhysicalActivity(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             handle: callback
         };
@@ -290,7 +291,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subDeletePhysicalActivity(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.PHYSICAL_ACTIVITY_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             handle: callback
         };
@@ -303,7 +304,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subSaveSleep(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
             handle: callback
         };
@@ -316,7 +317,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subUpdateSleep(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             handle: callback
         };
@@ -329,7 +330,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subDeleteSleep(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.SLEEP_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             handle: callback
         };
@@ -342,7 +343,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subSaveEnvironment(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.SAVE_EVENT,
             handle: callback
         };
@@ -355,7 +356,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subDeleteEnvironment(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.ENVIRONMENT_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             handle: callback
         };
@@ -368,7 +369,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subUpdateChild(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.CHILD_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             handle: callback
         };
@@ -381,7 +382,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subUpdateFamily(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.FAMILY_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             handle: callback
         };
@@ -394,7 +395,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subUpdateEducator(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.EDUCATOR_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             handle: callback
         };
@@ -407,7 +408,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subUpdateHealthProfessional(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.HEALTH_PROFESSIONAL_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             handle: callback
         };
@@ -420,7 +421,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subUpdateApplication(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.APPLICATION_RESOURCE_EVENT + default_1.Default.UPDATE_EVENT,
             handle: callback
         };
@@ -433,7 +434,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subDeleteUser(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.USER_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             handle: callback
         };
@@ -446,7 +447,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         });
     }
     subDeleteInstitution(callback) {
-        let eventCallback = {
+        const eventCallback = {
             event_name: default_1.Default.INSTITUTION_RESOURCE_EVENT + default_1.Default.DELETE_EVENT,
             handle: callback
         };
@@ -462,9 +463,7 @@ class OcariotPubSub extends events_1.EventEmitter {
         return this.connection.receiveFromYourself(status);
     }
     logger(enabled, level) {
-        if (!level)
-            return this.connection.loggerConnection(!enabled);
-        if (level === 'warn' || 'error' || 'info')
+        if (level === 'warn' || level === 'error' || level === 'info' || !level)
             return this.connection.loggerConnection(!enabled, level);
         return false;
     }

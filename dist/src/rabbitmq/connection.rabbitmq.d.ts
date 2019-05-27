@@ -1,6 +1,6 @@
 import { Connection } from 'amqp-ts';
 import { IConnectionEventBus } from '../port/connection.event.bus.interface';
-import { IOptions } from "../port/configuration.inteface";
+import { IOptions } from '../port/configuration.inteface';
 import { IEventHandler } from '../port/event.handler.interface';
 /**
  * Implementation of the interface that provides conn with RabbitMQ.
@@ -10,10 +10,10 @@ import { IEventHandler } from '../port/event.handler.interface';
  * @implements {IConnectionEventBus}
  */
 export declare class ConnectionRabbitMQ implements IConnectionEventBus {
+    private static idConnection;
     private event_handlers;
     private consumersInitialized;
     private _connection?;
-    private static idConnection;
     private _receiveFromYourself;
     private readonly _logger;
     readonly isConnected: boolean;

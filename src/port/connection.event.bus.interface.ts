@@ -1,6 +1,5 @@
-import {IOptions} from "./configuration.inteface"
+import {IOptions} from './configuration.inteface'
 import { Connection } from 'amqp-ts'
-import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 import { IEventHandler } from './event.handler.interface'
 
 export interface IConnectionEventBus {
@@ -8,7 +7,7 @@ export interface IConnectionEventBus {
 
     conn?: any
 
-    tryConnect(host : string, port : number, username : string, password : string, options ?: IOptions): Promise<Connection>
+    tryConnect(host: string, port: number, username: string, password: string, options?: IOptions): Promise<Connection>
 
     closeConnection(): boolean  | undefined
 

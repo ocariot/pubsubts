@@ -2,13 +2,10 @@ import { Connection, Message, Queue } from 'amqp-ts'
 import { IConnectionEventBus } from '../port/connection.event.bus.interface'
 import { ConnectionFactoryRabbitMQ } from './connection.factory.rabbitmq'
 
-import {IOptions} from "../port/configuration.inteface"
-import { Default } from '../utils/default'
-import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
+import {IOptions} from '../port/configuration.inteface'
 import { IEventHandler } from '../port/event.handler.interface'
 import { CustomLogger, ILogger } from '../utils/custom.logger'
 import StartConsumerResult = Queue.StartConsumerResult
-
 
 /**
  * Implementation of the interface that provides conn with RabbitMQ.
@@ -19,17 +16,17 @@ import StartConsumerResult = Queue.StartConsumerResult
  */
 export class ConnectionRabbitMQ implements IConnectionEventBus {
 
-    private event_handlers: Map<string, IEventHandler<any>> = new Map<string, IEventHandler<any>>();
+    private static idConnection: string
 
-    private consumersInitialized: Map<string, boolean> = new Map<string, boolean>();
+    private event_handlers: Map<string, IEventHandler<any>> = new Map<string, IEventHandler<any>>()
+
+    private consumersInitialized: Map<string, boolean> = new Map<string, boolean>()
 
     private _connection?: Connection
 
-    private static idConnection: string;
+    private _receiveFromYourself: boolean = false
 
-    private _receiveFromYourself: boolean = false;
-
-    private readonly _logger: ILogger = new CustomLogger();
+    private readonly _logger: ILogger = new CustomLogger()
 
     get isConnected(): boolean {
         if (!this._connection) return false
@@ -84,15 +81,15 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
         })
     }
 
-    closeConnection(): boolean | undefined {
+    public closeConnection(): boolean | undefined {
 
         if (this._connection) {
-            this._connection.close();
+            this._connection.close()
             this._connection = undefined
             this._logger.info('Connection closed with success!')
-            return true;
+            return true
         } else
-            return false;
+            return false
     }
 
     public sendMessage(exchangeName: string, topicKey: string, message: any): Promise<boolean> {
@@ -100,10 +97,10 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
             try {
                 if (this._connection) {
 
-                    if(!ConnectionRabbitMQ.idConnection)
-                        ConnectionRabbitMQ.idConnection = 'id-' + Math.random().toString(36).substr(2, 16);
+                    if (!ConnectionRabbitMQ.idConnection)
+                        ConnectionRabbitMQ.idConnection = 'id-' + Math.random().toString(36).substr(2, 16)
 
-                    let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
+                    const exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true })
 
                     const msg: Message = new Message(message)
                     msg.properties.appId = ConnectionRabbitMQ.idConnection
@@ -112,39 +109,40 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
 
                     this._logger.info('Bus event message sent with success!')
 
-                    return resolve(true);
+                    return resolve(true)
                 }
-                return resolve(false);
+                return resolve(false)
             }catch (err) {
                 return reject(err)
             }
         })
     }
 
-    public receiveMessage(exchangeName: string, queueName: string, topicKey: string, callback: IEventHandler<any>): Promise<boolean> {
+    public receiveMessage(exchangeName: string, queueName: string, topicKey: string,
+                          callback: IEventHandler<any>): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
             try {
                 if (this._connection) {
-                    let exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
+                    const exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true })
 
                     if (await exchange.initialized) {
                         this.event_handlers.set(callback.event_name, callback)
                         this._logger.info('Callback message ' + callback.event_name + ' registered!')
                     }
 
-                    let queue = this._connection.declareQueue(queueName, { exclusive: true });
+                    const queue = this._connection.declareQueue(queueName, { exclusive: true })
 
                     queue.bind(exchange, topicKey)
 
-                    if(!this.consumersInitialized.get(queueName)){
-                        this.consumersInitialized.set(queueName,true);
+                    if (!this.consumersInitialized.get(queueName)){
+                        this.consumersInitialized.set(queueName, true)
                         this._logger.info('Queue creation ' + queueName + ' realized with success!')
-
 
                         queue.activateConsumer((message: Message) => {
                             message.ack() // acknowledge that the message has been received (and processed)
 
-                            if (message.properties.appId === ConnectionRabbitMQ.idConnection && this._receiveFromYourself === false) return
+                            if (message.properties.appId === ConnectionRabbitMQ.idConnection &&
+                                this._receiveFromYourself === false) return
 
                             this._logger.info(`Bus event message received with success!`)
                             const event_name: string = message.getContent().event_name
@@ -152,7 +150,7 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                             const event_handler: IEventHandler<any> | undefined =
                                 this.event_handlers.get(event_name)
 
-                            this.event_handlers.get(event_name)
+                            // this.event_handlers.get(event_name)
                             if (event_handler) {
                                 event_handler.handle(message.getContent())
                             }
@@ -164,10 +162,10 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                             })
                     }
 
-                    return resolve(true);
+                    return resolve(true)
                 }
 
-                return resolve(false);
+                return resolve(false)
             } catch (err) {
                 return reject(err)
             }
