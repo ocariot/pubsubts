@@ -9,7 +9,8 @@ export declare class OcariotPubSub extends EventEmitter implements IOcariotPubIn
     connect(host: string, port: number, username: string, password: string, options?: IOptions): Promise<boolean | OcariotPubSubException>;
     close(): Promise<boolean | OcariotPubSubException>;
     readonly isConnected: boolean;
-    pub(exchangeName: string, routing_key: string, body: object): Promise<boolean | OcariotPubSubException>;
+    pub(exchangeName: string, routing_key: string, body: any): Promise<boolean | OcariotPubSubException>;
+    sub(exchangeName: string, queueName: string, routingKey: string, eventName: string, callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
     pubSavePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException>;
     pubUpdatePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException>;
     pubDeletePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException>;
@@ -25,7 +26,6 @@ export declare class OcariotPubSub extends EventEmitter implements IOcariotPubIn
     pubUpdateApplication(application: any): Promise<boolean | OcariotPubSubException>;
     pubDeleteUser(user: any): Promise<boolean | OcariotPubSubException>;
     pubDeleteInstitution(institution: any): Promise<boolean | OcariotPubSubException>;
-    sub(exchangeName: string, queueName: string, routing_key: string, callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
     subSavePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
     subUpdatePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;
     subDeletePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>;

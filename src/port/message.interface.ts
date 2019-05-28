@@ -3,6 +3,10 @@ export interface IMessage {
     timestamp: string
 }
 
+export interface IMessageGeneric extends IMessage{
+    generic: object
+}
+
 export interface IMessagePhysicalActivity extends IMessage{
     physicalactivity: object
 }

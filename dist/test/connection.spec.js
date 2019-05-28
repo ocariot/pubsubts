@@ -18,7 +18,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // 'use strict';
 const index_1 = require("../index");
 const chai_1 = require("chai");
-const fs = __importStar(require("fs"));
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 require("mocha");
 const ocariotPubSub_exception_1 = require("../src/exception/ocariotPubSub.exception");
@@ -28,7 +27,7 @@ const options = {
     interval: 1000,
     ssl: {
         enabled: true,
-        ca: [fs.readFileSync('./ssl/certifications/ca_certificate.pem')]
+        ca: './ssl/certifications/ca_certificate.pem'
     }
 };
 describe('Broker Connection', () => {
@@ -45,8 +44,10 @@ describe('Broker Connection', () => {
         connectionSpy.resetHistory();
     });
     it('should return OcariotPubSubException when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsub.connect('ip-machin', 5671, 'guest', 'guest', options).catch((err) => {
-            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+        yield pubsub.connect('ip-machin', 5671, 'guest', 'guest', options).then((result) => { console.log("asd" + result); }).catch((err) => {
+            console.log(err);
+            chai_1.expect(err.toString()).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
+            chai_1.expect(err).instanceOf(TypeError);
             chai_1.expect(connectionSpy.callCount).to.equal(1);
         });
     }));

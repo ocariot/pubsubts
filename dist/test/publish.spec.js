@@ -7,18 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 // 'use strict';
 const index_1 = require("../index");
 const chai_1 = require("chai");
-const fs = __importStar(require("fs"));
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 require("mocha");
 const options = {
@@ -26,7 +18,7 @@ const options = {
     interval: 1000,
     ssl: {
         enabled: true,
-        ca: [fs.readFileSync('./ssl/certifications/ca_certificate.pem')]
+        ca: './ssl/certifications/ca_certificate.pem'
     }
 };
 describe('Publish in a Connection', () => {

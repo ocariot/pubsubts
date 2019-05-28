@@ -12,7 +12,7 @@ const options: IOptions = {
     interval: 1000,
     ssl: {
         enabled: true,
-        ca: [fs.readFileSync('./ssl/certifications/ca_certificate.pem')]
+        ca: './ssl/certifications/ca_certificate.pem'
     }
 }
 

@@ -7,18 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 // 'use strict';
 const index_1 = require("../index");
 const chai_1 = require("chai");
-const fs = __importStar(require("fs"));
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 require("mocha");
 const options = {
@@ -26,10 +18,10 @@ const options = {
     interval: 1000,
     ssl: {
         enabled: true,
-        ca: [fs.readFileSync('./ssl/certifications/ca_certificate.pem')]
+        ca: './ssl/certifications/ca_certificate.pem'
     }
 };
-function receiveMessageLucas(message) {
+function receiveMessage(message) {
     console.log(message);
 }
 describe('Subscriber in a Connection', () => {
@@ -53,13 +45,13 @@ describe('Subscriber in a Connection', () => {
         pubsub.close();
     });
     it('subSavePhysicalActivity() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subSavePhysicalActivity(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subSavePhysicalActivity(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subSavePhysicalActivity() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subSavePhysicalActivity(receiveMessageLucas);
+            let result = yield pubsub.subSavePhysicalActivity(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -67,13 +59,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subUpdatePhysicalActivity() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subUpdatePhysicalActivity(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subUpdatePhysicalActivity(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subUpdatePhysicalActivity() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subUpdatePhysicalActivity(receiveMessageLucas);
+            let result = yield pubsub.subUpdatePhysicalActivity(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -81,13 +73,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subDeletePhysicalActivity() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subDeletePhysicalActivity(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subDeletePhysicalActivity(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subDeletePhysicalActivity() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subDeletePhysicalActivity(receiveMessageLucas);
+            let result = yield pubsub.subDeletePhysicalActivity(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -95,13 +87,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subSaveSleep() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subSaveSleep(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subSaveSleep(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subSaveSleep() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subSaveSleep(receiveMessageLucas);
+            let result = yield pubsub.subSaveSleep(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -109,13 +101,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subUpdateSleep() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subUpdateSleep(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subUpdateSleep(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subUpdateSleep() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subUpdateSleep(receiveMessageLucas);
+            let result = yield pubsub.subUpdateSleep(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -123,13 +115,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subDeleteSleep() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subDeleteSleep(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subDeleteSleep(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subDeleteSleep() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subDeleteSleep(receiveMessageLucas);
+            let result = yield pubsub.subDeleteSleep(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -137,13 +129,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subSaveEnvironment() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subSaveEnvironment(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subSaveEnvironment(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subSaveEnvironment() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subSaveEnvironment(receiveMessageLucas);
+            let result = yield pubsub.subSaveEnvironment(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -151,13 +143,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subDeleteEnvironment() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subDeleteEnvironment(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subDeleteEnvironment(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subDeleteEnvironment() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subDeleteEnvironment(receiveMessageLucas);
+            let result = yield pubsub.subDeleteEnvironment(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -165,13 +157,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subUpdateChild() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subUpdateChild(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subUpdateChild(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subUpdateChild() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subUpdateChild(receiveMessageLucas);
+            let result = yield pubsub.subUpdateChild(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -179,13 +171,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subUpdateFamily() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subUpdateFamily(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subUpdateFamily(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subUpdateFamily() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subUpdateFamily(receiveMessageLucas);
+            let result = yield pubsub.subUpdateFamily(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -193,13 +185,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subUpdateEducator() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subUpdateEducator(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subUpdateEducator(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subUpdateEducator() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subUpdateEducator(receiveMessageLucas);
+            let result = yield pubsub.subUpdateEducator(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -207,13 +199,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subUpdateHealthProfessional() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subUpdateHealthProfessional(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subUpdateHealthProfessional(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subUpdateHealthProfessional() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subUpdateHealthProfessional(receiveMessageLucas);
+            let result = yield pubsub.subUpdateHealthProfessional(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -221,13 +213,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subUpdateApplication() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subUpdateApplication(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subUpdateApplication(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subUpdateApplication() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subUpdateApplication(receiveMessageLucas);
+            let result = yield pubsub.subUpdateApplication(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -235,13 +227,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subDeleteUser() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subDeleteUser(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subDeleteUser(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subDeleteUser() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subDeleteUser(receiveMessageLucas);
+            let result = yield pubsub.subDeleteUser(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {
@@ -249,13 +241,13 @@ describe('Subscriber in a Connection', () => {
         }
     }));
     it('subDeleteInstitution() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsubWithoutConnection.subDeleteInstitution(receiveMessageLucas).then(result => {
+        yield pubsubWithoutConnection.subDeleteInstitution(receiveMessage).then(result => {
             chai_1.expect(result).to.equal(false);
         });
     }));
     it('subDeleteInstitution() - should return TRUE when subscribe in a connection', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            let result = yield pubsub.subDeleteInstitution(receiveMessageLucas);
+            let result = yield pubsub.subDeleteInstitution(receiveMessage);
             chai_1.expect(result).to.equal(true);
         }
         catch (err) {

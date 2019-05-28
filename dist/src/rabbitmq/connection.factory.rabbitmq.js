@@ -16,20 +16,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const amqp_ts_1 = require("amqp-ts");
-const default_1 = require("../utils/default");
 const fs = __importStar(require("fs"));
 const defaultValues = {
-    vhost: default_1.Default.RABBITMQ_VHOST,
-    host: default_1.Default.RABBITMQ_HOST,
-    port: default_1.Default.RABBITMQ_PORT,
-    username: default_1.Default.RABBITMQ_USERNAME,
-    password: default_1.Default.RABBITMQ_PASSWORD,
+    vhost: 'ocariot',
+    host: 'localhost',
+    port: 5672,
+    username: 'guest',
+    password: 'guest',
     options: {
         retries: 0,
         interval: 1000,
         ssl: {
             enabled: false,
-            ca: [fs.readFileSync('./ssl/certifications/ca_certificate.pem')]
+            ca: undefined
         }
     }
 };
@@ -55,12 +54,12 @@ class ConnectionFactoryRabbitMQ {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const conn = new amqp_ts_1.Connection('protocol://username:password@host:port/vhost'
-                    .replace('protocol', this.configuration.options.ssl.enabled ? 'amqps' : 'amqps')
+                    .replace('protocol', this.configuration.options.ssl.enabled ? 'amqps' : 'amqp')
                     .replace('host', process.env.RABBITMQ_HOST || this.configuration.host)
                     .replace('port', (process.env.RABBITMQ_PORT || this.configuration.port).toString())
-                    .replace('vhost', this.configuration.vhost)
+                    .replace('vhost', process.env.RABBITMQ_PORT || this.configuration.vhost)
                     .replace('username', process.env.RABBITMQ_USERNAME || this.configuration.username)
-                    .replace('password', process.env.RABBITMQ_PASSWORD || this.configuration.password), { ca: this.configuration.options.ssl.ca }, { retries: this.configuration.options.retries, interval: this.configuration.options.interval });
+                    .replace('password', process.env.RABBITMQ_PASSWORD || this.configuration.password), { ca: fs.readFileSync(this.configuration.options.ssl.ca) }, { retries: this.configuration.options.retries, interval: this.configuration.options.interval });
                 yield conn.initialized;
                 return Promise.resolve(conn);
             }

@@ -12,6 +12,6 @@ export interface IOptions {
     interval: number // retry interval in ms
     ssl: {
         enabled: boolean,
-        ca?: Array<Buffer>
+        ca?: string
     }
 }

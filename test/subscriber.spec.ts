@@ -11,11 +11,11 @@ const options: IOptions = {
     interval: 1000,
     ssl: {
         enabled: true,
-        ca: [fs.readFileSync('./ssl/certifications/ca_certificate.pem')]
+        ca: './ssl/certifications/ca_certificate.pem'
     }
 }
 
-function receiveMessageLucas (message) {
+function receiveMessage (message) {
     console.log(message)
 }
 
@@ -43,14 +43,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subSavePhysicalActivity() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subSavePhysicalActivity(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subSavePhysicalActivity(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subSavePhysicalActivity() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subSavePhysicalActivity(receiveMessageLucas)
+            let result = await pubsub.subSavePhysicalActivity(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -58,14 +58,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subUpdatePhysicalActivity() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subUpdatePhysicalActivity(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subUpdatePhysicalActivity(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subUpdatePhysicalActivity() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subUpdatePhysicalActivity(receiveMessageLucas)
+            let result = await pubsub.subUpdatePhysicalActivity(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -73,14 +73,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subDeletePhysicalActivity() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subDeletePhysicalActivity(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subDeletePhysicalActivity(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subDeletePhysicalActivity() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subDeletePhysicalActivity(receiveMessageLucas)
+            let result = await pubsub.subDeletePhysicalActivity(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -88,14 +88,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subSaveSleep() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subSaveSleep(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subSaveSleep(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subSaveSleep() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subSaveSleep(receiveMessageLucas)
+            let result = await pubsub.subSaveSleep(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -103,14 +103,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subUpdateSleep() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subUpdateSleep(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subUpdateSleep(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subUpdateSleep() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subUpdateSleep(receiveMessageLucas)
+            let result = await pubsub.subUpdateSleep(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -118,14 +118,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subDeleteSleep() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subDeleteSleep(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subDeleteSleep(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subDeleteSleep() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subDeleteSleep(receiveMessageLucas)
+            let result = await pubsub.subDeleteSleep(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -133,14 +133,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subSaveEnvironment() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subSaveEnvironment(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subSaveEnvironment(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subSaveEnvironment() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subSaveEnvironment(receiveMessageLucas)
+            let result = await pubsub.subSaveEnvironment(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -148,14 +148,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subDeleteEnvironment() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subDeleteEnvironment(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subDeleteEnvironment(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subDeleteEnvironment() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subDeleteEnvironment(receiveMessageLucas)
+            let result = await pubsub.subDeleteEnvironment(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -163,14 +163,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subUpdateChild() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subUpdateChild(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subUpdateChild(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subUpdateChild() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subUpdateChild(receiveMessageLucas)
+            let result = await pubsub.subUpdateChild(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -178,14 +178,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subUpdateFamily() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subUpdateFamily(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subUpdateFamily(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subUpdateFamily() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subUpdateFamily(receiveMessageLucas)
+            let result = await pubsub.subUpdateFamily(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -193,14 +193,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subUpdateEducator() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subUpdateEducator(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subUpdateEducator(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subUpdateEducator() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subUpdateEducator(receiveMessageLucas)
+            let result = await pubsub.subUpdateEducator(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -208,14 +208,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subUpdateHealthProfessional() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subUpdateHealthProfessional(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subUpdateHealthProfessional(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subUpdateHealthProfessional() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subUpdateHealthProfessional(receiveMessageLucas)
+            let result = await pubsub.subUpdateHealthProfessional(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -223,14 +223,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subUpdateApplication() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subUpdateApplication(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subUpdateApplication(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subUpdateApplication() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subUpdateApplication(receiveMessageLucas)
+            let result = await pubsub.subUpdateApplication(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -238,14 +238,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subDeleteUser() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subDeleteUser(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subDeleteUser(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subDeleteUser() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subDeleteUser(receiveMessageLucas)
+            let result = await pubsub.subDeleteUser(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)
@@ -253,14 +253,14 @@ describe('Subscriber in a Connection', () => {
     });
 
     it('subDeleteInstitution() - should return FALSE when it haven\'t connection',    async () => {
-        await pubsubWithoutConnection.subDeleteInstitution(receiveMessageLucas).then(result => {
+        await pubsubWithoutConnection.subDeleteInstitution(receiveMessage).then(result => {
             expect(result).to.equal(false)
         })
     });
 
     it('subDeleteInstitution() - should return TRUE when subscribe in a connection',   async() => {
         try {
-            let result = await pubsub.subDeleteInstitution(receiveMessageLucas)
+            let result = await pubsub.subDeleteInstitution(receiveMessage)
             expect(result).to.equal(true)
         } catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)

@@ -1,4 +1,3 @@
-/// <reference types="node" />
 export interface IConfiguration {
     vhost: string;
     host: string;
@@ -12,6 +11,6 @@ export interface IOptions {
     interval: number;
     ssl: {
         enabled: boolean;
-        ca?: Array<Buffer>;
+        ca?: string;
     };
 }
