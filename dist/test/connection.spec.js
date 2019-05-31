@@ -32,22 +32,28 @@ const options = {
 };
 describe('Broker Connection', () => {
     let pubsub;
+    let pubsubWithoutConnection;
     let connectionSpy;
     before(function () {
-        pubsub = new index_1.OcariotPubSub();
+        pubsub = new index_1.OcariotPubSub('ip-machine', 5671, 'guest', 'guest', options);
+        pubsubWithoutConnection = new index_1.OcariotPubSub('ip-machine', 5671, 'guest', 'guest', options);
         connectionSpy = sinon.spy();
         pubsub.on('connected', connectionSpy);
         pubsub.on('disconnected', connectionSpy);
         pubsub.on('error', connectionSpy);
     });
+    after(function () {
+        setTimeout(() => {
+            pubsub.close();
+            pubsubWithoutConnection.close();
+        }, 1000);
+    });
     afterEach(function () {
         connectionSpy.resetHistory();
     });
     it('should return OcariotPubSubException when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
-        yield pubsub.connect('ip-machin', 5671, 'guest', 'guest', options).then((result) => { console.log("asd" + result); }).catch((err) => {
-            console.log(err);
-            chai_1.expect(err.toString()).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
-            chai_1.expect(err).instanceOf(TypeError);
+        yield pubsubWithoutConnection.connect().catch((err) => {
+            chai_1.expect(err).instanceOf(ocariotPubSub_exception_1.OcariotPubSubException);
             chai_1.expect(connectionSpy.callCount).to.equal(1);
         });
     }));
@@ -58,7 +64,7 @@ describe('Broker Connection', () => {
     });
     it('Trying connect, should return TRUE if bound ', () => __awaiter(this, void 0, void 0, function* () {
         try {
-            yield pubsub.connect('ip-machine', 5671, 'guest', 'guest', options).then((result) => {
+            yield pubsub.connect().then((result) => {
                 chai_1.expect(result).to.equal(true);
                 chai_1.expect(connectionSpy.callCount).to.equal(1);
             });

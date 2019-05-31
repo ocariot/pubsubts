@@ -21,11 +21,11 @@ describe('Publish in a Connection', () => {
     let pubsubWithoutConnection;
 
     before(async function () {
-        pubsub = new OcariotPubSub();
-        pubsubWithoutConnection = new OcariotPubSub();
+        pubsub = new OcariotPubSub('ip-machine', 5671, 'guest', 'guest', options);
+        pubsubWithoutConnection = new OcariotPubSub('ip-machine', 5671, 'guest', 'guest', options);
 
         try{
-            await pubsub.connect('ip-machine', 5671, 'guest', 'guest', options).then((result) => {
+            await pubsub.connect().then((result) => {
                 expect(result).to.equal(true)
             })
         }catch (err) {

@@ -19,10 +19,12 @@ const options: IOptions = {
 describe('Broker Connection', () => {
 
     let pubsub;
+    let pubsubWithoutConnection;
     let connectionSpy;
 
     before(function () {
-        pubsub = new OcariotPubSub();
+        pubsub = new OcariotPubSub('ip-machine', 5671, 'guest', 'guest', options);
+        pubsubWithoutConnection = new OcariotPubSub('ip-machine', 5671, 'guest', 'guest', options);
         connectionSpy = sinon.spy();
 
         pubsub.on('connected', connectionSpy)
@@ -31,12 +33,19 @@ describe('Broker Connection', () => {
 
     });
 
+    after(function(){
+        setTimeout(() => {
+            pubsub.close();
+            pubsubWithoutConnection.close();
+        },1000)
+    });
+
     afterEach(function(){
         connectionSpy.resetHistory()
     });
 
     it('should return OcariotPubSubException when it haven\'t connection',  async () => {
-        await pubsub.connect('ip-machin', 5671, 'guest', 'guest', options).catch((err) => {
+        await pubsubWithoutConnection.connect().catch((err) => {
             expect(err).instanceOf(OcariotPubSubException)
             expect(connectionSpy.callCount).to.equal(1);
         })
@@ -50,7 +59,7 @@ describe('Broker Connection', () => {
 
     it('Trying connect, should return TRUE if bound ', async () => {
         try{
-            await pubsub.connect('ip-machine', 5671, 'guest', 'guest', options).then((result) => {
+            await pubsub.connect().then((result) => {
                 expect(result).to.equal(true)
                 expect(connectionSpy.callCount).to.equal(1);
             })

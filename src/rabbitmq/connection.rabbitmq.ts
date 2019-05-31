@@ -71,7 +71,7 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                             this._logger.warn('Error during the connection Error code: ' + err.code)
                             break
                         default:
-                            this._logger.error('Error during the connection no mapped')
+                            this._logger.error('No mapped e error during the connection')
                             break
                     }
 
@@ -126,8 +126,8 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                     const exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true })
 
                     if (await exchange.initialized) {
-                        this.event_handlers.set(callback.event_name, callback)
-                        this._logger.info('Callback message ' + callback.event_name + ' registered!')
+                        this.event_handlers.set(topicKey, callback)
+                        this._logger.info('Callback message ' + topicKey + ' registered!')
                     }
 
                     const queue = this._connection.declareQueue(queueName, { exclusive: true })
@@ -145,12 +145,11 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                                 this._receiveFromYourself === false) return
 
                             this._logger.info(`Bus event message received with success!`)
-                            const event_name: string = message.getContent().event_name
+                            const routingKey: string = message.fields.routingKey
 
                             const event_handler: IEventHandler<any> | undefined =
-                                this.event_handlers.get(event_name)
+                                this.event_handlers.get(routingKey)
 
-                            // this.event_handlers.get(event_name)
                             if (event_handler) {
                                 event_handler.handle(message.getContent())
                             }

@@ -66,7 +66,7 @@ class ConnectionRabbitMQ {
                         this._logger.warn('Error during the connection Error code: ' + err.code);
                         break;
                     default:
-                        this._logger.error('Error during the connection no mapped');
+                        this._logger.error('No mapped e error during the connection');
                         break;
                 }
                 this._connection = undefined;
@@ -110,8 +110,8 @@ class ConnectionRabbitMQ {
                 if (this._connection) {
                     const exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true });
                     if (yield exchange.initialized) {
-                        this.event_handlers.set(callback.event_name, callback);
-                        this._logger.info('Callback message ' + callback.event_name + ' registered!');
+                        this.event_handlers.set(topicKey, callback);
+                        this._logger.info('Callback message ' + topicKey + ' registered!');
                     }
                     const queue = this._connection.declareQueue(queueName, { exclusive: true });
                     queue.bind(exchange, topicKey);
@@ -124,9 +124,8 @@ class ConnectionRabbitMQ {
                                 this._receiveFromYourself === false)
                                 return;
                             this._logger.info(`Bus event message received with success!`);
-                            const event_name = message.getContent().event_name;
-                            const event_handler = this.event_handlers.get(event_name);
-                            // this.event_handlers.get(event_name)
+                            const routingKey = message.fields.routingKey;
+                            const event_handler = this.event_handlers.get(routingKey);
                             if (event_handler) {
                                 event_handler.handle(message.getContent());
                             }

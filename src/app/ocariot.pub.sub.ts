@@ -22,10 +22,26 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
 
     private connection: EventBus = new EventBus()
 
-    public connect(host: string, port: number, username: string, password: string,
-                   options?: IOptions): Promise<boolean | OcariotPubSubException>{
+    private host: string
+    private port: number
+    private username: string
+    private password: string
+    private options?: IOptions
+
+    constructor(host: string, port: number, username: string, password: string,
+                options?: IOptions){
+        super()
+        this.host = host
+        this.port = port
+        this.username = username
+        this.password = password
+        this.options = options
+
+    }
+
+    public connect(): Promise<boolean | OcariotPubSubException>{
         return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
-            this.connection.connect(host, port, username, password, options).then(() => {
+            this.connection.connect(this.host, this.port, this.username, this.password, this.options).then(() => {
                 this.emit('connected')
                 return resolve(true)
             }).catch(err => {
@@ -51,16 +67,15 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
         return this.connection.isConnected
     }
 
-    public pub(exchangeName: string, routing_key: string, body: any): Promise<boolean | OcariotPubSubException> {
-        return this.connection.publish(exchangeName, routing_key, body)
+    public pub(exchangeName: string, routingKey: string, body: any): Promise<boolean | OcariotPubSubException> {
+        return this.connection.publish(exchangeName, routingKey, body)
 
     }
 
-    public sub(exchangeName: string, queueName: string, routingKey: string, eventName: string,
+    public sub(exchangeName: string, queueName: string, routingKey: string,
                callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
 
         const eventCallback: IEventHandler<any> = {
-            event_name: eventName,
             handle: callback
         }
 
@@ -70,7 +85,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubSavePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessagePhysicalActivity = {
             event_name: EventName.SAVE_PHYSICAL_ACTIVITY_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             physicalactivity: activity
         }
 
@@ -80,7 +95,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubUpdatePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessagePhysicalActivity = {
             event_name: EventName.UPDATE_PHYSICAL_ACTIVITY_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             physicalactivity: activity
         }
 
@@ -90,7 +105,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubDeletePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessagePhysicalActivity = {
             event_name: EventName.DELETE_PHYSICAL_ACTIVITY_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             physicalactivity: activity
         }
 
@@ -100,7 +115,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubSaveSleep(sleep: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageSleep = {
             event_name: EventName.SAVE_SLEEP_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             sleep
         }
 
@@ -110,7 +125,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubUpdateSleep(sleep: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageSleep = {
             event_name: EventName.UPDATE_SLEEP_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             sleep
         }
 
@@ -120,7 +135,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubDeleteSleep(sleep: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageSleep = {
             event_name: EventName.DELETE_SLEEP_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             sleep
         }
 
@@ -131,7 +146,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubSaveEnvironment(environment: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageEnvironment = {
             event_name: EventName.SAVE_ENVIRONMENT_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             environment
         }
 
@@ -141,7 +156,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubDeleteEnvironment(environment: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageEnvironment = {
             event_name: EventName.DELETE_ENVIRONMENT_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             environment
         }
 
@@ -151,7 +166,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubUpdateChild(child: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageChild = {
             event_name: EventName.UPDATE_CHILD_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             child
         }
 
@@ -161,7 +176,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubUpdateFamily(family: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageFamily = {
             event_name: EventName.UPDATE_FAMILY_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             family
         }
 
@@ -171,7 +186,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubUpdateEducator(educator: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageEducator = {
             event_name: EventName.UPDATE_EDUCATOR_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             educator
         }
 
@@ -181,7 +196,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubUpdateHealthProfessional(healthprofessional: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageHealthProfessional = {
             event_name: EventName.UPDATE_HEALTH_PROFESSIONAL_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             healthprofessional
         }
 
@@ -191,7 +206,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubUpdateApplication(application: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageApplication = {
             event_name: EventName.UPDATE_APPLICATION_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             application
         }
 
@@ -202,7 +217,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubDeleteUser(user: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageUser = {
             event_name: EventName.DELETE_USER_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             user
         }
 
@@ -212,7 +227,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public pubDeleteInstitution(institution: any): Promise<boolean | OcariotPubSubException> {
         const message: IMessageInstitution = {
             event_name: EventName.DELETE_INSTITUTION_EVENT,
-            timestamp: Default.getDataTimeUTC(),
+            timestamp: new Date().toISOString(),
             institution
         }
 
@@ -223,82 +238,82 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
     public subSavePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
 
         return this.sub(ExchangeName.PHYSICAL_ACTIVITIES, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, EventName.SAVE_PHYSICAL_ACTIVITY_EVENT, callback)
+                RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subUpdatePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
 
         return this.sub(ExchangeName.PHYSICAL_ACTIVITIES, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, EventName.UPDATE_PHYSICAL_ACTIVITY_EVENT, callback)
+                RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subDeletePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
 
         return this.sub(ExchangeName.PHYSICAL_ACTIVITIES, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, EventName.DELETE_PHYSICAL_ACTIVITY_EVENT, callback)
+                RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subSaveSleep(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.SLEEP, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.SAVE_SLEEP, EventName.SAVE_SLEEP_EVENT, callback)
+                RoutingKeysName.SAVE_SLEEP, callback)
     }
 
     public subUpdateSleep(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.SLEEP, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.UPDATE_SLEEP, EventName.UPDATE_SLEEP_EVENT, callback)
+                RoutingKeysName.UPDATE_SLEEP, callback)
     }
 
     public subDeleteSleep(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.SLEEP, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.DELETE_SLEEP, EventName.DELETE_SLEEP_EVENT, callback)
+                RoutingKeysName.DELETE_SLEEP, callback)
     }
 
     public subSaveEnvironment(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.ENVIRONMENTS, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.SAVE_ENVIRONMENTS, EventName.SAVE_ENVIRONMENT_EVENT, callback)
+                RoutingKeysName.SAVE_ENVIRONMENTS, callback)
     }
 
     public subDeleteEnvironment(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.ENVIRONMENTS, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.DELETE_ENVIRONMENTS, EventName.DELETE_ENVIRONMENT_EVENT, callback)
+                RoutingKeysName.DELETE_ENVIRONMENTS, callback)
     }
 
     public subUpdateChild(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.CHILDREN, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_CHILDREN, EventName.UPDATE_CHILD_EVENT, callback)
+                RoutingKeysName.UPDATE_CHILDREN, callback)
     }
 
     public subUpdateFamily(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.FAMILIES, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_FAMILIES, EventName.UPDATE_FAMILY_EVENT, callback)
+                RoutingKeysName.UPDATE_FAMILIES, callback)
     }
 
     public subUpdateEducator(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.EDUCATORS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_EDUCATORS, EventName.UPDATE_EDUCATOR_EVENT, callback)
+                RoutingKeysName.UPDATE_EDUCATORS, callback)
     }
 
     public subUpdateHealthProfessional(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.HEALTH_PROFESSIONALS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, EventName.UPDATE_HEALTH_PROFESSIONAL_EVENT, callback)
+                RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, callback)
     }
 
     public subUpdateApplication(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.APPLICATIONS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_APPLICATIONS, EventName.UPDATE_APPLICATION_EVENT, callback)
+                RoutingKeysName.UPDATE_APPLICATIONS, callback)
     }
 
     public subDeleteUser(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.USERS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.DELETE_USERS, EventName.DELETE_USER_EVENT, callback)
+                RoutingKeysName.DELETE_USERS, callback)
     }
 
     public subDeleteInstitution(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
         return this.sub(ExchangeName.INSTITUTIONS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.DELETE_INSTITUTIONS, EventName.DELETE_INSTITUTION_EVENT, callback)
+                RoutingKeysName.DELETE_INSTITUTIONS, callback)
     }
 
     public receiveFromYourself(status: boolean): boolean{

@@ -29,10 +29,10 @@ describe('Subscriber in a Connection', () => {
     let pubsubWithoutConnection;
     before(function () {
         return __awaiter(this, void 0, void 0, function* () {
-            pubsub = new index_1.OcariotPubSub();
-            pubsubWithoutConnection = new index_1.OcariotPubSub();
+            pubsub = new index_1.OcariotPubSub('ip-machine', 5671, 'guest', 'guest', options);
+            pubsubWithoutConnection = new index_1.OcariotPubSub('ip-machine', 5671, 'guest', 'guest', options);
             try {
-                yield pubsub.connect('ip-machine', 5671, 'guest', 'guest', options).then((result) => {
+                yield pubsub.connect().then((result) => {
                     chai_1.expect(result).to.equal(true);
                 });
             }
@@ -42,7 +42,9 @@ describe('Subscriber in a Connection', () => {
         });
     });
     after(function () {
-        pubsub.close();
+        setTimeout(() => {
+            pubsub.close();
+        }, 1000);
     });
     it('subSavePhysicalActivity() - should return FALSE when it haven\'t connection', () => __awaiter(this, void 0, void 0, function* () {
         yield pubsubWithoutConnection.subSavePhysicalActivity(receiveMessage).then(result => {

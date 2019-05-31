@@ -24,7 +24,7 @@ class EventBus {
             }
             catch (err) {
                 reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
-                // return false
+                return false;
             }
         }));
     }
@@ -36,8 +36,8 @@ class EventBus {
                 }
             }
             catch (err) {
-                return reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
-                // return false
+                reject(new ocariotPubSub_exception_1.OcariotPubSubException(err));
+                return false;
             }
         });
     }
@@ -51,7 +51,7 @@ class EventBus {
             this.pubconnection.sendMessage(exchangeName, topicKey, message).then(result => {
                 resolve(result);
             }).catch(err => {
-                new ocariotPubSub_exception_1.OcariotPubSubException(err);
+                reject(err);
             });
         }));
     }
@@ -60,7 +60,7 @@ class EventBus {
             this.subconnection.receiveMessage(exchangeName, queueName, routing_key, callback).then(result => {
                 resolve(result);
             }).catch(err => {
-                new ocariotPubSub_exception_1.OcariotPubSubException(err);
+                reject(err);
             });
         }));
     }

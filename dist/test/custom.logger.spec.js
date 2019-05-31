@@ -13,11 +13,19 @@ const index_1 = require("../index");
 const chai_1 = require("chai");
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 require("mocha");
+const options = {
+    retries: 1,
+    interval: 1000,
+    ssl: {
+        enabled: true,
+        ca: './ssl/certifications/ca_certificate.pem'
+    }
+};
 describe('Issuance of Logs on a Connection', () => {
     let pubsub;
     before(function () {
         return __awaiter(this, void 0, void 0, function* () {
-            pubsub = new index_1.OcariotPubSub();
+            pubsub = new index_1.OcariotPubSub('ip-machine', 5671, 'guest', 'guest', options);
         });
     });
     it('logger() - should return TRUE when it pass only the enabled parameter', () => {
