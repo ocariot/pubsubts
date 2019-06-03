@@ -1,3 +1,7 @@
+#ignore auto-generate files
+/lib
+/ssl
+
 # Logs
 logs
 *.log

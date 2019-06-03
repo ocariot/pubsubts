@@ -15,7 +15,7 @@ const defaultValues: IConfiguration = {
         interval: 1000,
         ssl: {
             enabled: false,
-            ca: undefined
+            ca: ''
         }
     } as IOptions
 }
