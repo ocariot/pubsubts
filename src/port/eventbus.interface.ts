@@ -14,4 +14,8 @@ export interface IEventbusInterface {
 
     subscribe(exchangeName: string, queueName: string, routing_key: string,
               callback: IEventHandler<any>): Promise<boolean | OcariotPubSubException>
+
+    receiveFromYourself(value: boolean): boolean
+
+    loggerConnection(enabled: boolean, level?: string): boolean
 }

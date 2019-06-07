@@ -9,7 +9,7 @@ export interface IConnectionEventBus {
 
     tryConnect(host: string, port: number, username: string, password: string, options?: IOptions): Promise<Connection>
 
-    closeConnection(): boolean  | undefined
+    closeConnection(): Promise<boolean>
 
     sendMessage(exchangeName: string, topicKey: string, message: any): Promise<boolean>
 

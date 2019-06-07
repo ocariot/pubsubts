@@ -63,3 +63,20 @@ typings/
 
 # next.js build output
 .next
+
+
+# certificates and keys directories and files
+
+.certs
+
+*.pem
+
+*.crt
+
+*.key
+
+*.csr
+
+*.cert
+
+certs

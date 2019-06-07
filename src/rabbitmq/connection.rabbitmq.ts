@@ -52,13 +52,37 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
      */
     public tryConnect(host: string, port: number, username: string, password: string, options ?: IOptions): Promise<Connection> {
         return new Promise<Connection>((resolve, reject) => {
-            if (this._connection) return resolve(this._connection)
+            if (this.isConnected) return resolve(this._connection)
 
             new ConnectionFactoryRabbitMQ(host, port, username, password, options)
                 .createConnection()
                 .then((connection: Connection) => {
                     this._connection = connection
-                    this._logger.info('Connection realized with success! ')
+
+                    this._connection.on('error_connection', (err: Error) => {
+                        this._logger.error('Error during connection ')
+                    })
+
+                    this._connection.on('close_connection', () => {
+                        this._logger.info('Close connection with success! ')
+                    })
+
+                    this._connection.on('open_connection', () => {
+                        this._logger.info('Connection established.')
+                    })
+
+                    this._connection.on('lost_connection', () => {
+                        this._logger.warn('Lost connection ')
+                    })
+
+                    this._connection.on('trying_connect', () => {
+                        this._logger.warn('Trying re-established connection')
+                    })
+
+                    this._connection.on('re_established_connection', () => {
+                        this._logger.warn('Re-established connection')
+                    })
+
                     return resolve(this._connection)
                 })
                 .catch(err => {
@@ -75,27 +99,29 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                             break
                     }
 
-                    this._connection = undefined
                     return reject(err)
                 })
         })
     }
 
-    public closeConnection(): boolean | undefined {
+    public closeConnection(): Promise<boolean | undefined> {
 
-        if (this._connection) {
-            this._connection.close()
-            this._connection = undefined
-            this._logger.info('Connection closed with success!')
-            return true
-        } else
-            return false
+        return new Promise<boolean|undefined>( async (resolve, reject) => {
+            if (this.isConnected) {
+                this._connection.close().then(() => {
+                    return resolve(true)
+                }).catch( err => {
+                    return reject(err)
+                })
+            } else
+                return resolve(false)
+        })
     }
 
     public sendMessage(exchangeName: string, topicKey: string, message: any): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             try {
-                if (this._connection) {
+                if (this.isConnected) {
 
                     if (!ConnectionRabbitMQ.idConnection)
                         ConnectionRabbitMQ.idConnection = 'id-' + Math.random().toString(36).substr(2, 16)
@@ -122,13 +148,20 @@ export class ConnectionRabbitMQ implements IConnectionEventBus {
                           callback: IEventHandler<any>): Promise<boolean> {
         return new Promise<boolean>(async (resolve, reject) => {
             try {
-                if (this._connection) {
+                if (this.isConnected) {
                     const exchange = this._connection.declareExchange(exchangeName, 'topic', { durable: true })
 
-                    if (await exchange.initialized) {
+                    await exchange.initialized.then(() => {
                         this.event_handlers.set(topicKey, callback)
                         this._logger.info('Callback message ' + topicKey + ' registered!')
-                    }
+                    }).catch(err => {
+                        console.log('here')
+                    })
+
+                    // if (await exchange.initialized) {
+                    //     this.event_handlers.set(topicKey, callback)
+                    //     this._logger.info('Callback message ' + topicKey + ' registered!')
+                    // }
 
                     const queue = this._connection.declareQueue(queueName, { exclusive: true })
 

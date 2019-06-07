@@ -12,7 +12,7 @@ const options: IOptions = {
     interval: 1000,
     ssl: {
         enabled: true,
-        ca: './test/ssl/certifications1/ca_certificate.pem'
+        ca: './test/ssl/certifications/ca_certificate.pem'
     }
 }
 
@@ -28,8 +28,11 @@ describe('Broker Connection', () => {
         connectionSpy = sinon.spy();
 
         pubsub.on('connected', connectionSpy)
+        pubsub.on('reconnected', connectionSpy)
         pubsub.on('disconnected', connectionSpy)
-        pubsub.on('error', connectionSpy)
+        // pubsub.on('trying_connection', connectionSpy)
+        // pubsub.on('lost_connection', connectionSpy)
+        // pubsub.on('error', connectionSpy)
 
     });
 
@@ -40,7 +43,7 @@ describe('Broker Connection', () => {
         },1000)
     });
 
-    afterEach(function(){
+    afterEach(async function () {
         connectionSpy.resetHistory()
     });
 
@@ -59,7 +62,7 @@ describe('Broker Connection', () => {
 
     it('Trying connect, should return TRUE if bound ', async () => {
         try{
-            await pubsub.connect().then((result) => {
+             await pubsub.connect().then((result) => {
                 expect(result).to.equal(true)
                 expect(connectionSpy.callCount).to.equal(1);
             })
@@ -70,9 +73,13 @@ describe('Broker Connection', () => {
 
     it('Trying close connection, should return TRUE if it\'s unbound ', async () => {
         try{
-            await pubsub.close().then((result) => {
-                expect(result).to.equal(true)
-                expect(connectionSpy.callCount).to.equal(1);
+
+            pubsub.close().then((result) => {
+               if (result){
+                    expect(connectionSpy.callCount).to.equal(1);
+                }else {
+                    expect(connectionSpy.callCount).to.equal(0);
+                }
             })
         }catch (err) {
             throw new Error('Failure on EventBus test: ' + err.message)

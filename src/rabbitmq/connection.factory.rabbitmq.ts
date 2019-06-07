@@ -1,4 +1,5 @@
 import { Connection } from 'amqp-ts'
+import * as amqp from 'amqp-ts'
 import { IConnectionFactory } from '../port/connection.factory.interface'
 
 import { IConfiguration, IOptions } from '../port/configuration.inteface'
@@ -32,6 +33,8 @@ export class ConnectionFactoryRabbitMQ implements IConnectionFactory {
         this.configuration.password = password
         if (options)
             this.configuration.options = options
+
+        // amqp.log.transports.console.level = 'info'
     }
 
     /**
@@ -54,7 +57,7 @@ export class ConnectionFactoryRabbitMQ implements IConnectionFactory {
                 ,
                 {ca: fs.readFileSync(this.configuration.options.ssl.ca)},
                 { retries: this.configuration.options.retries, interval: this.configuration.options.interval })
-            await conn.initialized
+
             return Promise.resolve(conn)
         } catch (err) {
             return Promise.reject(err)

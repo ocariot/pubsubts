@@ -11,16 +11,13 @@ import {
     IMessagePhysicalActivity,
     IMessageSleep, IMessageUser
 } from '../port/message.interface'
-import { Default } from '../utils/default'
 import { IEventHandler } from '../port/event.handler.interface'
 import { RoutingKeysName } from '../utils/routing.keys.name'
 import { ExchangeName } from '../utils/exchange.name'
 import { EventName } from '../utils/event.name'
 import { QueueName } from '../utils/queue.name'
 
-export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface, IOcariotSubInterface{
-
-    private connection: EventBus = new EventBus()
+export class OcariotPubSub extends EventBus implements IOcariotPubInterface, IOcariotSubInterface{
 
     private host: string
     private port: number
@@ -41,35 +38,30 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
 
     public connect(): Promise<boolean | OcariotPubSubException>{
         return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
-            this.connection.connect(this.host, this.port, this.username, this.password, this.options).then(() => {
-                this.emit('connected')
-                return resolve(true)
+            super.connect(this.host, this.port, this.username, this.password, this.options).then((result) => {
+                return resolve(result)
             }).catch(err => {
-                this.emit('error')
-                reject(new OcariotPubSubException(err))
+                return reject(err)
             })
-
         })
     }
 
     public close(): Promise<boolean | OcariotPubSubException>{
         return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
-           this.connection.close().then(() => {
-               this.emit('disconnected')
-               return resolve(true)
-           }).catch(err => {
-               reject(new OcariotPubSubException(err))
-           })
+                super.close().then((result) => {
+                    return resolve(result)
+                }).catch(err => {
+                    return reject(err)
+                })
         })
     }
 
     get isConnected(): boolean {
-        return this.connection.isConnected
+        return super.isConnected
     }
 
     public pub(exchangeName: string, routingKey: string, body: any): Promise<boolean | OcariotPubSubException> {
-        return this.connection.publish(exchangeName, routingKey, body)
-
+        return super.publish(exchangeName, routingKey, body)
     }
 
     public sub(exchangeName: string, queueName: string, routingKey: string,
@@ -79,7 +71,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
             handle: callback
         }
 
-        return this.connection.subscribe(exchangeName, queueName, routingKey, eventCallback)
+        return super.subscribe(exchangeName, queueName, routingKey, eventCallback)
     }
 
     public pubSavePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException> {
@@ -316,14 +308,10 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubInterface,
                 RoutingKeysName.DELETE_INSTITUTIONS, callback)
     }
 
-    public receiveFromYourself(status: boolean): boolean{
-        return this.connection.receiveFromYourself(status)
-    }
-
     public logger(enabled: boolean, level?: string): boolean {
 
         if (level === 'warn' || level === 'error' || level === 'info' || !level)
-                return this.connection.loggerConnection(!enabled, level)
+                return super.loggerConnection(!enabled, level)
 
         return false
 
