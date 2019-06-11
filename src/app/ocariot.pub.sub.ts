@@ -1,15 +1,14 @@
 import { IOcariotPubInterface } from '../port/ocariot.pub.interface'
 import { IOcariotSubInterface } from '../port/ocariot.sub.interface'
-import { IOptions } from '../port/configuration.inteface'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 import {
-    IMessage, IMessageApplication,
+    IMessageApplication,
     IMessageChild, IMessageEducator,
-    IMessageEnvironment, IMessageFamily, IMessageGeneric, IMessageHealthProfessional, IMessageInstitution,
+    IMessageEnvironment, IMessageFamily, IMessageHealthProfessional, IMessageInstitution,
     IMessagePhysicalActivity,
     IMessageSleep, IMessageUser
 } from '../port/message.interface'
-import { EventBus, IEventHandler } from 'pubsub'
+import { EventBus, IOptions } from 'pubsub'
 import { RoutingKeysName } from '../utils/routing.keys.name'
 import { ExchangeName } from '../utils/exchange.name'
 import { EventName } from '../utils/event.name'
@@ -34,8 +33,8 @@ export class OcariotPubSub extends EventBus implements IOcariotPubInterface, IOc
 
     }
 
-    public connectOcariotBus(): Promise<boolean | OcariotPubSubException>{
-        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+    public connect(): Promise<boolean>{
+        return new Promise<boolean>((resolve, reject) => {
             super.connect(this.host, this.port, this.username, this.password, this.options).then((result) => {
                 return resolve(result)
             }).catch(err => {
@@ -44,8 +43,8 @@ export class OcariotPubSub extends EventBus implements IOcariotPubInterface, IOc
         })
     }
 
-    public closeOcariotBus(): Promise<boolean | OcariotPubSubException>{
-        return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
+    public close(): Promise<boolean>{
+        return new Promise<boolean>((resolve, reject) => {
                 super.close().then((result) => {
                     return resolve(result)
                 }).catch(err => {
@@ -58,18 +57,27 @@ export class OcariotPubSub extends EventBus implements IOcariotPubInterface, IOc
         return super.isConnected
     }
 
-    public pub(exchangeName: string, routingKey: string, body: any): Promise<boolean | OcariotPubSubException> {
-        return super.publish(exchangeName, routingKey, body)
+    public pub(exchangeName: string, routingKey: string, body: any): Promise<boolean> {
+
+        return new Promise<boolean>((resolve, reject) => {
+            super.pub(exchangeName, routingKey, body).then((result) => {
+                return resolve(result)
+            }).catch(err => {
+                return reject(new OcariotPubSubException(err) )
+            })
+        })
     }
 
     public sub(exchangeName: string, queueName: string, routingKey: string,
-               callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
+               callback: (message: any) => void): Promise<boolean> {
 
-        const eventCallback: IEventHandler<any> = {
-            handle: callback
-        }
-
-        return super.subscribe(exchangeName, queueName, routingKey, eventCallback)
+        return new Promise<boolean>((resolve, reject) => {
+            super.sub(exchangeName, queueName, routingKey, callback).then((result) => {
+                return resolve(result)
+            }).catch(err => {
+                return reject(new OcariotPubSubException(err) )
+            })
+        })
     }
 
     public pubSavePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException> {
@@ -309,7 +317,7 @@ export class OcariotPubSub extends EventBus implements IOcariotPubInterface, IOc
     public logger(enabled: boolean, level?: string): boolean {
 
         if (level === 'warn' || level === 'error' || level === 'info' || !level)
-                return super.loggerConnection(!enabled, level)
+                return super.logger(!enabled, level)
 
         return false
 
