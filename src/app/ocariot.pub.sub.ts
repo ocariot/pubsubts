@@ -16,36 +16,14 @@ import { QueueName } from '../utils/queue.name'
 
 export class OcariotPubSub extends EventBus implements IOcariotPubInterface, IOcariotSubInterface{
 
-    private host: string
-    private port: number
-    private username: string
-    private password: string
-    private options?: IOptions
-
     constructor(host: string, port: number, username: string, password: string,
                 options?: IOptions){
-        super()
-        this.host = host
-        this.port = port
-        this.username = username
-        this.password = password
-        this.options = options
-
+        super(host, port, username, password, options)
     }
 
-    public connect(): Promise<boolean>{
+    public dispose(): Promise<boolean>{
         return new Promise<boolean>((resolve, reject) => {
-            super.connect(this.host, this.port, this.username, this.password, this.options).then((result) => {
-                return resolve(result)
-            }).catch(err => {
-                return reject(new OcariotPubSubException(err) )
-            })
-        })
-    }
-
-    public close(): Promise<boolean>{
-        return new Promise<boolean>((resolve, reject) => {
-                super.close().then((result) => {
+                super.dispose().then((result) => {
                     return resolve(result)
                 }).catch(err => {
                     return reject(new OcariotPubSubException(err) )
