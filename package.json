@@ -1,5 +1,5 @@
 {
-  "name": "ocariot-pubsubjs",
+  "name": "git ",
   "version": "1.0.0",
   "description": "Library for publish and subscribe events on the OCARIoT platform message bus.",
   "main": "lib/index.js",
@@ -19,9 +19,7 @@
     "url": "https://github.com/nutes-uepb/ocariot-pubsubjs/issues"
   },
   "homepage": "https://github.com/nutes-uepb/ocariot-pubsubjs#readme",
-  "devDependencies": {
-    "amqp-ts": "git+https://github.com/nutes-uepb/amqp-ts.git"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@types/node": "^11.13.9",
     "@types/bluebird": "^3.5.26",

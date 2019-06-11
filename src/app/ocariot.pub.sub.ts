@@ -1,7 +1,5 @@
-import { EventBus } from '../rabbitmq/eventbus'
 import { IOcariotPubInterface } from '../port/ocariot.pub.interface'
 import { IOcariotSubInterface } from '../port/ocariot.sub.interface'
-import { EventEmitter } from 'events'
 import { IOptions } from '../port/configuration.inteface'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 import {
@@ -11,7 +9,7 @@ import {
     IMessagePhysicalActivity,
     IMessageSleep, IMessageUser
 } from '../port/message.interface'
-import { IEventHandler } from '../port/event.handler.interface'
+import { EventBus, IEventHandler } from 'pubsub'
 import { RoutingKeysName } from '../utils/routing.keys.name'
 import { ExchangeName } from '../utils/exchange.name'
 import { EventName } from '../utils/event.name'
@@ -36,22 +34,22 @@ export class OcariotPubSub extends EventBus implements IOcariotPubInterface, IOc
 
     }
 
-    public connect(): Promise<boolean | OcariotPubSubException>{
+    public connectOcariotBus(): Promise<boolean | OcariotPubSubException>{
         return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
             super.connect(this.host, this.port, this.username, this.password, this.options).then((result) => {
                 return resolve(result)
             }).catch(err => {
-                return reject(err)
+                return reject(new OcariotPubSubException(err) )
             })
         })
     }
 
-    public close(): Promise<boolean | OcariotPubSubException>{
+    public closeOcariotBus(): Promise<boolean | OcariotPubSubException>{
         return new Promise<boolean|OcariotPubSubException>((resolve, reject) => {
                 super.close().then((result) => {
                     return resolve(result)
                 }).catch(err => {
-                    return reject(err)
+                    return reject(new OcariotPubSubException(err) )
                 })
         })
     }

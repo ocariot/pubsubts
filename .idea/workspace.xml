@@ -2,19 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f48b49ab-2dd0-4784-a7ee-1fde50f0a5b9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/port/connection.event.bus.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/connection.event.bus.interface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rabbitmq/connection.factory.rabbitmq.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/rabbitmq/connection.factory.rabbitmq.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/rabbitmq/eventbus.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/rabbitmq/eventbus.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/default.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/connection.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/connection.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/publish.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/publish.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/subscriber.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/subscriber.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/configuration.inteface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/configuration.inteface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/connection.event.bus.interface.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/connection.factory.interface.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/event.handler.interface.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/eventbus.interface.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/pub.interface.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/sub.interface.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rabbitmq/connection.factory.rabbitmq.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/rabbitmq/eventbus.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/custom.logger.ts" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -30,205 +32,108 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/ocariot.pub.sub.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="50" column="36" lean-forward="true" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.interface.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="17" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
+            <state relative-caret-position="165">
+              <caret line="17" column="43" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="43" />
               <folding>
-                <element signature="e#0#45#0" expanded="true" />
+                <element signature="e#51#119#0" expanded="true" />
+                <element signature="n#!!block;n#constructor#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#isConnected#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubSavePhysicalActivity#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubDeletePhysicalActivity#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubSaveSleep#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubUpdateSleep#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubDeleteSleep#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubSaveEnvironment#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubDeleteEnvironment#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubUpdateChild#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubUpdateFamily#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubUpdateEducator#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubUpdateHealthProfessional#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubUpdateApplication#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubDeleteUser#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#pubDeleteInstitution#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subSavePhysicalActivity#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subDeletePhysicalActivity#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subSaveSleep#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subUpdateSleep#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subDeleteSleep#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subSaveEnvironment#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subDeleteEnvironment#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subUpdateChild#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subUpdateFamily#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subUpdateEducator#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subUpdateHealthProfessional#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subUpdateApplication#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subDeleteUser#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#subDeleteInstitution#0;n#OcariotPubSub#0" />
+                <element signature="n#!!block;n#logger#0;n#OcariotPubSub#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/connection.spec.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="77" selection-start-line="77" selection-end-line="77" />
-              <folding>
-                <element signature="e#17#68#0" expanded="true" />
-                <element signature="e#230#245#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/custom.logger.spec.ts">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/eventbus.interface.ts">
+        <entry file="file://$PROJECT_DIR$/../pubsub/index.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
-              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#51#0" expanded="true" />
-              </folding>
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rabbitmq/eventbus.ts">
+        <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="175" column="75" selection-start-line="175" selection-start-column="75" selection-end-line="179" selection-end-column="14" />
-              <folding>
-                <element signature="n#!!block;n#pubEventInitialization#0;n#EventBus#0" />
-                <element signature="e#930#1129#0" />
-                <element signature="e#966#1074#0" />
-                <element signature="e#1196#1416#0" />
-                <element signature="e#1239#1354#0" />
-                <element signature="e#1482#1692#0" />
-                <element signature="e#1522#1633#0" />
-                <element signature="e#1758#1983#0" />
-                <element signature="e#1803#1919#0" />
-                <element signature="e#2048#2269#0" />
-                <element signature="e#2092#2206#0" />
-                <element signature="e#2345#2571#0" />
-                <element signature="e#2387#2510#0" />
-                <element signature="n#!!block;n#subEventInitialization#0;n#EventBus#0" />
-                <element signature="e#3902#4101#0" />
-                <element signature="e#3938#4046#0" />
-                <element signature="e#4168#4388#0" />
-                <element signature="e#4211#4326#0" />
-                <element signature="e#4454#4664#0" />
-                <element signature="e#4494#4605#0" />
-                <element signature="e#4730#4955#0" />
-                <element signature="e#4775#4891#0" />
-                <element signature="e#5020#5241#0" />
-                <element signature="e#5064#5178#0" />
-                <element signature="e#5317#5543#0" />
-                <element signature="e#5359#5482#0" />
-                <element signature="n#!!block;n#isConnected#0;n#EventBus#0" />
-                <element signature="n#!!block;n#connect#0;n#EventBus#0" />
-                <element signature="e#5808#6280#0" />
-                <element signature="e#5826#6158#0" />
-                <element signature="e#6170#6270#0" />
-                <element signature="n#!!block;n#close#0;n#EventBus#0" />
-                <element signature="e#6435#6750#0" />
-                <element signature="e#6453#6627#0" />
-                <element signature="e#6640#6740#0" />
-                <element signature="n#!!block;n#subscribe#0;n#EventBus#0" />
-                <element signature="e#7617#7844#0" />
-                <element signature="e#7728#7775#0" />
-                <element signature="e#7790#7833#0" />
-                <element signature="n#!!block;n#receiveFromYourself#0;n#EventBus#0" />
-                <element signature="n#!!block;n#loggerConnection#0;n#EventBus#0" />
-                <element signature="e#8111#8228#0" />
-                <element signature="e#8238#8274#0" />
-              </folding>
+            <state relative-caret-position="330">
+              <caret line="22" selection-start-line="22" selection-end-line="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/amqp-ts/src/amqp-ts.ts">
+        <entry file="file://$PROJECT_DIR$/src/utils/event.name.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="227">
-              <caret line="441" column="2" selection-start-line="441" selection-start-column="2" selection-end-line="441" selection-end-column="2" />
-              <folding>
-                <element signature="n#!!doc" />
-                <element signature="n#!!block;n#_rebuildAll#0;n#Connection#0" />
-                <element signature="n#!!block;n#completeConfiguration#0;n#Connection#0" />
-                <element signature="n#!!block;n#deleteConfiguration#0;n#Connection#0" />
-                <element signature="n#!!block;n#declareExchange#0;n#Connection#0" />
-                <element signature="n#!!block;n#declareQueue#0;n#Connection#0" />
-                <element signature="n#!!block;n#getConnection#0;n#Connection#0" />
-                <element signature="n#!!block;n#constructor#0;n#Message#0" />
-                <element signature="n#!!block;n#setContent#0;n#Message#0" />
-                <element signature="n#!!block;n#getContent#0;n#Message#0" />
-                <element signature="n#!!block;n#sendTo#0;n#Message#0" />
-                <element signature="n#!!block;n#ack#0;n#Message#0" />
-                <element signature="n#!!block;n#nack#0;n#Message#0" />
-                <element signature="n#!!block;n#reject#0;n#Message#0" />
-                <element signature="n#!!block;n#name#0;n#Exchange#0" />
-                <element signature="n#!!block;n#type#0;n#Exchange#0" />
-                <element signature="n#!!block;n#constructor#0;n#Exchange#0" />
-                <element signature="n#!!block;n#_initialize#0;n#Exchange#0" />
-                <element signature="n#!!block;n#publish#0;n#Exchange#0" />
-                <element signature="n#!!block;n#rpc#0;n#Exchange#0" />
-                <element signature="n#!!block;n#delete#0;n#Exchange#0" />
-                <element signature="n#!!block;n#close#0;n#Exchange#0" />
-                <element signature="n#!!block;n#bind#0;n#Exchange#0" />
-                <element signature="n#!!block;n#unbind#0;n#Exchange#0" />
-                <element signature="n#!!block;n#consumerQueueName#0;n#Exchange#0" />
-                <element signature="n#!!block;n#startConsumer#0;n#Exchange#0" />
-                <element signature="n#!!block;n#activateConsumer#0;n#Exchange#0" />
-                <element signature="n#!!block;n#stopConsumer#0;n#Exchange#0" />
-                <element signature="n#!!block;n#name#0;n#Queue#0" />
-                <element signature="n#!!block;n#constructor#0;n#Queue#0" />
-                <element signature="n#!!block;n#_initialize#0;n#Queue#0" />
-                <element signature="n#!!block;n#_packMessageContent#0;n#Queue#0" />
-                <element signature="n#!!block;n#_unpackMessageContent#0;n#Queue#0" />
-                <element signature="n#!!block;n#publish#0;n#Queue#0" />
-                <element signature="n#!!block;n#send#0;n#Queue#0" />
-                <element signature="n#!!block;n#rpc#0;n#Queue#0" />
-                <element signature="n#!!block;n#prefetch#0;n#Queue#0" />
-                <element signature="n#!!block;n#recover#0;n#Queue#0" />
-                <element signature="n#!!block;n#startConsumer#0;n#Queue#0" />
-                <element signature="n#!!block;n#activateConsumer#0;n#Queue#0" />
-                <element signature="n#!!block;n#_initializeConsumer#0;n#Queue#0" />
-                <element signature="n#!!block;n#stopConsumer#0;n#Queue#0" />
-                <element signature="n#!!block;n#delete#0;n#Queue#0" />
-                <element signature="n#!!block;n#close#0;n#Queue#0" />
-                <element signature="n#!!block;n#bind#0;n#Queue#0" />
-                <element signature="n#!!block;n#unbind#0;n#Queue#0" />
-                <element signature="n#!!block;n#constructor#0;n#Binding#0" />
-                <element signature="n#!!block;n#_initialize#0;n#Binding#0" />
-                <element signature="n#!!block;n#delete#0;n#Binding#0" />
-                <element signature="n#!!block;n#id#0;n#Binding#0" />
-                <element signature="n#!!block;n#removeBindingsContaining#0;n#Binding#0" />
-              </folding>
+            <state>
+              <caret column="31" selection-start-column="22" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts">
+        <entry file="file://$PROJECT_DIR$/src/utils/exchange.name.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="159" selection-start-line="159" selection-end-line="159" />
-              <folding>
-                <element signature="e#0#52#0" expanded="true" />
-                <element signature="n#!!doc;n#ConnectionRabbitMQ#0" />
-                <element signature="n#!!block;n#isConnected#0;n#ConnectionRabbitMQ#0" />
-                <element signature="n#!!block;n#conn#0;n#ConnectionRabbitMQ#0" />
-                <element signature="n#!!doc;n#tryConnect#0;n#ConnectionRabbitMQ#0" />
-                <element signature="n#!!block;n#tryConnect#0;n#ConnectionRabbitMQ#0" />
-                <element signature="n#!!block;n#receiveFromYourself#0;n#ConnectionRabbitMQ#0" />
-                <element signature="n#!!block;n#receiveFromYourself#1;n#ConnectionRabbitMQ#0" />
-              </folding>
+            <state>
+              <caret column="34" selection-start-column="22" selection-end-column="34" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/connection.event.bus.interface.ts">
+        <entry file="file://$PROJECT_DIR$/src/utils/queue.name.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
+            <state>
+              <caret column="31" selection-start-column="22" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/rabbitmq/connection.factory.rabbitmq.ts">
+        <entry file="file://$PROJECT_DIR$/src/utils/routing.keys.name.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="555">
-              <caret line="37" column="5" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
+            <state>
+              <caret column="37" selection-start-column="22" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/port/ocariot.sub.interface.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
               <folding>
-                <element signature="e#0#36#0" expanded="true" />
+                <element signature="e#0#45#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -238,7 +143,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>thisConnection</find>
       <find>Connection</find>
       <find>constr</find>
       <find>reje</find>
@@ -268,6 +172,7 @@
       <find>this._connection</find>
       <find>conn</find>
       <find>isConnected</find>
+      <find>IMessageGeneric</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -280,9 +185,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/managerconection.ts" />
-        <option value="$PROJECT_DIR$/index.d.ts" />
-        <option value="$PROJECT_DIR$/src/rabbitmq/configuration.inteface.ts" />
         <option value="$PROJECT_DIR$/src/exception/ocariot.exception.ts" />
         <option value="$PROJECT_DIR$/test/test.js" />
         <option value="$PROJECT_DIR$/test/test.ts" />
@@ -298,7 +200,6 @@
         <option value="$PROJECT_DIR$/src/app/ocariot.pubsub.ts" />
         <option value="$PROJECT_DIR$/index.js" />
         <option value="$PROJECT_DIR$/src/port/integration.event.handler.interface.ts" />
-        <option value="$PROJECT_DIR$/src/port/ocariot.pub.interface.ts" />
         <option value="$PROJECT_DIR$/src/utils/custom.logger.ts" />
         <option value="$PROJECT_DIR$/src/exception/ocariotPubSub.exception.ts" />
         <option value="$PROJECT_DIR$/src/utils/event.name.ts" />
@@ -315,22 +216,26 @@
         <option value="$PROJECT_DIR$/src/port/pub.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/event.handler.interface.ts" />
         <option value="$PROJECT_DIR$/.npmignore" />
-        <option value="$PROJECT_DIR$/src/port/configuration.inteface.ts" />
         <option value="$PROJECT_DIR$/tsconfig.json" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/node_modules/amqp-ts/lib/amqp-ts.d.ts" />
         <option value="$PROJECT_DIR$/node_modules/amqp-ts/src/amqp-ts.ts" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/port/eventbus.interface.ts" />
         <option value="$PROJECT_DIR$/test/publish.spec.ts" />
         <option value="$PROJECT_DIR$/test/subscriber.spec.ts" />
         <option value="$PROJECT_DIR$/src/port/connection.event.bus.interface.ts" />
         <option value="$PROJECT_DIR$/test/connection.spec.ts" />
         <option value="$PROJECT_DIR$/src/rabbitmq/eventbus.ts" />
-        <option value="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" />
         <option value="$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts" />
         <option value="$PROJECT_DIR$/src/rabbitmq/connection.factory.rabbitmq.ts" />
+        <option value="$PROJECT_DIR$/src/port/configuration.inteface.ts" />
+        <option value="$PROJECT_DIR$/src/port/connection.factory.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/ocariot.pub.interface.ts" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/../pubsub/src/rabbitmq/eventbus.ts" />
+        <option value="$PROJECT_DIR$/../pubsub/src/port/eventbus.interface.ts" />
+        <option value="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" />
       </list>
     </option>
   </component>
@@ -345,7 +250,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -364,28 +268,18 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="ocariot-pubsubjs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocariot-pubsubjs" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="rabbitmq" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ocariot-pubsubjs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ocariot-pubsubjs" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.last.introduce.type" value="LET" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/ssl/certifications1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pubsub" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -457,11 +351,12 @@
       <workItem from="1559764293200" duration="14690000" />
       <workItem from="1559845737792" duration="12414000" />
       <workItem from="1559913520143" duration="25035000" />
+      <workItem from="1560197834942" duration="7375000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="334928000" />
+    <option name="totallyTimeSpent" value="342357000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -490,7 +385,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49946353" weight="0.32925585" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5005365" side_tool="true" weight="0.32925585" />
       <window_info anchor="bottom" id="TypeScript" order="10" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.25280327" />
+      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.24668705" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -526,50 +421,8 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/port/sub.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="51" selection-start-line="4" selection-start-column="41" selection-end-line="4" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/event.handler.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/app/ocariot.pub.sub.d.ts" />
-    <entry file="file://$PROJECT_DIR$/lib/rabbitmq/connection.rabbitmq.js" />
-    <entry file="file://$PROJECT_DIR$/lib/rabbitmq/eventbus.js" />
-    <entry file="file://$PROJECT_DIR$/lib/rabbitmq/eventbus.d.ts" />
-    <entry file="file://$PROJECT_DIR$/lib/rabbitmq/connection.factory.rabbitmq.js" />
-    <entry file="file://$PROJECT_DIR$/lib/rabbitmq/connection.factory.rabbitmq.d.ts" />
-    <entry file="file://$PROJECT_DIR$/test/ssl/certifications1/ca_certificate.pem">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/configuration.inteface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="184">
-          <caret line="14" column="10" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/utils/default.js" />
-    <entry file="file://$PROJECT_DIR$/lib/port/eventbus.interface.d.ts" />
-    <entry file="file://$PROJECT_DIR$/lib/port/event.handler.interface.d.ts" />
-    <entry file="file://$PROJECT_DIR$/lib/port/connection.factory.interface.d.ts" />
-    <entry file="file://$PROJECT_DIR$/lib/port/connection.event.bus.interface.d.ts" />
     <entry file="file://$PROJECT_DIR$/lib/port/configuration.inteface.js" />
     <entry file="file://$PROJECT_DIR$/lib/port/configuration.inteface.d.ts" />
-    <entry file="file://$PROJECT_DIR$/src/exception/ocariotPubSub.exception.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/exception/ocariotPubSub.exception.d.ts" />
     <entry file="file://$PROJECT_DIR$/lib/index.js" />
     <entry file="file://$PROJECT_DIR$/lib/src/utils/exchange.name.js" />
@@ -603,16 +456,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="654">
           <caret line="487" column="8" selection-start-line="487" selection-start-column="8" selection-end-line="487" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="465">
-            <caret line="31" column="19" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
-          </first_editor>
-          <second_editor />
         </state>
       </provider>
     </entry>
@@ -660,13 +503,6 @@
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="70" selection-start-line="20" selection-start-column="70" selection-end-line="23" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/publish.spec.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -693,33 +529,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
           <caret line="36" column="4" selection-start-line="36" selection-start-column="4" selection-end-line="36" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/connection.event.bus.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="17" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/eventbus.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -797,89 +606,240 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/rabbitmq/eventbus.ts">
+    <entry file="file://$PROJECT_DIR$/index.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="175" column="75" selection-start-line="175" selection-start-column="75" selection-end-line="179" selection-end-column="14" />
-          <folding>
-            <element signature="n#!!block;n#pubEventInitialization#0;n#EventBus#0" />
-            <element signature="e#930#1129#0" />
-            <element signature="e#966#1074#0" />
-            <element signature="e#1196#1416#0" />
-            <element signature="e#1239#1354#0" />
-            <element signature="e#1482#1692#0" />
-            <element signature="e#1522#1633#0" />
-            <element signature="e#1758#1983#0" />
-            <element signature="e#1803#1919#0" />
-            <element signature="e#2048#2269#0" />
-            <element signature="e#2092#2206#0" />
-            <element signature="e#2345#2571#0" />
-            <element signature="e#2387#2510#0" />
-            <element signature="n#!!block;n#subEventInitialization#0;n#EventBus#0" />
-            <element signature="e#3902#4101#0" />
-            <element signature="e#3938#4046#0" />
-            <element signature="e#4168#4388#0" />
-            <element signature="e#4211#4326#0" />
-            <element signature="e#4454#4664#0" />
-            <element signature="e#4494#4605#0" />
-            <element signature="e#4730#4955#0" />
-            <element signature="e#4775#4891#0" />
-            <element signature="e#5020#5241#0" />
-            <element signature="e#5064#5178#0" />
-            <element signature="e#5317#5543#0" />
-            <element signature="e#5359#5482#0" />
-            <element signature="n#!!block;n#isConnected#0;n#EventBus#0" />
-            <element signature="n#!!block;n#connect#0;n#EventBus#0" />
-            <element signature="e#5808#6280#0" />
-            <element signature="e#5826#6158#0" />
-            <element signature="e#6170#6270#0" />
-            <element signature="n#!!block;n#close#0;n#EventBus#0" />
-            <element signature="e#6435#6750#0" />
-            <element signature="e#6453#6627#0" />
-            <element signature="e#6640#6740#0" />
-            <element signature="n#!!block;n#subscribe#0;n#EventBus#0" />
-            <element signature="e#7617#7844#0" />
-            <element signature="e#7728#7775#0" />
-            <element signature="e#7790#7833#0" />
-            <element signature="n#!!block;n#receiveFromYourself#0;n#EventBus#0" />
-            <element signature="n#!!block;n#loggerConnection#0;n#EventBus#0" />
-            <element signature="e#8111#8228#0" />
-            <element signature="e#8238#8274#0" />
-          </folding>
+        <state relative-caret-position="45">
+          <caret line="3" column="24" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rabbitmq/connection.rabbitmq.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="159" selection-start-line="159" selection-end-line="159" />
+        <state relative-caret-position="465">
+          <caret line="206" column="27" selection-start-line="206" selection-start-column="8" selection-end-line="206" selection-end-column="27" />
           <folding>
-            <element signature="e#0#52#0" expanded="true" />
             <element signature="n#!!doc;n#ConnectionRabbitMQ#0" />
             <element signature="n#!!block;n#isConnected#0;n#ConnectionRabbitMQ#0" />
             <element signature="n#!!block;n#conn#0;n#ConnectionRabbitMQ#0" />
             <element signature="n#!!doc;n#tryConnect#0;n#ConnectionRabbitMQ#0" />
             <element signature="n#!!block;n#tryConnect#0;n#ConnectionRabbitMQ#0" />
+            <element signature="e#2169#3287#0" />
+            <element signature="e#2298#2392#0" />
+            <element signature="e#2461#2561#0" />
+            <element signature="e#2629#2721#0" />
+            <element signature="e#2789#2874#0" />
+            <element signature="e#2941#3042#0" />
+            <element signature="e#3120#3214#0" />
+            <element signature="e#3342#3939#0" />
+            <element signature="e#3386#3589#0" />
+            <element signature="e#3614#3760#0" />
+            <element signature="e#3785#3917#0" />
+            <element signature="n#!!block;n#closeConnection#0;n#ConnectionRabbitMQ#0" />
+            <element signature="n#!!block;n#sendMessage#0;n#ConnectionRabbitMQ#0" />
+            <element signature="n#!!block;n#receiveMessage#0;n#ConnectionRabbitMQ#0" />
             <element signature="n#!!block;n#receiveFromYourself#0;n#ConnectionRabbitMQ#0" />
             <element signature="n#!!block;n#receiveFromYourself#1;n#ConnectionRabbitMQ#0" />
+            <element signature="n#!!block;n#logger#0;n#ConnectionRabbitMQ#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/rabbitmq/connection.factory.rabbitmq.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="37" column="5" selection-start-line="37" selection-start-column="5" selection-end-line="37" selection-end-column="5" />
+        <state relative-caret-position="270">
+          <caret line="23" column="47" lean-forward="true" selection-start-line="23" selection-start-column="47" selection-end-line="23" selection-end-column="47" />
           <folding>
-            <element signature="e#0#36#0" expanded="true" />
+            <element signature="n#!!block;n#constructor#0;n#ConnectionFactoryRabbitMQ#0" />
+            <element signature="n#!!doc;n#createConnection#0;n#ConnectionFactoryRabbitMQ#0" />
+            <element signature="n#!!block;n#createConnection#0;n#ConnectionFactoryRabbitMQ#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/rabbitmq/eventbus.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="58" column="44" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="44" />
+          <folding>
+            <element signature="n#!!block;n#subEventInitialization#0;n#EventBus#0" />
+            <element signature="n#!!block;n#isConnected#0;n#EventBus#0" />
+            <element signature="n#!!block;n#connect#0;n#EventBus#0" />
+            <element signature="n#!!block;n#close#0;n#EventBus#0" />
+            <element signature="n#!!block;n#publish#0;n#EventBus#0" />
+            <element signature="n#!!block;n#subscribe#0;n#EventBus#0" />
+            <element signature="n#!!block;n#receiveFromYourself#0;n#EventBus#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="585">
+            <caret line="90" lean-forward="true" selection-start-line="87" selection-end-line="90" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/connection.event.bus.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/connection.factory.interface.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/eventbus.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/pub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/sub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/custom.logger.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/exception/ocariotPubSub.exception.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="49" selection-start-column="44" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/configuration.inteface.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/message.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="5" column="32" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="40" selection-start-column="40" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/ocariot.sub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/event.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="31" selection-start-column="22" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/exchange.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="34" selection-start-column="22" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/queue.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="31" selection-start-column="22" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/routing.keys.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="37" selection-start-column="22" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pubsub/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/port/eventbus.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="7" column="56" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/rabbitmq/eventbus.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="9" column="61" selection-start-line="9" selection-start-column="61" selection-end-line="9" selection-end-column="61" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/ocariot.pub.sub.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="50" column="36" lean-forward="true" selection-start-line="50" selection-start-column="36" selection-end-line="50" selection-end-column="36" />
+        <state relative-caret-position="165">
+          <caret line="17" column="43" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="43" />
+          <folding>
+            <element signature="e#51#119#0" expanded="true" />
+            <element signature="n#!!block;n#constructor#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#isConnected#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubSavePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeletePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubSaveSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeleteSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubSaveEnvironment#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeleteEnvironment#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateChild#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateFamily#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateEducator#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateHealthProfessional#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateApplication#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeleteUser#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeleteInstitution#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subSavePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeletePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subSaveSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeleteSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subSaveEnvironment#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeleteEnvironment#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateChild#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateFamily#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateEducator#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateHealthProfessional#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateApplication#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeleteUser#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeleteInstitution#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#logger#0;n#OcariotPubSub#0" />
+          </folding>
         </state>
       </provider>
     </entry>
