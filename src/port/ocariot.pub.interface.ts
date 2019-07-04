@@ -1,7 +1,6 @@
 import {IPubInterface} from './pub.interface'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 
-
 export interface IOcariotPubInterface extends IPubInterface {
 
     pubSavePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException>
@@ -34,5 +33,3 @@ export interface IOcariotPubInterface extends IPubInterface {
 
     pubDeleteInstitution(institution: any): Promise<boolean | OcariotPubSubException>
 }
-
-

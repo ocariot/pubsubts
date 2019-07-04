@@ -1,6 +1,6 @@
 export class OcariotPubSubException extends Error implements IExceptionError {
-    code: number
-    description?: string
+    public code: number
+    public description?: string
 
     constructor(err: any) {
         super(err.message)
@@ -9,10 +9,10 @@ export class OcariotPubSubException extends Error implements IExceptionError {
 
     }
 
-    toJson(): Object {
+    public toJson(): object {
         return {
-            'code': this.code,
-            'message': this.message,
+            code: this.code,
+            message: this.message,
             // 'description': this.description
         }
     }
@@ -22,5 +22,5 @@ export interface IExceptionError {
     code: number
     message: string
     description?: string
-    toJson(): Object
+    toJson(): object
 }
