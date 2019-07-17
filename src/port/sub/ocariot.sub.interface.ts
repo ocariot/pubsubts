@@ -1,7 +1,7 @@
-import {ISubInterface} from './sub.interface'
-import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
+import { ISub } from './sub.interface'
+import { OcariotPubSubException } from '../../exception/ocariotPubSub.exception'
 
-export interface IOcariotSubInterface extends ISubInterface{
+export interface IOcariotSub extends ISub {
 
     subSavePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException>
 

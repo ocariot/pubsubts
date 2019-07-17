@@ -1,59 +1,168 @@
-import { IOcariotPubInterface } from '../port/ocariot.pub.interface'
-import { IOcariotSubInterface } from '../port/ocariot.sub.interface'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 import {
     IMessageApplication,
-    IMessageChild, IMessageEducator,
-    IMessageEnvironment, IMessageFamily, IMessageHealthProfessional, IMessageInstitution,
+    IMessageChild,
+    IMessageEducator,
+    IMessageEnvironment,
+    IMessageFamily,
+    IMessageHealthProfessional,
+    IMessageInstitution,
     IMessagePhysicalActivity,
-    IMessageSleep, IMessageUser
-} from '../port/message.interface'
-import { PubSub, IOptions } from 'pubsub'
+    IMessageSleep,
+    IMessageUser
+} from '../port/pub/message.interface'
+import { IConfiguration, IOptions, PubSub } from 'pubsub'
 import { RoutingKeysName } from '../utils/routing.keys.name'
 import { ExchangeName } from '../utils/exchange.name'
 import { EventName } from '../utils/event.name'
-import { QueueName } from '../utils/queue.name'
 import { Configurations } from '../utils/configurations'
+import { EventEmitter } from 'events'
+import { IConfig } from '../port/connection/config.interface'
+import { IOcariotPubSub } from '../port/pub/ocariot.pub.sub.interface'
+import { IOpt } from '../port/connection/opt.interface'
 
-export class OcariotPubSub implements IOcariotPubInterface, IOcariotSubInterface{
+export class OcariotPubSub extends EventEmitter implements IOcariotPubSub {
 
-    private pubsub
+    private _pubConnection
+    private _subConnection
 
-    constructor(host: string, port: number, username: string, password: string,
-                options?: IOptions){
-        this.pubsub = new PubSub(Configurations.VHOST, host, port, username, password, options)
-            .createTopicInstance()
+    constructor(private _appName: string, conf: IConfig, options?: IOpt) {
+        super()
+
+        const config: IConfiguration = { vhost: Configurations.VHOST, ...conf }
+
+        const opt: IOptions = { ...options, queue: { durable: true }, exchange: { durable: true } }
+
+        this._pubConnection = new PubSub(config, opt).topic
+        this._subConnection = new PubSub(config, opt).topic
+
     }
 
-    public dispose(): Promise<boolean>{
-        return new Promise<boolean>((resolve, reject) => {
-            this.pubsub.dispose().then((result) => {
-                    return resolve(result)
-                }).catch(err => {
-                    return reject(new OcariotPubSubException(err) )
-                })
+    private pubEventInitialization(): void {
+
+        this._pubConnection.on('error_pub', (err) => {
+            this.emit('error_pub', err)
+        })
+        this._pubConnection.on('disconnected_pub', () => {
+            this.emit('disconnected_pub')
+        })
+        this._pubConnection.on('connected_pub', () => {
+            this.emit('connected_pub')
+        })
+        this._pubConnection.on('lost_connection_pub', () => {
+            this.emit('lost_connection_pub')
+        })
+        this._pubConnection.on('trying_connection_pub', () => {
+            this.emit('trying_connection_pub')
+        })
+        this._pubConnection.on('reconnected_pub', () => {
+            this.emit('reconnected_pub')
+        })
+
+    }
+
+    private subEventInitialization(): void {
+
+        this._subConnection.on('error_sub', (err) => {
+            this.emit('error_sub', err)
+        })
+        this._subConnection.on('disconnected_sub', () => {
+            this.emit('disconnected_sub')
+        })
+        this._subConnection.on('connected_sub', () => {
+            this.emit('connected_sub')
+        })
+        this._subConnection.on('lost_connection_sub', () => {
+            this.emit('lost_connection_sub')
+        })
+        this._subConnection.on('trying_connection_sub', () => {
+            this.emit('trying_connection_sub')
+        })
+        this._subConnection.on('reconnected_sub', () => {
+            this.emit('reconnected_sub')
+        })
+
+    }
+
+    private clientEventInitialization(): void {
+
+        this._pubConnection.on('error_client', (err) => {
+            this.emit('error_client', err)
+        })
+        this._pubConnection.on('disconnected_client', () => {
+            this.emit('disconnected_client')
+        })
+        this._pubConnection.on('connected_client', () => {
+            this.emit('connected_client')
+        })
+        this._pubConnection.on('lost_connection_client', () => {
+            this.emit('lost_connection_client')
+        })
+        this._pubConnection.on('trying_connection_client', () => {
+            this.emit('trying_connection_client')
+        })
+        this._pubConnection.on('reconnected_client', () => {
+            this.emit('reconnected_client')
+        })
+
+    }
+
+    private serverEventInitialization(): void {
+
+        this._pubConnection.on('error_server', (err) => {
+            this.emit('error_server', err)
+        })
+        this._pubConnection.on('disconnected_server', () => {
+            this.emit('disconnected_server')
+        })
+        this._pubConnection.on('connected_server', () => {
+            this.emit('connected_server')
+        })
+        this._pubConnection.on('lost_connection_server', () => {
+            this.emit('lost_connection_server')
+        })
+        this._pubConnection.on('trying_connection_server', () => {
+            this.emit('trying_connection_server')
+        })
+        this._pubConnection.on('reconnected_server', () => {
+            this.emit('reconnected_server')
         })
     }
 
-    public pub(exchangeName: string, routingKey: string, message: any): Promise<boolean> {
+    public dispose(): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
+            try {
+                await this._pubConnection.dispose()
+                await this._subConnection.dispose()
+            } catch (err) {
+                return reject(new OcariotPubSubException(err))
+            }
+        })
+    }
+
+    public pub(exchangeName: string, routingKey: string, body: any): Promise<boolean> {
+
+        this.pubEventInitialization()
 
         return new Promise<boolean>((resolve, reject) => {
-            this.pubsub.pub(exchangeName, routingKey, message).then((result) => {
+            this._pubConnection.pub(exchangeName, routingKey, body).then((result) => {
                 return resolve(result)
             }).catch(err => {
-                return reject(new OcariotPubSubException(err) )
+                return reject(new OcariotPubSubException(err))
             })
         })
     }
 
-    public sub(exchangeName: string, queueName: string, routingKey: string,
+    public sub(exchangeName: string, routingKey: string,
                callback: (message: any) => void): Promise<boolean> {
 
+        this.subEventInitialization()
+
         return new Promise<boolean>((resolve, reject) => {
-            this.pubsub.sub(exchangeName, queueName, routingKey, callback).then((result) => {
+            this._subConnection.sub(exchangeName, this._appName, routingKey, callback).then((result) => {
                 return resolve(result)
             }).catch(err => {
-                return reject(new OcariotPubSubException(err) )
+                return reject(new OcariotPubSubException(err))
             })
         })
     }
@@ -116,7 +225,7 @@ export class OcariotPubSub implements IOcariotPubInterface, IOcariotSubInterface
         }
 
         return this.pub(ExchangeName.SLEEP, RoutingKeysName.DELETE_SLEEP,
-                message)
+            message)
     }
 
     public pubSaveEnvironment(environment: any): Promise<boolean | OcariotPubSubException> {
@@ -187,7 +296,7 @@ export class OcariotPubSub implements IOcariotPubInterface, IOcariotSubInterface
         }
 
         return this.pub(ExchangeName.APPLICATIONS, RoutingKeysName.UPDATE_APPLICATIONS,
-                message)
+            message)
     }
 
     public pubDeleteUser(user: any): Promise<boolean | OcariotPubSubException> {
@@ -213,96 +322,81 @@ export class OcariotPubSub implements IOcariotPubInterface, IOcariotSubInterface
 
     public subSavePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
 
-        return this.sub(ExchangeName.PHYSICAL_ACTIVITIES, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback)
+        return this.sub(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subUpdatePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
 
-        return this.sub(ExchangeName.PHYSICAL_ACTIVITIES, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, callback)
+        return this.sub(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subDeletePhysicalActivity(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
 
-        return this.sub(ExchangeName.PHYSICAL_ACTIVITIES, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, callback)
+        return this.sub(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subSaveSleep(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.SLEEP, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.SAVE_SLEEP, callback)
+        return this.sub(ExchangeName.SLEEP, RoutingKeysName.SAVE_SLEEP, callback)
     }
 
     public subUpdateSleep(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.SLEEP, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.UPDATE_SLEEP, callback)
+        return this.sub(ExchangeName.SLEEP, RoutingKeysName.UPDATE_SLEEP, callback)
     }
 
     public subDeleteSleep(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.SLEEP, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.DELETE_SLEEP, callback)
+        return this.sub(ExchangeName.SLEEP, RoutingKeysName.DELETE_SLEEP, callback)
     }
 
     public subSaveEnvironment(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.ENVIRONMENTS, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.SAVE_ENVIRONMENTS, callback)
+        return this.sub(ExchangeName.ENVIRONMENTS, RoutingKeysName.SAVE_ENVIRONMENTS, callback)
     }
 
     public subDeleteEnvironment(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.ENVIRONMENTS, QueueName.OCARIOT_ACTIVITY_SERVICE,
-                RoutingKeysName.DELETE_ENVIRONMENTS, callback)
+        return this.sub(ExchangeName.ENVIRONMENTS, RoutingKeysName.DELETE_ENVIRONMENTS, callback)
     }
 
     public subUpdateChild(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.CHILDREN, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_CHILDREN, callback)
+        return this.sub(ExchangeName.CHILDREN, RoutingKeysName.UPDATE_CHILDREN, callback)
     }
 
     public subUpdateFamily(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.FAMILIES, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_FAMILIES, callback)
+        return this.sub(ExchangeName.FAMILIES, RoutingKeysName.UPDATE_FAMILIES, callback)
     }
 
     public subUpdateEducator(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.EDUCATORS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_EDUCATORS, callback)
+        return this.sub(ExchangeName.EDUCATORS, RoutingKeysName.UPDATE_EDUCATORS, callback)
     }
 
     public subUpdateHealthProfessional(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.HEALTH_PROFESSIONALS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, callback)
+        return this.sub(ExchangeName.HEALTH_PROFESSIONALS, RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, callback)
     }
 
     public subUpdateApplication(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.APPLICATIONS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.UPDATE_APPLICATIONS, callback)
+        return this.sub(ExchangeName.APPLICATIONS, RoutingKeysName.UPDATE_APPLICATIONS, callback)
     }
 
     public subDeleteUser(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.USERS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.DELETE_USERS, callback)
+        return this.sub(ExchangeName.USERS, RoutingKeysName.DELETE_USERS, callback)
     }
 
     public subDeleteInstitution(callback: (message: any) => void): Promise<boolean | OcariotPubSubException> {
-        return this.sub(ExchangeName.INSTITUTIONS, QueueName.OCARIOT_ACCOUNT_SERVICE,
-                RoutingKeysName.DELETE_INSTITUTIONS, callback)
+        return this.sub(ExchangeName.INSTITUTIONS, RoutingKeysName.DELETE_INSTITUTIONS, callback)
     }
 
     public logger(enabled: boolean, level?: string): boolean {
 
         if (level === 'warn' || level === 'error' || level === 'info' || !level)
-                return this.pubsub.logger(enabled, level)
+            return this._pubConnection.logger(enabled, level)
 
         return false
 
     }
 
     public receiveFromYourself(value: boolean): boolean {
-        return this.pubsub.receiveFromYourself(value)
+        return this._pubConnection.receiveFromYourself(value)
     }
 
 }

@@ -1,7 +1,7 @@
-import {IPubInterface} from './pub.interface'
+import { IPub } from './pub/pub.interface'
 import { OcariotPubSubException } from '../exception/ocariotPubSub.exception'
 
-export interface IOcariotPubInterface extends IPubInterface {
+export interface IOcariotPub extends IPub {
 
     pubSavePhysicalActivity(activity: any): Promise<boolean | OcariotPubSubException>
 
