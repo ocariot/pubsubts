@@ -1,5 +1,4 @@
 import { ISub } from './sub.interface'
-import { OcariotPubSubException } from '../../exception/ocariotPubSub.exception'
 
 export interface IOcariotSub extends ISub {
 
@@ -14,6 +13,14 @@ export interface IOcariotSub extends ISub {
     subUpdateSleep(callback: (message: any) => void): void
 
     subDeleteSleep(callback: (message: any) => void): void
+
+    subSaveWeight(callback: (message: any) => void): void
+
+    subDeleteWeight(callback: (message: any) => void): void
+
+    subSaveBodyFat(callback: (message: any) => void): void
+
+    subDeleteBodyFat(callback: (message: any) => void): void
 
     subSaveEnvironment(callback: (message: any) => void): void
 

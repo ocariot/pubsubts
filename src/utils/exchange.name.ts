@@ -2,6 +2,8 @@ export abstract class ExchangeName {
 
     public static readonly PHYSICAL_ACTIVITIES: string = 'physicalactivities'
     public static readonly SLEEP: string = 'sleep'
+    public static readonly WEIGHTS: string = 'weights'
+    public static readonly FAT_BODIES: string = 'fatbodies'
     public static readonly ENVIRONMENTS: string = 'environments'
     public static readonly CHILDREN: string = 'children'
     public static readonly FAMILIES: string = 'families'

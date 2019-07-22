@@ -16,29 +16,35 @@ import { ExchangeName } from '../utils/exchange.name'
 import { EventName } from '../utils/event.name'
 import { Configurations } from '../utils/configurations'
 import { EventEmitter } from 'events'
-import { IConfig } from '../port/connection/config.interface'
+import { defaultConnConfig, IConnConfig } from '../port/connection/config.interface'
 import { IOcariotPubSub } from '../port/ocariot.pub.sub.interface'
-import { IOpt } from '../port/connection/opt.interface'
+import { defaultConnOpt, IConnOpt } from '../port/connection/opt.interface'
+import { TargetMicroservice } from '../utils/queue.name'
 
 export class OcariotPubSub extends EventEmitter implements IOcariotPubSub {
 
-    private _pubConnection
-    private _subConnection
-    private _clientConnection
-    private _serverConnection
+    private readonly _connConfig: IConnConfiguration | string
+    private readonly _connOpt: IConnOptions
 
-    constructor(private _appName: string, conf: IConfig | string, options?: IOpt) {
+    private _pubConnection: PubSub
+    private _subConnection: PubSub
+    private _clientConnection: PubSub
+    private _serverConnection: PubSub
+
+    constructor(private _appName: string, connParams?: IConnConfig | string, connOptions?: IConnOpt) {
         super()
 
-        let config: IConnConfiguration | string
+        this._connConfig = { vhost: Configurations.VHOST, ...defaultConnConfig } as IConnConfiguration
 
-        if (typeof conf === 'object') {
-            config = { vhost: Configurations.VHOST, ...conf } as IConnConfiguration
-        } else {
-            config = conf.concat(Configurations.VHOST)
+        if (typeof connParams === 'object') {
+            this._connConfig = { ...this._connConfig, ...connParams } as IConnConfiguration
         }
 
-        const opt: IConnOptions = { rcp_timeout: Configurations.RPC_TIMEOUT, ...options }
+        if (typeof connParams === 'string') {
+            this._connConfig = connParams.concat('/').concat(Configurations.VHOST)
+        }
+
+        this._connOpt = { ...defaultConnOpt, rcp_timeout: Configurations.RPC_TIMEOUT, ...connOptions } as IConnOptions
 
         this._pubConnection = new PubSub()
         this._subConnection = new PubSub()
@@ -162,19 +168,32 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubSub {
         }
     }
 
-    public pub(exchangeName: string, routingKey: string, body: any): Promise<void> {
+    public async pub(exchangeName: string, routingKey: string, body: any): Promise<void> {
 
         this.pubEventInitialization()
 
-        return this._pubConnection.pub(exchangeName, routingKey, body)
+        this._pubConnection.connect(this._connConfig, this._connOpt)
+
+        await this._pubConnection.initializedConnection
+
+        const topic = this._pubConnection.topic
+
+        return topic.pub(exchangeName, routingKey, body)
     }
 
-    public sub(exchangeName: string, routingKey: string,
+    public sub(targetMicroservice: string, exchangeName: string, routingKey: string,
                callback: (err, message: any) => void): void {
 
         this.subEventInitialization()
 
-        this._subConnection.sub(exchangeName, this._appName, routingKey, callback)
+        this._subConnection.connect(this._connConfig, this._connOpt)
+
+        this._subConnection.initializedConnection.then(() => {
+
+            const topic = this._subConnection.topic
+
+            topic.sub(exchangeName, this._appName.concat(targetMicroservice), routingKey, callback)
+        })
 
     }
 
@@ -333,81 +352,115 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubSub {
 
     public subSavePhysicalActivity(callback: (err, message: any) => void): void {
 
-        this.sub(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subUpdatePhysicalActivity(callback: (err, message: any) => void): void {
 
-        this.sub(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subDeletePhysicalActivity(callback: (err, message: any) => void): void {
 
-        this.sub(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subSaveSleep(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.SLEEP, RoutingKeysName.SAVE_SLEEP, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.SLEEP, RoutingKeysName.SAVE_SLEEP, callback)
     }
 
     public subUpdateSleep(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.SLEEP, RoutingKeysName.UPDATE_SLEEP, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.SLEEP, RoutingKeysName.UPDATE_SLEEP, callback)
     }
 
     public subDeleteSleep(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.SLEEP, RoutingKeysName.DELETE_SLEEP, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.SLEEP, RoutingKeysName.DELETE_SLEEP, callback)
+    }
+
+    public subSaveWeight(callback: (err, message: any) => void): void {
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.WEIGHTS, RoutingKeysName.SAVE_WEIGHTS, callback)
+    }
+
+    public subDeleteWeight(callback: (err, message: any) => void): void {
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.WEIGHTS, RoutingKeysName.DELETE_WEIGHTS, callback)
+    }
+
+    public subSaveBodyFat(callback: (err, message: any) => void): void {
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.FAT_BODIES, RoutingKeysName.SAVE_FAT_BODIES, callback)
+    }
+
+    public subDeleteBodyFat(callback: (err, message: any) => void): void {
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.FAT_BODIES, RoutingKeysName.DELETE_FAT_BODIES, callback)
     }
 
     public subSaveEnvironment(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.ENVIRONMENTS, RoutingKeysName.SAVE_ENVIRONMENTS, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.ENVIRONMENTS, RoutingKeysName.SAVE_ENVIRONMENTS, callback)
     }
 
     public subDeleteEnvironment(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.ENVIRONMENTS, RoutingKeysName.DELETE_ENVIRONMENTS, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+            ExchangeName.ENVIRONMENTS, RoutingKeysName.DELETE_ENVIRONMENTS, callback)
     }
 
     public subUpdateChild(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.CHILDREN, RoutingKeysName.UPDATE_CHILDREN, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+            ExchangeName.CHILDREN, RoutingKeysName.UPDATE_CHILDREN, callback)
     }
 
     public subUpdateFamily(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.FAMILIES, RoutingKeysName.UPDATE_FAMILIES, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+            ExchangeName.FAMILIES, RoutingKeysName.UPDATE_FAMILIES, callback)
     }
 
     public subUpdateEducator(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.EDUCATORS, RoutingKeysName.UPDATE_EDUCATORS, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+            ExchangeName.EDUCATORS, RoutingKeysName.UPDATE_EDUCATORS, callback)
     }
 
     public subUpdateHealthProfessional(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.HEALTH_PROFESSIONALS, RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+            ExchangeName.HEALTH_PROFESSIONALS, RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, callback)
     }
 
     public subUpdateApplication(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.APPLICATIONS, RoutingKeysName.UPDATE_APPLICATIONS, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+            ExchangeName.APPLICATIONS, RoutingKeysName.UPDATE_APPLICATIONS, callback)
     }
 
     public subDeleteUser(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.USERS, RoutingKeysName.DELETE_USERS, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+            ExchangeName.USERS, RoutingKeysName.DELETE_USERS, callback)
     }
 
     public subDeleteInstitution(callback: (err, message: any) => void): void {
-        this.sub(ExchangeName.INSTITUTIONS, RoutingKeysName.DELETE_INSTITUTIONS, callback)
+        this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+            ExchangeName.INSTITUTIONS, RoutingKeysName.DELETE_INSTITUTIONS, callback)
     }
 
-    public logger(enabled: boolean, level?: string): boolean {
+    public logger(enabled: boolean, level?: string): void {
 
         if (level === 'warn' || level === 'error' || level === 'info' || !level)
-            return this._pubConnection.logger(enabled, level)
-
-        return false
+            this._pubConnection.logger(enabled, level)
 
     }
 
     public receiveFromYourself(value: boolean): boolean {
-        return this._pubConnection.receiveFromYourself(value)
+        return null
+        // return this._pubConnection.receiveFromYourself(value)
     }
 
 }
