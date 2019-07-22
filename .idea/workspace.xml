@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f48b49ab-2dd0-4784-a7ee-1fde50f0a5b9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/port/message.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/pub/message.interface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/port/ocariot.pub.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/ocariot.pub.interface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/port/ocariot.sub.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/port/pub.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/pub/pub.interface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/port/sub.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/sub/sub.interface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/queue.name.ts" beforeDir="false" />
-    </list>
+    <list default="true" id="f48b49ab-2dd0-4784-a7ee-1fde50f0a5b9" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -24,84 +13,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/ocariot.pub.sub.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+            <state relative-caret-position="-788">
+              <caret line="46" column="39" lean-forward="true" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
               <folding>
-                <element signature="e#0#77#0" expanded="true" />
-                <element signature="n#!!block;n#constructor#0;n#OcariotPubSub#0" />
+                <element signature="e#0#281#0" expanded="true" />
+                <element signature="e#792#833#0" />
                 <element signature="n#!!block;n#pubEventInitialization#0;n#OcariotPubSub#0" />
-                <element signature="e#1311#1362#0" />
-                <element signature="e#1413#1466#0" />
-                <element signature="e#1514#1564#0" />
-                <element signature="e#1618#1675#0" />
-                <element signature="e#1731#1789#0" />
-                <element signature="e#1839#1891#0" />
                 <element signature="n#!!block;n#subEventInitialization#0;n#OcariotPubSub#0" />
-                <element signature="e#1991#2042#0" />
-                <element signature="e#2092#2145#0" />
-                <element signature="e#2192#2242#0" />
-                <element signature="e#2295#2351#0" />
-                <element signature="e#2406#2464#0" />
-                <element signature="e#2513#2565#0" />
                 <element signature="n#!!block;n#clientEventInitialization#0;n#OcariotPubSub#0" />
-                <element signature="e#2672#2726#0" />
-                <element signature="e#2780#2836#0" />
-                <element signature="e#2887#2940#0" />
-                <element signature="e#2997#3056#0" />
-                <element signature="e#3115#3176#0" />
-                <element signature="e#3229#3284#0" />
                 <element signature="n#!!block;n#serverEventInitialization#0;n#OcariotPubSub#0" />
-                <element signature="e#3391#3445#0" />
-                <element signature="e#3499#3555#0" />
-                <element signature="e#3606#3659#0" />
-                <element signature="e#3716#3775#0" />
-                <element signature="e#3834#3895#0" />
-                <element signature="e#3948#4003#0" />
+                <element signature="n#!!block;n#close#0;n#OcariotPubSub#0" />
                 <element signature="n#!!block;n#dispose#0;n#OcariotPubSub#0" />
-                <element signature="e#4455#4825#0" />
-                <element signature="e#4486#4552#0" />
-                <element signature="e#4528#4560#0" />
                 <element signature="n#!!block;n#pub#0;n#OcariotPubSub#0" />
-                <element signature="e#4532#4770#0" />
-                <element signature="e#4611#4665#0" />
-                <element signature="e#4680#4759#0" />
                 <element signature="n#!!block;n#sub#0;n#OcariotPubSub#0" />
-                <element signature="e#5021#5274#0" />
-                <element signature="e#5115#5169#0" />
-                <element signature="e#5184#5263#0" />
                 <element signature="n#!!block;n#pubSavePhysicalActivity#0;n#OcariotPubSub#0" />
-                <element signature="e#5428#5591#0" />
                 <element signature="n#!!block;n#pubUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
-                <element signature="e#5856#6021#0" />
                 <element signature="n#!!block;n#pubDeletePhysicalActivity#0;n#OcariotPubSub#0" />
-                <element signature="e#6288#6453#0" />
                 <element signature="n#!!block;n#pubSaveSleep#0;n#OcariotPubSub#0" />
-                <element signature="e#6693#6823#0" />
                 <element signature="n#!!block;n#pubUpdateSleep#0;n#OcariotPubSub#0" />
-                <element signature="e#7035#7167#0" />
                 <element signature="n#!!block;n#pubDeleteSleep#0;n#OcariotPubSub#0" />
-                <element signature="e#7381#7513#0" />
                 <element signature="n#!!block;n#pubSaveEnvironment#0;n#OcariotPubSub#0" />
-                <element signature="e#7759#7901#0" />
                 <element signature="n#!!block;n#pubDeleteEnvironment#0;n#OcariotPubSub#0" />
-                <element signature="e#8145#8289#0" />
                 <element signature="n#!!block;n#pubUpdateChild#0;n#OcariotPubSub#0" />
-                <element signature="e#8517#8649#0" />
                 <element signature="n#!!block;n#pubUpdateFamily#0;n#OcariotPubSub#0" />
-                <element signature="e#8872#9006#0" />
                 <element signature="n#!!block;n#pubUpdateEducator#0;n#OcariotPubSub#0" />
-                <element signature="e#9235#9373#0" />
                 <element signature="n#!!block;n#pubUpdateHealthProfessional#0;n#OcariotPubSub#0" />
-                <element signature="e#9634#9793#0" />
                 <element signature="n#!!block;n#pubUpdateApplication#0;n#OcariotPubSub#0" />
-                <element signature="e#10055#10199#0" />
                 <element signature="n#!!block;n#pubDeleteUser#0;n#OcariotPubSub#0" />
-                <element signature="e#10440#10570#0" />
                 <element signature="n#!!block;n#pubDeleteInstitution#0;n#OcariotPubSub#0" />
-                <element signature="e#10802#10946#0" />
                 <element signature="n#!!block;n#subSavePhysicalActivity#0;n#OcariotPubSub#0" />
                 <element signature="n#!!block;n#subUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
                 <element signature="n#!!block;n#subDeletePhysicalActivity#0;n#OcariotPubSub#0" />
@@ -124,95 +66,83 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="91">
-                <caret line="314" column="1" selection-start-line="314" selection-start-column="1" selection-end-line="314" selection-end-column="1" />
-              </first_editor>
-              <second_editor />
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../pubsub/index.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="15" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/connection/config.interface.ts">
+        <entry file="file://$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="30">
+              <caret line="2" column="47" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts">
+        <entry file="file://$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="36" selection-start-line="36" selection-end-line="36" />
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="60">
+              <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/sub/sub.interface.ts">
+        <entry file="file://$PROJECT_DIR$/src/port/server/server.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            <state>
+              <caret column="24" selection-start-column="17" selection-end-column="24" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/connection/opt.interface.ts">
+        <entry file="file://$PROJECT_DIR$/src/port/client/client.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.interface.ts">
+        <entry file="file://$PROJECT_DIR$/src/utils/configurations.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
-              <folding>
-                <element signature="e#0#42#0" expanded="true" />
-              </folding>
+            <state>
+              <caret column="22" selection-start-column="22" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/pub/message.interface.ts">
+        <entry file="file://$PROJECT_DIR$/../pubsub/src/application/pubSub.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
+            <state relative-caret-position="435">
+              <caret line="34" column="22" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/pub/ocariot.pub.sub.interface.ts">
+        <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
-              <folding>
-                <element signature="e#0#54#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="30">
+              <caret line="5" column="96" selection-start-line="5" selection-start-column="96" selection-end-line="5" selection-end-column="96" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/pub/pub.interface.ts">
+        <entry file="file://$PROJECT_DIR$/../pubsub/src/application/port/connection.configuration.inteface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" selection-start-line="8" selection-end-line="8" />
+            <state relative-caret-position="225">
+              <caret line="15" column="4" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -228,10 +158,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ACTIVITY</find>
-      <find>_consumerInitialized</find>
-      <find>queue</find>
-      <find>initialized</find>
       <find>IEventHandler</find>
       <find>DailyRotateFile</find>
       <find>_logDir</find>
@@ -258,11 +184,17 @@
       <find>this.pubsub</find>
       <find>this.pubconnection.conn</find>
       <find>pubEventInitialization</find>
+      <find>boolean | OcariotPubSubException</find>
+      <find>Promise&lt;boolean | OcariotPubSubException&gt;</find>
+      <find>return</find>
+      <find>(message: any) =&gt; void</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>new Date().toISOString()</replace>
       <replace>this.pubsub</replace>
+      <replace>void</replace>
+      <replace>(err,message: any) =&gt; void</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -271,13 +203,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/port/OcariotPubInterface.ts" />
-        <option value="$PROJECT_DIR$/src/port/ocariotPubInterface.ts" />
-        <option value="$PROJECT_DIR$/src/app/ocariot.pubsub.ts" />
-        <option value="$PROJECT_DIR$/index.js" />
-        <option value="$PROJECT_DIR$/src/port/integration.event.handler.interface.ts" />
-        <option value="$PROJECT_DIR$/src/utils/custom.logger.ts" />
-        <option value="$PROJECT_DIR$/src/exception/ocariotPubSub.exception.ts" />
         <option value="$PROJECT_DIR$/src/utils/event.name.ts" />
         <option value="$PROJECT_DIR$/src/port/ocariot.sub.interface.ts" />
         <option value="$PROJECT_DIR$/src/utils/event.names.ts" />
@@ -310,18 +235,25 @@
         <option value="$PROJECT_DIR$/src/utils/queue.name.ts" />
         <option value="$PROJECT_DIR$/src/port/pub.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/sub.interface.ts" />
-        <option value="$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/connection.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/opt.interface.ts" />
         <option value="$PROJECT_DIR$/index.ts" />
-        <option value="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" />
         <option value="$PROJECT_DIR$/src/port/pub/message.interface.ts" />
-        <option value="$PROJECT_DIR$/src/port/pub/ocariot.pub.sub.interface.ts" />
-        <option value="$PROJECT_DIR$/src/port/pub/pub.interface.ts" />
-        <option value="$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts" />
-        <option value="$PROJECT_DIR$/src/port/sub/sub.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/ocariot.pub.interface.ts" />
         <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/port/pub/ocariot.pub.sub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/pub/pub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/sub/sub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/server/server.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/client/client.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/ocariot.client.server.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/utils/configurations.ts" />
+        <option value="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" />
       </list>
     </option>
   </component>
@@ -360,26 +292,29 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.last.introduce.type" value="LET" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../pubsub" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/port/pub" />
+      <recent name="$PROJECT_DIR$/src/port" />
+      <recent name="$PROJECT_DIR$/src/port/connection" />
+      <recent name="$PROJECT_DIR$/src/port/sub" />
+      <recent name="$PROJECT_DIR$/test" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/ssl/certifications1" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/utils" />
       <recent name="$PROJECT_DIR$/ssl/certifications" />
       <recent name="$PROJECT_DIR$/src/port" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/port/pub" />
-      <recent name="$PROJECT_DIR$/src/port/connection" />
-      <recent name="$PROJECT_DIR$/src/port/sub" />
-      <recent name="$PROJECT_DIR$/test" />
-      <recent name="$PROJECT_DIR$/src/app" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -444,11 +379,14 @@
       <workItem from="1562331058958" duration="15900000" />
       <workItem from="1562860766206" duration="28000" />
       <workItem from="1563299729348" duration="18174000" />
+      <workItem from="1563458639999" duration="2012000" />
+      <workItem from="1563544282506" duration="9358000" />
+      <workItem from="1563578533053" duration="1886000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="418892000" />
+    <option name="totallyTimeSpent" value="433044000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -460,9 +398,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="33" y="-4" width="1887" height="1084" extended-state="6" />
+    <frame x="32" y="-11" width="1889" height="1092" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993498" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993498" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" sideWeight="0.50065017" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -477,7 +416,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49946353" weight="0.32925585" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5005365" side_tool="true" weight="0.32925585" />
       <window_info anchor="bottom" id="TypeScript" order="10" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.19979613" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.1753313" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -515,32 +454,6 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/amqp-ts/package.json" />
-    <entry file="file://$PROJECT_DIR$/node_modules/amqp-ts/lib/amqp-ts.d.ts" />
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.npmignore">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tsconfig.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="62" column="3" selection-start-line="62" selection-start-column="3" selection-end-line="64" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/@types/node/events.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="27" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -592,13 +505,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/subscriber.spec.ts" />
-    <entry file="file://$PROJECT_DIR$/../pubsub/index.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="15" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/src/app/ocariot.pub.sub.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
@@ -633,13 +539,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/configurations.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="27" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/src/app/ocariot.pub.sub.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
@@ -654,13 +553,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/queue.name.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="22" selection-start-column="22" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/queue.name.ts" />
     <entry file="file://$PROJECT_DIR$/index.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -668,108 +561,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../pubsub/src/infrastructure/port/configuration.inteface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/ocariot.pub.sub.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#77#0" expanded="true" />
-            <element signature="n#!!block;n#constructor#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#pubEventInitialization#0;n#OcariotPubSub#0" />
-            <element signature="e#1311#1362#0" />
-            <element signature="e#1413#1466#0" />
-            <element signature="e#1514#1564#0" />
-            <element signature="e#1618#1675#0" />
-            <element signature="e#1731#1789#0" />
-            <element signature="e#1839#1891#0" />
-            <element signature="n#!!block;n#subEventInitialization#0;n#OcariotPubSub#0" />
-            <element signature="e#1991#2042#0" />
-            <element signature="e#2092#2145#0" />
-            <element signature="e#2192#2242#0" />
-            <element signature="e#2295#2351#0" />
-            <element signature="e#2406#2464#0" />
-            <element signature="e#2513#2565#0" />
-            <element signature="n#!!block;n#clientEventInitialization#0;n#OcariotPubSub#0" />
-            <element signature="e#2672#2726#0" />
-            <element signature="e#2780#2836#0" />
-            <element signature="e#2887#2940#0" />
-            <element signature="e#2997#3056#0" />
-            <element signature="e#3115#3176#0" />
-            <element signature="e#3229#3284#0" />
-            <element signature="n#!!block;n#serverEventInitialization#0;n#OcariotPubSub#0" />
-            <element signature="e#3391#3445#0" />
-            <element signature="e#3499#3555#0" />
-            <element signature="e#3606#3659#0" />
-            <element signature="e#3716#3775#0" />
-            <element signature="e#3834#3895#0" />
-            <element signature="e#3948#4003#0" />
-            <element signature="n#!!block;n#dispose#0;n#OcariotPubSub#0" />
-            <element signature="e#4455#4825#0" />
-            <element signature="e#4486#4552#0" />
-            <element signature="e#4528#4560#0" />
-            <element signature="n#!!block;n#pub#0;n#OcariotPubSub#0" />
-            <element signature="e#4532#4770#0" />
-            <element signature="e#4611#4665#0" />
-            <element signature="e#4680#4759#0" />
-            <element signature="n#!!block;n#sub#0;n#OcariotPubSub#0" />
-            <element signature="e#5021#5274#0" />
-            <element signature="e#5115#5169#0" />
-            <element signature="e#5184#5263#0" />
-            <element signature="n#!!block;n#pubSavePhysicalActivity#0;n#OcariotPubSub#0" />
-            <element signature="e#5428#5591#0" />
-            <element signature="n#!!block;n#pubUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
-            <element signature="e#5856#6021#0" />
-            <element signature="n#!!block;n#pubDeletePhysicalActivity#0;n#OcariotPubSub#0" />
-            <element signature="e#6288#6453#0" />
-            <element signature="n#!!block;n#pubSaveSleep#0;n#OcariotPubSub#0" />
-            <element signature="e#6693#6823#0" />
-            <element signature="n#!!block;n#pubUpdateSleep#0;n#OcariotPubSub#0" />
-            <element signature="e#7035#7167#0" />
-            <element signature="n#!!block;n#pubDeleteSleep#0;n#OcariotPubSub#0" />
-            <element signature="e#7381#7513#0" />
-            <element signature="n#!!block;n#pubSaveEnvironment#0;n#OcariotPubSub#0" />
-            <element signature="e#7759#7901#0" />
-            <element signature="n#!!block;n#pubDeleteEnvironment#0;n#OcariotPubSub#0" />
-            <element signature="e#8145#8289#0" />
-            <element signature="n#!!block;n#pubUpdateChild#0;n#OcariotPubSub#0" />
-            <element signature="e#8517#8649#0" />
-            <element signature="n#!!block;n#pubUpdateFamily#0;n#OcariotPubSub#0" />
-            <element signature="e#8872#9006#0" />
-            <element signature="n#!!block;n#pubUpdateEducator#0;n#OcariotPubSub#0" />
-            <element signature="e#9235#9373#0" />
-            <element signature="n#!!block;n#pubUpdateHealthProfessional#0;n#OcariotPubSub#0" />
-            <element signature="e#9634#9793#0" />
-            <element signature="n#!!block;n#pubUpdateApplication#0;n#OcariotPubSub#0" />
-            <element signature="e#10055#10199#0" />
-            <element signature="n#!!block;n#pubDeleteUser#0;n#OcariotPubSub#0" />
-            <element signature="e#10440#10570#0" />
-            <element signature="n#!!block;n#pubDeleteInstitution#0;n#OcariotPubSub#0" />
-            <element signature="e#10802#10946#0" />
-            <element signature="n#!!block;n#subSavePhysicalActivity#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subDeletePhysicalActivity#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subSaveSleep#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subUpdateSleep#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subDeleteSleep#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subSaveEnvironment#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subDeleteEnvironment#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subUpdateChild#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subUpdateFamily#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subUpdateEducator#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subUpdateHealthProfessional#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subUpdateApplication#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subDeleteUser#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#subDeleteInstitution#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#logger#0;n#OcariotPubSub#0" />
-            <element signature="n#!!block;n#receiveFromYourself#0;n#OcariotPubSub#0" />
-          </folding>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="4710">
+            <caret line="314" column="1" selection-start-line="314" selection-start-column="1" selection-end-line="314" selection-end-column="1" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
@@ -794,27 +592,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/pub/ocariot.pub.sub.interface.ts">
+    <entry file="file://$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="30">
+          <caret line="2" column="39" selection-start-line="2" selection-start-column="39" selection-end-line="2" selection-end-column="39" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/port/pub/pub.interface.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        <state relative-caret-position="45">
+          <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        <state relative-caret-position="45">
+          <caret line="3" column="39" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
@@ -823,28 +618,123 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/port/sub/sub.interface.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="105">
+          <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.interface.ts">
+    <entry file="file://$PROJECT_DIR$/src/port/ocariot.client.server.interface.ts" />
+    <entry file="file://$PROJECT_DIR$/../pubsub/index.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="e#0#42#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="30">
+          <caret line="2" column="15" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="91">
-            <caret line="314" column="1" selection-start-line="314" selection-start-column="1" selection-end-line="314" selection-end-column="1" />
-          </first_editor>
-          <second_editor />
+    <entry file="file://$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="47" selection-start-line="2" selection-start-column="47" selection-end-line="2" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/server/server.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="24" selection-start-column="17" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/client/client.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="5" column="96" selection-start-line="5" selection-start-column="96" selection-end-line="5" selection-end-column="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/application/port/connection.configuration.inteface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="4" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/configurations.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="22" selection-start-column="22" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/application/pubSub.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="34" column="22" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/ocariot.pub.sub.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-788">
+          <caret line="46" column="39" lean-forward="true" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#281#0" expanded="true" />
+            <element signature="e#792#833#0" />
+            <element signature="n#!!block;n#pubEventInitialization#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subEventInitialization#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#clientEventInitialization#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#serverEventInitialization#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#close#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#dispose#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pub#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#sub#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubSavePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeletePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubSaveSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeleteSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubSaveEnvironment#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeleteEnvironment#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateChild#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateFamily#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateEducator#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateHealthProfessional#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubUpdateApplication#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeleteUser#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#pubDeleteInstitution#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subSavePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdatePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeletePhysicalActivity#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subSaveSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeleteSleep#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subSaveEnvironment#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeleteEnvironment#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateChild#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateFamily#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateEducator#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateHealthProfessional#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subUpdateApplication#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeleteUser#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#subDeleteInstitution#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#logger#0;n#OcariotPubSub#0" />
+            <element signature="n#!!block;n#receiveFromYourself#0;n#OcariotPubSub#0" />
+          </folding>
         </state>
       </provider>
     </entry>
