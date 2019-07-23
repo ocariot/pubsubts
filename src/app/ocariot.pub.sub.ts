@@ -1,5 +1,6 @@
 import {
-    IMessageApplication, IMessageBodyFat,
+    IMessageApplication,
+    IMessageBodyFat,
     IMessageChild,
     IMessageEducator,
     IMessageEnvironment,
@@ -8,7 +9,8 @@ import {
     IMessageInstitution,
     IMessagePhysicalActivity,
     IMessageSleep,
-    IMessageUser, IMessageWeigth
+    IMessageUser,
+    IMessageWeigth
 } from '../port/pub/message.interface'
 import { IConnConfiguration, IConnOptions, PubSub } from 'pubsub'
 import { RoutingKeysName } from '../utils/routing.keys.name'
@@ -16,12 +18,12 @@ import { ExchangeName } from '../utils/exchange.name'
 import { EventName } from '../utils/event.name'
 import { Configurations } from '../utils/configurations'
 import { EventEmitter } from 'events'
-import { defaultConnConfig, IConnConfig } from '../port/connection/config.interface'
+import { IConnConfig } from '../port/connection/config.interface'
 import { IOcariotPubSub } from '../port/ocariot.pub.sub.interface'
-import { defaultConnOpt, IConnOpt } from '../port/connection/opt.interface'
+import { IConnOpt } from '../port/connection/opt.interface'
 import { TargetMicroservice } from '../utils/queue.name'
 import { ResourceName } from '../utils/resource.name'
-import { rejects } from 'assert'
+import { defaultConnConfig, defaultConnOpt } from '../port/connection/parameters.default'
 
 export class OcariotPubSub extends EventEmitter implements IOcariotPubSub {
 
@@ -36,7 +38,7 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubSub {
     constructor(private _appName: string, connParams?: IConnConfig | string, connOptions?: IConnOpt) {
         super()
 
-        this._connConfig = { vhost: Configurations.VHOST, ...defaultConnConfig } as IConnConfiguration
+        this._connConfig = { ...defaultConnConfig } as IConnConfiguration
 
         if (typeof connParams === 'object') {
             this._connConfig = { ...this._connConfig, ...connParams } as IConnConfiguration
@@ -46,12 +48,15 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubSub {
             this._connConfig = connParams.concat('/').concat(Configurations.VHOST)
         }
 
-        this._connOpt = { ...defaultConnOpt, rcp_timeout: Configurations.RPC_TIMEOUT, ...connOptions } as IConnOptions
+        this._connOpt = { ...defaultConnOpt, ...connOptions } as IConnOptions
 
         this._pubConnection = new PubSub()
         this._subConnection = new PubSub()
         this._clientConnection = new PubSub()
         this._serverConnection = new PubSub()
+
+        this._pubConnection.serviceTag(this._appName)
+        this._subConnection.serviceTag(this._appName)
 
     }
 
@@ -158,9 +163,8 @@ export class OcariotPubSub extends EventEmitter implements IOcariotPubSub {
 
     }
 
-    public receiveFromYourself(value: boolean): boolean {
-        return null
-        // return this._pubConnection.receiveFromYourself(value)
+    public receiveFromYourself(value: boolean): void {
+        this._subConnection.topic.options = {receiveFromYourself: value}
     }
 
     public async close(): Promise<void> {
