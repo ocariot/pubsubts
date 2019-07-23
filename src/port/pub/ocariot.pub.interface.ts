@@ -14,6 +14,14 @@ export interface IOcariotPub extends IPub {
 
     pubDeleteSleep(sleep: any): Promise<void>
 
+    pubSaveWeight(weight: any): Promise<void>
+
+    pubDeleteWeight(weight: any): Promise<void>
+
+    pubSaveBodyFat(bodyfat: any): Promise<void>
+
+    pubDeleteBodyFat(bodyfat: any): Promise<void>
+
     pubSaveEnvironment(environment: any): Promise<void>
 
     pubDeleteEnvironment(environment: any): Promise<void>
