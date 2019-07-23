@@ -19,6 +19,14 @@ export interface IMessageEnvironment extends IMessage {
     environment: object
 }
 
+export interface IMessageWeigth extends IMessage {
+    weight: object
+}
+
+export interface IMessageBodyFat extends IMessage {
+    bodyfat: object
+}
+
 export interface IMessageChild extends IMessage {
     child: object
 }

@@ -7,11 +7,3 @@ export interface IConnOpt {
     }
 }
 
-export const defaultConnOpt: IConnOpt = {
-    retries: 0,
-    interval: 1000,
-    ssl: {
-        enabled: false,
-        ca: ''
-    }
-}
