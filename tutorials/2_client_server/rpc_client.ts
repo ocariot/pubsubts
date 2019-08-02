@@ -1,6 +1,6 @@
-import { OcariotPubSub } from '../../index'
+import { RabbitMQClient } from '../../index'
 
-const ocariot: OcariotPubSub = new OcariotPubSub('Analytics', 'amqp://guest:guest@localhost:5672')
+const ocariot: RabbitMQClient = new RabbitMQClient('Analytics', 'amqp://guest:guest@localhost:5672')
 
 function receiveMessage(err, message: string): void {
     if (err) {

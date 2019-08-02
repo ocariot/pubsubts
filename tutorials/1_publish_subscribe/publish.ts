@@ -1,6 +1,6 @@
-import { IConnConfig, OcariotPubSub } from '../../index'
+import { IConnectionConfigs, RabbitMQClient } from '../../index'
 
-const ocariot: OcariotPubSub = new OcariotPubSub('Account')
+const ocariot: RabbitMQClient = new RabbitMQClient('Account')
 
 ocariot.pubSavePhysicalActivity({ activity: 'Saving Activity...' }).catch((err) => {
     console.log(err)

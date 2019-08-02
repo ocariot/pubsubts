@@ -1,6 +1,6 @@
-import { OcariotPubSub } from '../../index'
+import { RabbitMQClient } from '../../index'
 
-const ocariot: OcariotPubSub = new OcariotPubSub('Account')
+const ocariot: RabbitMQClient = new RabbitMQClient('Account')
 
 ocariot.receiveFromYourself(true)
 

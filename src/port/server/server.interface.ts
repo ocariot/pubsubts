@@ -1,5 +1,5 @@
 export interface IServer {
 
-    resource(sourceMicroservice: string, name: string, exchangeName: string, func: (...any) => any): void
+    resource(sourceMicroservice: string, exchangeName: string, name: string, func: (...any) => any): void
 
 }

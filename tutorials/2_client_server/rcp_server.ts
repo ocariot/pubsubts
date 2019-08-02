@@ -1,13 +1,13 @@
-import { IConnConfig, OcariotPubSub } from '../../index'
+import { IConnectionConfigs, RabbitMQClient } from '../../index'
 
-const connParams: IConnConfig = {
+const connParams: IConnectionConfigs = {
     host: 'localhost',
     port: 5672,
     username: 'guest',
     password: 'guest'
 }
 
-const ocariot: OcariotPubSub = new OcariotPubSub('Activity')
+const ocariot: RabbitMQClient = new RabbitMQClient('Activity')
 
 ocariot.resourcePhysicalActivities((query: string) => {
     return query + ' PhysicalActivities Processado'

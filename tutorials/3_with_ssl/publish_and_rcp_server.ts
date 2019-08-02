@@ -1,4 +1,4 @@
-import { OcariotPubSub, IConnConfig, IConnOpt } from 'ocariot-pubsubjs'
+import { RabbitMQClient, IConnectionConfigs, IConnOpt } from '../../index'
 
 const connOptions: IConnOpt = {
     retries: 5,
@@ -9,11 +9,11 @@ const connOptions: IConnOpt = {
     }
 }
 
-const connParams: IConnConfig = {
+const connParams: IConnectionConfigs = {
     host: 'ip-machine',
     port: 5671,
     username: 'guest',
     password: 'guest'
 }
 
-const ocariot: OcariotPubSub = new OcariotPubSub('Account', connParams, connOptions)
+const ocariot: RabbitMQClient = new RabbitMQClient('Account', connParams, connOptions)
