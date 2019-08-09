@@ -7,12 +7,12 @@ const connParams: IConnectionConfigs = {
     password: 'guest'
 }
 
-const ocariot: RabbitMQClient = new RabbitMQClient('Activity')
+const ocariot: RabbitMQClient = new RabbitMQClient('Activity', connParams)
 
-ocariot.resourcePhysicalActivities((query: string) => {
+ocariot.providePhysicalActivities((query: string) => {
     return query + ' PhysicalActivities Processado'
 })
 
-ocariot.resourceSleep((query: string) => {
+ocariot.provideSleep((query: string) => {
     return query + ' Sleep Processado'
 })

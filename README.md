@@ -1,4 +1,4 @@
-#   ocariot-pubsubjs
+# RabbitMQ Client Node
 Library for publish and subscribe events on the OCARIoT platform message bus.
 
 ### Table of Contents

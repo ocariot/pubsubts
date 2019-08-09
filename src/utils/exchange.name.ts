@@ -12,5 +12,9 @@ export abstract class ExchangeName {
     public static readonly APPLICATIONS: string = 'applications'
     public static readonly USERS: string = 'users'
     public static readonly INSTITUTIONS: string = 'institutions'
+    public static readonly RPC_ACTIVITY: string = 'rpc.ex1'
+    public static readonly RPC_ACCOUNT: string = 'rpc.ex2'
+    public static readonly RPC_GENERAL: string = 'rpc.ex3'
+    public static readonly PUB_SUB_GENERAL: string = 'pub-sub.ex4'
 
 }

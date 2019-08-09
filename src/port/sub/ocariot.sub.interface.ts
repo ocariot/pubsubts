@@ -38,6 +38,6 @@ export interface IOcariotSub extends ISub {
 
     subDeleteUser(callback: (message: any) => void): Promise<void>
 
-    subDeleteInstitution(callback: (message: string) => void): Promise<void>
+    subDeleteInstitution(callback: (message: any) => void): Promise<void>
 
 }

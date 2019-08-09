@@ -9,6 +9,6 @@ export interface IOcariotPubSub extends IOcariotPub, IOcariotSub, IOcariotClient
 
     dispose(): Promise<void>
 
-    logger(enabled: boolean, level?: string): void
+    logger(level: string): void
 
 }

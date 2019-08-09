@@ -13,17 +13,15 @@ import {
     IMessageWeigth
 } from '../port/pub/message.interface'
 import {
+    amqpClient,
     IClientOptions,
     IConnection,
-    IConnectionOptions,
     IConnectionParams,
-    IMessage,
     IPubExchangeOptions,
     IServerOptions,
     IServerRegister,
-    ISubExchangeOptions,
-    pubSub
-} from 'pubsub'
+    ISubExchangeOptions
+} from 'amqp-client-node'
 import { RoutingKeysName } from '../utils/routing.keys.name'
 import { ExchangeName } from '../utils/exchange.name'
 import { EventName } from '../utils/event.name'
@@ -33,6 +31,7 @@ import { IConnectionConfigs } from '../port/connection/config.interface'
 import { IOcariotPubSub } from '../port/ocariot.pub.sub.interface'
 import { TargetMicroservice } from '../utils/queue.name'
 import { ResourceName } from '../utils/resource.name'
+import { IConnectionOptions } from '../port/connection/opt.interface'
 
 const defaultOptionPub: IPubExchangeOptions = {
     exchange: {
@@ -109,6 +108,13 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
         }
 
         this._connOpt = { ...defaultConnOpt, ...connOptions } as IConnectionOptions
+
+        if (connOptions) {
+            if (connOptions.receiveFromYourself !== undefined)
+                defaultOptionSub.receiveFromYourself = connOptions.receiveFromYourself
+            if (connOptions.rpcTimeout)
+                defaultOptionRpcClient.rcpTimeout = connOptions.rpcTimeout
+        }
 
     }
 
@@ -191,10 +197,10 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
     }
 
-    public logger(enabled: boolean, level?: string): void {
+    public logger(level: string): void {
 
         if (level === 'warn' || level === 'error' || level === 'info' || !level) {
-            pubSub.logger(level)
+            amqpClient.logger(level)
         }
 
     }
@@ -223,11 +229,10 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
         }
     }
 
-    public async pub(exchangeName: string, routingKey: string, body: any): Promise<void> {
-
+    private pubConnection(): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
             if (!this._pubConnection && !this._pubConnectionInitialized) {
-                this._pubConnectionInitialized = pubSub.createConnetion(this._connConfig, this._connOpt)
+                this._pubConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
 
                 try {
                     this._pubConnection = await this._pubConnectionInitialized
@@ -242,24 +247,36 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
             try {
                 await this._pubConnectionInitialized
+                resolve()
             } catch (err) {
                 return reject(err)
             }
-
-            const message: IMessage = {
-                content: body
-            }
-
-            return this._pubConnection.pub(exchangeName, routingKey, message, defaultOptionPub)
         })
     }
 
-    public sub(targetMicroservice: string, exchangeName: string, routingKey: string,
-               callback: (message: any) => void): Promise<void> {
+    private async publish(exchangeName: string, routingKey: string, body: any): Promise<void> {
+
         return new Promise<void>(async (resolve, reject) => {
 
+            await this.pubConnection()
+
+            return this._pubConnection.pub(exchangeName, routingKey, body, defaultOptionPub)
+        })
+    }
+
+    public async pub(routingKey: string, body: any): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+
+            await this.pubConnection()
+
+            return this._pubConnection.pub(ExchangeName.PUB_SUB_GENERAL, routingKey, body, defaultOptionPub)
+        })
+    }
+
+    private subConnection(): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
             if (!this._subConnection && !this._subConnectionInitialized) {
-                this._subConnectionInitialized = pubSub.createConnetion(this._connConfig, this._connOpt)
+                this._subConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
 
                 try {
                     this._subConnection = await this._subConnectionInitialized
@@ -274,22 +291,45 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
             try {
                 await this._subConnectionInitialized
+                resolve()
             } catch (err) {
                 return reject(err)
             }
+        })
+    }
+
+    public sub(targetMicroservice: string, routingKey: string,
+               callback: (message: any) => void): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+
+            await this.subConnection()
 
             return this._subConnection.sub(this._appName.concat(targetMicroservice),
-                exchangeName,
+                ExchangeName.PUB_SUB_GENERAL,
                 routingKey,
-                callback,
+                msg => callback(msg.content),
                 defaultOptionSub)
         })
     }
 
-    public resource(sourceMicroservice: string, exchangeName: string, name: string, func: (...any) => any[]): void {
-        new Promise<void>(async (resolve, reject) => {
+    private subscribe(targetMicroservice: string, exchangeName: string, routingKey: string,
+                      callback: (message: any) => void): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
+
+            await this.subConnection()
+
+            return this._subConnection.sub(this._appName.concat(targetMicroservice),
+                exchangeName,
+                routingKey,
+                msg => callback(msg.content),
+                defaultOptionSub)
+        })
+    }
+
+    private serverConnection(): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
             if (!this._serverConnectionInitialized) {
-                this._serverConnectionInitialized = pubSub.createConnetion(this._connConfig, this._connOpt)
+                this._serverConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
                 try {
                     this._serverConnection = await this._serverConnectionInitialized
                     this.serverEventInitialization()
@@ -303,27 +343,59 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
             try {
                 await this._serverConnectionInitialized
+                return resolve()
             } catch (err) {
                 return reject(err)
             }
+        })
+    }
+
+    private resource(sourceMicroservice: string, exchangeName: string, name: string, func: (...any) => any[]): void {
+        new Promise<void>(async (resolve, reject) => {
+
+            await this.serverConnection()
 
             const server: IServerRegister = this._serverConnection
-                .createRpcServer(this._appName.concat(sourceMicroservice), exchangeName, [], defaultOptionRpcServer)
-
-            console.log(exchangeName, name)
+                .createRpcServer(sourceMicroservice, exchangeName, [], defaultOptionRpcServer)
 
             if (server.addResource(name, func)) return await server.start()
-
-        }).catch(err => {
+        }).catch((err) => {
             throw err
         })
     }
 
-    public getResource(exchangeName: string, name: string, params: any[], callback: (...any) => any): void
+    public provide(name: string, func: (...any) => any): void {
+        new Promise<void>(async (resolve, reject) => {
 
-    public getResource(exchangeName: string, name: string, params: any[]): Promise<any>
+            await this.serverConnection()
 
-    public getResource(exchangeName: string, name: string, params: any[], callback?: (err, result) => any): void | Promise<any> {
+            const server: IServerRegister = this._serverConnection
+                .createRpcServer(TargetMicroservice.RCP_OCARIOT_GENERAL_SERVICE,
+                    ExchangeName.RPC_GENERAL, [], defaultOptionRpcServer)
+
+            if (server.addResource(name, func)) return await server.start()
+        }).catch((err) => {
+            throw err
+        })
+    }
+
+    public getResource(name: string, params: any[], callback: (...any) => any): void
+
+    public getResource(name: string, params: any[]): Promise<any>
+
+    public getResource(name: string, params: any[], callback?: (err, result) => any): void | Promise<any> {
+
+        if (!callback) {
+            return this.getResourcePromise(ExchangeName.RPC_GENERAL, name, params)
+        }
+        this.getResourceCallback(ExchangeName.RPC_GENERAL, name, params, callback)
+    }
+
+    private request(exchangeName: string, name: string, params: any[], callback: (...any) => any): void
+
+    private request(exchangeName: string, name: string, params: any[]): Promise<any>
+
+    private request(exchangeName: string, name: string, params: any[], callback?: (err, result) => any): void | Promise<any> {
 
         if (!callback) {
             return this.getResourcePromise(exchangeName, name, params)
@@ -334,7 +406,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getResourceCallback(exchangeName: string, name: string, params: any[], callback: (...any) => any): void {
         new Promise<void>(async (resolve, reject) => {
             if (!this._clientConnectionInitialized) {
-                this._clientConnectionInitialized = pubSub.createConnetion(this._connConfig, this._connOpt)
+                this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
 
                 try {
                     this._clientConnection = await this._clientConnectionInitialized
@@ -362,7 +434,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
         return new Promise<void>(async (resolve, reject) => {
             if (!this._clientConnectionInitialized) {
-                this._clientConnectionInitialized = pubSub.createConnetion(this._connConfig, this._connOpt)
+                this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
 
                 try {
                     this._clientConnection = await this._clientConnectionInitialized
@@ -391,7 +463,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             physicalactivity: activity
         }
 
-        return this.pub(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, message)
+        return this.publish(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, message)
     }
 
     public pubUpdatePhysicalActivity(activity: any): Promise<void> {
@@ -401,7 +473,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             physicalactivity: activity
         }
 
-        return this.pub(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, message)
+        return this.publish(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, message)
     }
 
     public pubDeletePhysicalActivity(activity: any): Promise<void> {
@@ -411,7 +483,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             physicalactivity: activity
         }
 
-        return this.pub(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, message)
+        return this.publish(ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, message)
     }
 
     public pubSaveSleep(sleep: any): Promise<void> {
@@ -421,7 +493,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             sleep
         }
 
-        return this.pub(ExchangeName.SLEEP, RoutingKeysName.SAVE_SLEEP, message)
+        return this.publish(ExchangeName.SLEEP, RoutingKeysName.SAVE_SLEEP, message)
     }
 
     public pubUpdateSleep(sleep: any): Promise<void> {
@@ -431,7 +503,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             sleep
         }
 
-        return this.pub(ExchangeName.SLEEP, RoutingKeysName.UPDATE_SLEEP, message)
+        return this.publish(ExchangeName.SLEEP, RoutingKeysName.UPDATE_SLEEP, message)
     }
 
     public pubDeleteSleep(sleep: any): Promise<void> {
@@ -441,7 +513,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             sleep
         }
 
-        return this.pub(ExchangeName.SLEEP, RoutingKeysName.DELETE_SLEEP,
+        return this.publish(ExchangeName.SLEEP, RoutingKeysName.DELETE_SLEEP,
             message)
     }
 
@@ -452,7 +524,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             weight
         }
 
-        return this.pub(ExchangeName.WEIGHTS, RoutingKeysName.SAVE_WEIGHTS, message)
+        return this.publish(ExchangeName.WEIGHTS, RoutingKeysName.SAVE_WEIGHTS, message)
     }
 
     public pubDeleteWeight(weight: any): Promise<void> {
@@ -462,7 +534,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             weight
         }
 
-        return this.pub(ExchangeName.WEIGHTS, RoutingKeysName.DELETE_WEIGHTS, message)
+        return this.publish(ExchangeName.WEIGHTS, RoutingKeysName.DELETE_WEIGHTS, message)
     }
 
     public pubSaveBodyFat(bodyfat: any): Promise<void> {
@@ -472,7 +544,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             bodyfat
         }
 
-        return this.pub(ExchangeName.BODY_FATS, RoutingKeysName.SAVE_BODY_FATS, message)
+        return this.publish(ExchangeName.BODY_FATS, RoutingKeysName.SAVE_BODY_FATS, message)
     }
 
     public pubDeleteBodyFat(bodyfat: any): Promise<void> {
@@ -482,7 +554,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             bodyfat
         }
 
-        return this.pub(ExchangeName.BODY_FATS, RoutingKeysName.DELETE_BODY_FATS, message)
+        return this.publish(ExchangeName.BODY_FATS, RoutingKeysName.DELETE_BODY_FATS, message)
     }
 
     public pubSaveEnvironment(environment: any): Promise<void> {
@@ -492,7 +564,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             environment
         }
 
-        return this.pub(ExchangeName.ENVIRONMENTS, RoutingKeysName.SAVE_ENVIRONMENTS, message)
+        return this.publish(ExchangeName.ENVIRONMENTS, RoutingKeysName.SAVE_ENVIRONMENTS, message)
     }
 
     public pubDeleteEnvironment(environment: any): Promise<void> {
@@ -502,7 +574,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             environment
         }
 
-        return this.pub(ExchangeName.ENVIRONMENTS, RoutingKeysName.DELETE_ENVIRONMENTS, message)
+        return this.publish(ExchangeName.ENVIRONMENTS, RoutingKeysName.DELETE_ENVIRONMENTS, message)
     }
 
     public pubUpdateChild(child: any): Promise<void> {
@@ -512,7 +584,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             child
         }
 
-        return this.pub(ExchangeName.CHILDREN, RoutingKeysName.UPDATE_CHILDREN, message)
+        return this.publish(ExchangeName.CHILDREN, RoutingKeysName.UPDATE_CHILDREN, message)
     }
 
     public pubUpdateFamily(family: any): Promise<void> {
@@ -522,7 +594,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             family
         }
 
-        return this.pub(ExchangeName.FAMILIES, RoutingKeysName.UPDATE_FAMILIES, message)
+        return this.publish(ExchangeName.FAMILIES, RoutingKeysName.UPDATE_FAMILIES, message)
     }
 
     public pubUpdateEducator(educator: any): Promise<void> {
@@ -532,7 +604,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             educator
         }
 
-        return this.pub(ExchangeName.EDUCATORS, RoutingKeysName.UPDATE_EDUCATORS, message)
+        return this.publish(ExchangeName.EDUCATORS, RoutingKeysName.UPDATE_EDUCATORS, message)
     }
 
     public pubUpdateHealthProfessional(healthprofessional: any): Promise<void> {
@@ -542,7 +614,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             healthprofessional
         }
 
-        return this.pub(ExchangeName.HEALTH_PROFESSIONALS, RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, message)
+        return this.publish(ExchangeName.HEALTH_PROFESSIONALS, RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, message)
     }
 
     public pubUpdateApplication(application: any): Promise<void> {
@@ -552,7 +624,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             application
         }
 
-        return this.pub(ExchangeName.APPLICATIONS, RoutingKeysName.UPDATE_APPLICATIONS,
+        return this.publish(ExchangeName.APPLICATIONS, RoutingKeysName.UPDATE_APPLICATIONS,
             message)
     }
 
@@ -563,7 +635,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             user
         }
 
-        return this.pub(ExchangeName.USERS, RoutingKeysName.DELETE_USERS, message)
+        return this.publish(ExchangeName.USERS, RoutingKeysName.DELETE_USERS, message)
     }
 
     public pubDeleteInstitution(institution: any): Promise<void> {
@@ -573,184 +645,184 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             institution
         }
 
-        return this.pub(ExchangeName.INSTITUTIONS, RoutingKeysName.DELETE_INSTITUTIONS, message)
+        return this.publish(ExchangeName.INSTITUTIONS, RoutingKeysName.DELETE_INSTITUTIONS, message)
 
     }
 
     public subSavePhysicalActivity(callback: (message: any) => void): Promise<void> {
 
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subUpdatePhysicalActivity(callback: (message: any) => void): Promise<void> {
 
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subDeletePhysicalActivity(callback: (message: any) => void): Promise<void> {
 
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.PHYSICAL_ACTIVITIES, RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, callback)
 
     }
 
     public subSaveSleep(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.SLEEP, RoutingKeysName.SAVE_SLEEP, callback)
     }
 
     public subUpdateSleep(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.SLEEP, RoutingKeysName.UPDATE_SLEEP, callback)
     }
 
     public subDeleteSleep(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.SLEEP, RoutingKeysName.DELETE_SLEEP, callback)
     }
 
     public subSaveWeight(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.WEIGHTS, RoutingKeysName.SAVE_WEIGHTS, callback)
     }
 
     public subDeleteWeight(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.WEIGHTS, RoutingKeysName.DELETE_WEIGHTS, callback)
     }
 
     public subSaveBodyFat(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.BODY_FATS, RoutingKeysName.SAVE_BODY_FATS, callback)
     }
 
     public subDeleteBodyFat(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.BODY_FATS, RoutingKeysName.DELETE_BODY_FATS, callback)
     }
 
     public subSaveEnvironment(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.ENVIRONMENTS, RoutingKeysName.SAVE_ENVIRONMENTS, callback)
     }
 
     public subDeleteEnvironment(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.ENVIRONMENTS, RoutingKeysName.DELETE_ENVIRONMENTS, callback)
     }
 
     public subUpdateChild(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.CHILDREN, RoutingKeysName.UPDATE_CHILDREN, callback)
     }
 
     public subUpdateFamily(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.FAMILIES, RoutingKeysName.UPDATE_FAMILIES, callback)
     }
 
     public subUpdateEducator(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.EDUCATORS, RoutingKeysName.UPDATE_EDUCATORS, callback)
     }
 
     public subUpdateHealthProfessional(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.HEALTH_PROFESSIONALS, RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, callback)
     }
 
     public subUpdateApplication(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.APPLICATIONS, RoutingKeysName.UPDATE_APPLICATIONS, callback)
     }
 
     public subDeleteUser(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.USERS, RoutingKeysName.DELETE_USERS, callback)
     }
 
     public subDeleteInstitution(callback: (message: any) => void): Promise<void> {
-        return this.sub(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
+        return this.subscribe(TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.INSTITUTIONS, RoutingKeysName.DELETE_INSTITUTIONS, callback)
     }
 
-    public resourcePhysicalActivities(listener: (query: string) => any): any {
+    public providePhysicalActivities(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
-            ExchangeName.PHYSICAL_ACTIVITIES, ResourceName.PHYSICAL_ACTIVITIES, listener)
+            ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES, listener)
     }
 
-    public resourcePhysicalActivitiesLogs(listener: (resource: string, date_start: string, date_end: string) => any): any {
+    public providePhysicalActivitiesLogs(listener: (resource: string, date_start: string, date_end: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
-            ExchangeName.PHYSICAL_ACTIVITIES, ResourceName.PHYSICAL_ACTIVITIES_LOGS, listener)
+            ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES_LOGS, listener)
     }
 
-    public resourceSleep(listener: (query: string) => any): any {
+    public provideSleep(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
-            ExchangeName.SLEEP, ResourceName.SLEEP, listener)
+            ExchangeName.RPC_ACTIVITY, ResourceName.SLEEP, listener)
     }
 
-    public resourceWights(listener: (query: string) => any): any {
+    public provideWights(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
-            ExchangeName.WEIGHTS, ResourceName.WEIGHTS, listener)
+            ExchangeName.RPC_ACTIVITY, ResourceName.WEIGHTS, listener)
     }
 
-    public resourceBodyFats(listener: (query: string) => any): any {
+    public provideBodyFats(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
-            ExchangeName.BODY_FATS, ResourceName.BODY_FATS, listener)
+            ExchangeName.RPC_ACTIVITY, ResourceName.BODY_FATS, listener)
     }
 
-    public resourceEnviroments(listener: (query: string) => any): any {
+    public provideEnviroments(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
-            ExchangeName.ENVIRONMENTS, ResourceName.ENVIROMENTS, listener)
+            ExchangeName.RPC_ACTIVITY, ResourceName.ENVIROMENTS, listener)
     }
 
-    public resourceChildren(listener: (query: string) => any): any {
+    public provideChildren(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.CHILDREN, ResourceName.CHILDREN, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.CHILDREN, listener)
     }
 
-    public resourceFamilies(listener: (query: string) => any): any {
+    public provideFamilies(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.FAMILIES, ResourceName.FAMILIES, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.FAMILIES, listener)
     }
 
-    public resourceFamilyChildren(listener: (family_id: string) => any): any {
+    public provideFamilyChildren(listener: (family_id: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.FAMILIES, ResourceName.FAMILY_CHILDREN, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.FAMILY_CHILDREN, listener)
     }
 
-    public resourceEducators(listener: (query: string) => any): any {
+    public provideEducators(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.EDUCATORS, ResourceName.EDUCATORS, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS, listener)
     }
 
-    public resourceEducatorChildrenGroups(listener: (educator_id: string) => any): any {
+    public provideEducatorChildrenGroups(listener: (educator_id: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.EDUCATORS, ResourceName.EDUCATORS_CILDRES_GROUPS, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS_CILDRES_GROUPS, listener)
     }
 
-    public resourceHealthProfessionals(listener: (query: string) => any): any {
+    public provideHealthProfessionals(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.HEALTH_PROFESSIONALS, ResourceName.HEALTH_PROFESSIONALS, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONALS, listener)
     }
 
-    public resourceHealthProfessionalChildrenGroups(listener: (healthprofessional_id: string) => any): any {
+    public provideHealthProfessionalChildrenGroups(listener: (healthprofessional_id: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.HEALTH_PROFESSIONALS, ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, listener)
     }
 
-    public resourceApplications(listener: (query: string) => any): any {
+    public provideApplications(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.APPLICATIONS, ResourceName.APPLICATIONS, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.APPLICATIONS, listener)
     }
 
-    public resourceInstitutions(listener: (query: string) => any): any {
+    public provideInstitutions(listener: (query: string) => any): any {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.INSTITUTIONS, ResourceName.INSTITUTIONS, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.INSTITUTIONS, listener)
     }
 
     public getPhysicalActivities(query: string, callback: (err, result) => any): void
@@ -760,9 +832,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getPhysicalActivities(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.PHYSICAL_ACTIVITIES, ResourceName.PHYSICAL_ACTIVITIES, [query])
+            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES, [query])
         }
-        this.getResource(ExchangeName.PHYSICAL_ACTIVITIES, ResourceName.PHYSICAL_ACTIVITIES, [query], callback)
+        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES, [query], callback)
     }
 
     public getPhysicalActivitiesLogs(resource: string, date_start: number,
@@ -775,10 +847,10 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
                                      date_end: number, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.PHYSICAL_ACTIVITIES, ResourceName.PHYSICAL_ACTIVITIES_LOGS,
+            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES_LOGS,
                 [resource, date_start, date_end])
         }
-        this.getResource(ExchangeName.PHYSICAL_ACTIVITIES, ResourceName.PHYSICAL_ACTIVITIES_LOGS,
+        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES_LOGS,
             [resource, date_start, date_end], callback)
     }
 
@@ -789,9 +861,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getSleep(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.SLEEP, ResourceName.SLEEP, [query])
+            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.SLEEP, [query])
         }
-        this.getResource(ExchangeName.SLEEP, ResourceName.SLEEP, [query], callback)
+        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.SLEEP, [query], callback)
     }
 
     public getWeights(query: string, callback: (err, result) => any): void
@@ -801,9 +873,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getWeights(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.WEIGHTS, ResourceName.WEIGHTS, [query])
+            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.WEIGHTS, [query])
         }
-        this.getResource(ExchangeName.WEIGHTS, ResourceName.WEIGHTS, [query], callback)
+        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.WEIGHTS, [query], callback)
     }
 
     public getBodyFats(query: string, callback: (err, result) => any): void
@@ -813,9 +885,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getBodyFats(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.BODY_FATS, ResourceName.BODY_FATS, [query])
+            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.BODY_FATS, [query])
         }
-        this.getResource(ExchangeName.BODY_FATS, ResourceName.BODY_FATS, [query], callback)
+        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.BODY_FATS, [query], callback)
     }
 
     public getEnviroments(query: string, callback: (err, result) => any): void
@@ -825,9 +897,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getEnviroments(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.ENVIRONMENTS, ResourceName.ENVIROMENTS, [query])
+            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.ENVIROMENTS, [query])
         }
-        this.getResource(ExchangeName.ENVIRONMENTS, ResourceName.ENVIROMENTS, [query], callback)
+        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.ENVIROMENTS, [query], callback)
     }
 
     public getChildren(query: string, callback: (err, result) => any): void
@@ -837,9 +909,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getChildren(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.CHILDREN, ResourceName.CHILDREN, [query])
+            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.CHILDREN, [query])
         }
-        this.getResource(ExchangeName.CHILDREN, ResourceName.CHILDREN, [query], callback)
+        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.CHILDREN, [query], callback)
     }
 
     public getFamilies(query: string, callback: (err, result) => any): void
@@ -849,9 +921,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getFamilies(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.FAMILIES, ResourceName.FAMILIES, [query])
+            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILIES, [query])
         }
-        this.getResource(ExchangeName.FAMILIES, ResourceName.FAMILIES, [query], callback)
+        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILIES, [query], callback)
     }
 
     public getFamilyChildren(family_id: number, callback: (err, result) => any): void
@@ -861,9 +933,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getFamilyChildren(family_id: number, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.FAMILIES, ResourceName.FAMILY_CHILDREN, [family_id])
+            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILY_CHILDREN, [family_id])
         }
-        this.getResource(ExchangeName.FAMILIES, ResourceName.FAMILY_CHILDREN, [family_id], callback)
+        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILY_CHILDREN, [family_id], callback)
     }
 
     public getEducators(query: string, callback: (err, result) => any): void
@@ -873,9 +945,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getEducators(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.EDUCATORS, ResourceName.EDUCATORS, [query])
+            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS, [query])
         }
-        this.getResource(ExchangeName.EDUCATORS, ResourceName.EDUCATORS, [query], callback)
+        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS, [query], callback)
     }
 
     public getEducatorChildrenGroups(educator_id: number, callback: (err, result) => any): void
@@ -885,9 +957,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getEducatorChildrenGroups(educator_id: number, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.EDUCATORS, ResourceName.EDUCATORS_CILDRES_GROUPS, [educator_id])
+            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS_CILDRES_GROUPS, [educator_id])
         }
-        this.getResource(ExchangeName.EDUCATORS, ResourceName.EDUCATORS_CILDRES_GROUPS, [educator_id], callback)
+        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS_CILDRES_GROUPS, [educator_id], callback)
     }
 
     public getHealthProfessionals(query: string, callback: (err, result) => any): void
@@ -897,9 +969,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getHealthProfessionals(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.HEALTH_PROFESSIONALS, ResourceName.HEALTH_PROFESSIONALS, [query])
+            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONALS, [query])
         }
-        this.getResource(ExchangeName.HEALTH_PROFESSIONALS, ResourceName.HEALTH_PROFESSIONALS, [query], callback)
+        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONALS, [query], callback)
     }
 
     public getHealthProfessionalChildrenGroups(healthprofessional_id: number, callback: (err, result) => any): void
@@ -909,10 +981,10 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getHealthProfessionalChildrenGroups(healthprofessional_id: number, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.HEALTH_PROFESSIONALS, ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS,
+            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS,
                 [healthprofessional_id])
         }
-        this.getResource(ExchangeName.HEALTH_PROFESSIONALS,
+        this.request(ExchangeName.RPC_ACCOUNT,
             ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, [healthprofessional_id], callback)
     }
 
@@ -923,9 +995,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getApplications(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.APPLICATIONS, ResourceName.APPLICATIONS, [query])
+            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.APPLICATIONS, [query])
         }
-        this.getResource(ExchangeName.APPLICATIONS, ResourceName.APPLICATIONS, [query], callback)
+        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.APPLICATIONS, [query], callback)
     }
 
     public getInstitutions(query: string, callback: (err, result) => any): void
@@ -935,9 +1007,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     public getInstitutions(query: string, callback?: (err, result) => any): any {
 
         if (!callback) {
-            return this.getResource(ExchangeName.INSTITUTIONS, ResourceName.INSTITUTIONS, [query])
+            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.INSTITUTIONS, [query])
         }
-        this.getResource(ExchangeName.INSTITUTIONS, ResourceName.INSTITUTIONS, [query], callback)
+        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.INSTITUTIONS, [query], callback)
     }
 
 }

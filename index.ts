@@ -4,6 +4,6 @@ export { RoutingKeysName } from './src/utils/routing.keys.name'
 export { RabbitMQClient } from './src/app/rabbitmq.client'
 export { IConnectionConfigs } from './src/port/connection/config.interface'
 export {
-    IConnectionOptions,
     ISSLOptions
-} from 'pubsub'
+} from 'amqp-client-node'
+export { IConnectionOptions } from './src/port/connection/opt.interface'

@@ -1,10 +1,12 @@
-import { RabbitMQClient } from '../../index'
+import { RabbitMQClient, IConnectionOptions } from '../../index'
 
-const ocariot: RabbitMQClient = new RabbitMQClient('Account')
+const options: IConnectionOptions = {
+    receiveFromYourself: true
+}
 
-ocariot.receiveFromYourself(true)
+const ocariot: RabbitMQClient = new RabbitMQClient('Account', {}, options)
 
-ocariot.subSavePhysicalActivity((err, message) => {
+ocariot.subSavePhysicalActivity((message) => {
     console.log(message)
 })
 

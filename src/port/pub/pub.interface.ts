@@ -1,6 +1,5 @@
 export interface IPub {
 
-    pub(exchange: string, routingKey: string,
-        body: any): Promise<void>
+    pub(routingKey: string, body: any): Promise<void>
 
 }

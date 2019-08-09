@@ -1,11 +1,11 @@
-import { RabbitMQClient, IConnectionConfigs, IConnOpt } from '../../index'
+import { RabbitMQClient, IConnectionConfigs, IConnectionOptions } from '../../index'
+import * as fs from 'fs'
 
-const connOptions: IConnOpt = {
+const connOptions: IConnectionOptions = {
     retries: 5,
     interval: 1000,
-    ssl: {
-        enabled: true,
-        ca: './ssl/certifications/ca_certificate.pem'
+    sslOptions: {
+        ca: [fs.readFileSync('./ssl/certifications/ca_certificate.pem')]
     }
 }
 
