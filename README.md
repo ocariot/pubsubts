@@ -31,9 +31,22 @@ Library for publish and subscribe events on the OCARIoT platform message bus.
 ### Installation
 
     npm install ocariot-pubsubjs
-  
+---  
 ### Synopsis
-Example an application using the library *ocariot-pubsubjs*:
+Exemplo de aplicação utilizando a biblioteca:
+
+Em geral o exemplo a seguir demonstra o estabelecimento de uma conexão, na qual deseja-se publicar e receber os próprios ventos emitidos através do barramento. Para realizar isto é necessário os seguintes passos: 
+
+1. Realiza-se a importação da classe RabbitMQClient, necessária para instânciar o objeto que conterá todos os métodos para comunicação com o barramento;
+
+2. Para realizar o auto-recebimento de mensagens publicas da mesma conexão que deseja-se inscrever é necessário a passagem da propriedade *receiveFromYourself* como *true*, referente a interface *IConnectionOptions*;
+
+3. Instância-se o objeto RabbitMQClient passando o nome do microserviço, um objeto vazio (neste caso serão utilizados as configuração de conexão padrão) e as opções da conexão, respectivamente;
+
+4. Através da instância do objeto RabbitMQClient e do chamamento do método *subSavePhysicalActivity(callback)* é realizado a inscrição no evento SavePhysicalActivity, no qual passa-se o callback que será acionado quando tal evento for publicado no barramento;
+
+5. Por fim, é realizado a publicação do evento SavePhysicalActivity através do chamamento do método *pubSavePhysicalActivity(message)*, o qual terá como parâmetro a mesagem que será trafegada no barramento.
+
 ```TypeScript
 import { RabbitMQClient, IConnectionOptions } from '../../index'
 
@@ -52,49 +65,38 @@ ocariot.pubSavePhysicalActivity({ activity: 'Saving Activity...' }).catch((err) 
 })
 
 ```
-This application establish a connection with the Rabbit Bus through instance of class *OcariotPubSub*passing some parameters reference of the type connection. The parameters are:
 
-- *hostname: string* - Host IP witch TCP connection will be realized. In case SSL/TLS  connection, make sure you are 
-using the DNS registered in certificate, generated from Certificate Authorities.
-- *port: number* - Port number that TCP connection will be realized. In default configurations utilize the port 5672 for 
-connections without  SSL/TLS and 5671 for connection with SSL/TLS.
-- *username: string* - Username of a user already registered in Rabbit Bus  
-- *password: string* - Password of respective user informed above 
-- *options: IOption* - Configurations for enable or disable SSL/TLS connection.  In addition, it is possible the maximum number of attempts that must be made to establish the connection with the bus,as well as the interval between the attempts.
-
-After get an instance of OcariotPubBus object, some signals are registered. This signals are responsible for emitter three connection status. These are: 
-
-- *connected: void* - It's emitted when a connection is concretized and can publish/subscribe in Rabbit Bus
-- *disconnected: void* - It's emitted when a connection is closed 
-- *error: void* - It's emitted when a error is registered during the connection
-
-Once with the configurations realized, it's possible start connection with Rabbit Bus through the *connect()* method.
-
-There are yet two features that can be enable or disable according necessity  
-
+---
 ### Connection
 
-In constructor is passed some informations referents to connection configuration Rabbit Bus. The parameter *options: IOption* is optinal. However, these informations are necessary to establish SSL connections,  as well define aspects during possible falls and requests to a server.
+No construtor são passadas informações referentes a configuração da conexão com o barramento. Os parâmetro *conf: IConnectionConfigs* e *options: IOption* são opcional. Entretanto, ambas interfaces contém propriedades necessárias para o estabelecimento de conxões SSL/TLS. 
 
-*Parameters:*
+*Parâmetros:*
 
-- *appName: string* - Name of the microservice that will connect to the RabbitMQ bus
-- *conf: IConfig* - Mandatory configurations to establish connection with RabbitMQ bus
-- *options: IOpt* - Options for enable or disable SSL/TLS connection. 
-In addition, it is possible the maximum number of attempts that must be made to establish the connection with the bus, as well as the interval between the attempts  
+- *appName: string* - Nome do microserviço que irá se conectar com o barramento
+- *conf?: IConnectionConfigs | string* - Parâmetro referẽnte a passagem das configuraçãoes da conexão. É possível realizar a passagem de tais informções atráves da interface IConnectionConfigs, ou atráves da passagem da URI, no seguinte formato: 
+>*<protocol>://<user>:<password>@<ip>:<port>*
+>
+>Por exemplo:
+>
+>amqp://guest:guest@localhost:5672
+- *options?: IConnectionOptions* - Opções associadas ao estabelecimento da conexão. As propriedades não informadas da interface assumiram os valores padrões;
 
-#### IConfig
 
 ```TypeScript
-    OcariotPubSub (appName: string, conf?: IConnectionConfigs, options?: IConnectionOptions)
+    OcariotPubSub (appName: string, conf?: IConnectionConfigs,
+                   options?: IConnectionOptions)
 ```
+#### IConnectionConfigs
+Configuração para o estabelecimento da conexão com o barramento. As propriedades não informadas da interface assumiram os valores padrões.
 
-*Parameters:*
 
-- *hostname: string* - Host IP witch TCP connection will be realized. In case SSL/TLS  connection, make sure you are using the DNS registered in certificate, generated from Certificate Authorities.
-- *port: number* - Port number that TCP connection will be realized. In default configurations utilize the port 5672 for connections without  SSL/TLS and 5671 for connection with SSL/TLS.
-- *username: string* - Username of a user already registered in Rabbit Bus  
-- *password: string* - Password of respective user informed above 
+*Propriedades:*
+
+- *hostname: string* - IP do servidor, o qual será realizada a conexão TCP com o barramento. No caso conexão SS/TLS, assegure-se de está usando o DNS registrado no certificado, gerado a partir de uma autoridade de certificação; 
+- *port: number* - Número da porta, a qual será realizada a conexão TCP com o barramento. As configurações padrões do protocolo utiliza a porta 2340 para conexões sem SSL/TLS e a porta 5671 para conexões com SSL/TLS;
+- *username: string* - Nome do usuário já resgistrado no barramento; 
+- *password: string* - Senha do respectivo usuário informado na propriedade anterior;
 
 ```TypeScript
     IConnectionConfigs {
@@ -104,41 +106,79 @@ In addition, it is possible the maximum number of attempts that must be made to 
         password?: string,
     }
 ```
-#### IOpt
 
-Configurations for enable or disable SSL/TLS connection. In addition, it is possible the maximum number of attempts that must be made to establish the connection with the bus, as well as the interval between the attempts  
+*Valores Padões:*
 
-*Parameters:*
+```TypeScript
+    IConnectionParams = {
+        protocol: 'amqp',
+        hostname: '127.0.0.1',
+        port: 5672,
+        username: 'guest',
+        password: 'guest',
+    }
+```
+#### IConnectionOptions
 
-- *retries: number* - Define how many times the library will try to reconnect when connection is lost. If 0, it will try reconnect infinitely
-- *interval: number* - Define the interval to try reconnect in ms 
-- *enabled: boolean* - It allows the SSl configurations to be enable or disable
-- *ca: string* - Define the path until the file referent th certificate authority 
-    (ex: './ssl/certifications/ca_certificate.pem')
-- *rcpTimeout: number* - Define the max time to wait during a request
-- *receiveFromYourself: boolean* - This method is utilized to enable/disable the monitoring the published events themselves in Rabbit Bus. When actived,it's possible receive the messagens, since you have subscribed in the same event. 
+Atráves desta interface são definidos configurações capazes de habilitar ou desabilitar conexões SSL/TLS. Além disto, é possível estabelecer a quantidade máxima de tentativas que serão realizadas para estabelecer a conexão com o barramento, bem como o intervalo entre cada uma das tentativas. Por fim, poderão ser definidas configurações referêntes ao tempo máximo que uma requisição aguardará a resposta do proverdor de algum recurso. E ainda, poderá ser habilitado ou desabilitado a configuração capaz de possibilitar o monitoramento das próprias publicações no barramento. 
+
+*Parâmetro:*
+
+- *retries: number* - Defini quantas vezses a biblioteca irá tentar conectar ou reconectar quando uma conexão ainda não estabelecida ou é perdida, respectivamente. Se 0, a tentativas de reconexão será infinita;
+- *interval: number* - Defini o intervalo entre as tentativas de conexão em milisegundo;
+- *sslOptions: ISSLOptions* - Interface responsável por definir as configurações para o establecimento de conexões SSL/TLS;
+- *rcpTimeout: number* - Defini o tempo máximo que uma requisição aguardará por uma resposta;
+- *receiveFromYourself: boolean* - Esta proriedade é utilizada para habilitar ou desabilitar o monitaramento de eventos publicados e inscritos através de uma mesma conexão no barramento. Quanto true, é possível receber mensagens, desde que se tenha realizado a inscrição no mesmo evento de publicação;
 
 ```TypeScript
     IConnectionOptions {
-        retries?: number // number of retries, 0 is forever
-        interval?: number // retry interval in ms
+        retries?: number 
+        interval?: number 
         sslOptions?: ISSLOptions
         rpcTimeout?: number
         receiveFromYourself?: boolean
     }
 ```
+*Valores das Padrões das Propriedades:*
+
+```TypeScript
+    IConnectionOptions = {
+        retries: 0,
+        interval: 1000,
+        sslOptions: undefined,
+        rcpTimeout: 5000,
+        receiveFromYourself: false
+    }
+```
+
+#### ISSLOptions
+>Comentar brevemente a interface e propriedades
+
+*Propriedades:*
+
+- *cert: Buffer* - Referente ao certificado cliente;
+- *key: Buffer* - Referente a chave secreta do cliente;
+- *passphrase: string* - Frase secreta de proteção a chave secreta do cliente;
+- *ca: Buffer[ ]* - Array contendo todas os certificados gerados de entidades de cerficicações reconhecidas;
+
+```TypeScript
+    ISSLOptions {
+        cert?: Buffer,
+        key?: Buffer,
+        passphrase?: string
+        ca?: Buffer[]
+    }
+```
+
 ---
 
 ### Close
-This method is utilized to close all connections opened at once.
 
-*Return:*
-- *Promise\<boolean>* - This method will return the promise *true* if all open connections were closed, otherwise it will return *false*.
+Este método é utilizado para fechar todas as conexões abertadas de uma única vez.
 
+*Retorno:*
+- *Promise\<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
-```TypeScript
-    dispose(): Promise<void>
-```
 
 ```TypeScript
     close(): Promise<void>
@@ -146,35 +186,18 @@ This method is utilized to close all connections opened at once.
 ---
 
 ### Publish Message
-This section show how to publish message in Rabbit bus. To ocariot project was defined some publish methods referent two specific microservices. Actually the two microservices supported by library are Activity and Account microservices. Beside these, it was created a general method, making possible insert others message types and to publish in bus from future microsevices (obs: To utilize the general method is necessary some type of knowledge about topic communication).    
+Esta seção demonstra como publicar mensagens no barramento. Para o projeto do OCARIoT foram definidos alguns métodos de publicação referêntes a dois microserviços específicos. Atualmente os dois microserviços suportados pela biblioteca são o de Atividade e Conta. Além detes métodos foi criado um método geral, tornando possível a inserção de outros tipos de mensagens que poderão ser publicadas no barramento por microserviços futuros.
 
-#### Publish General Message
 
-*Parameters:*
-
-- *eventName: string* - Event name referente the message that will be published in bus. It's recomendable utilize camel case in the follow format: {RESOURCE}{ACTION}Event
-- *exchange: string* - Name of exchange that will be created or utilized during forwarded of message to rabbitMQ bus
-- *routingKey: string* - Define the rule that the exchange should follow during the message routing
-- *body: any* - Message that will be forwarded to rabbitMQ bus
-
-*Return:*
-
-- *Promise<boolean | OcariotPubSubException>* - It will return true if message was publish in rabbitMQ bus, 
-otherwise will be return false. In error case, will return a exception of type OcariotPubSubException
-
-```TypeScript
-    pub(exchange: string, routingKey: string,
-        body: any): Promise<void>
-```
 #### Publish Account Message
 
-*Parameter:*
+*Parâmetro:*
 
-- *\<resourceName>: any* -
+- *\<resourceName>: any* - Messagem que será encaminhada atráves do barramento;
 
-*Return:*
+*Retorno:*
 
-- *Promise<boolean | OcariotPubSubException>* - It will return true if message was publish in rabbitMQ bus,  otherwise will be return false. In error case, will return a exception of type OcariotPubSubException
+- *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
 ```TypeScript
     pubUpdateChild(child: any): Promise<void>
@@ -194,13 +217,13 @@ otherwise will be return false. In error case, will return a exception of type O
 
 #### Publish Activity Message
 
-*Parameter:*
+*Parâmetro:*
 
-- *\<resourceName>: any* -
+- *\<resourceName>: any* - Messagem que será encaminhada atráves do barramento;
 
-*Return:*
+*Retorno:*
 
-- *Promise<boolean | OcariotPubSubException>* - It will return true if message was publish in rabbitMQ bus,  otherwise will be return false. In error case, will return a exception of type OcariotPubSubException
+- *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
 ```TypeScript
     pubSavePhysicalActivity(activity: any): Promise<void>
@@ -228,35 +251,34 @@ otherwise will be return false. In error case, will return a exception of type O
     pubDeleteEnvironment(environment: any): Promise<void>
 ```
 
-### Subscribe Message
+#### Publish General Message
 
-#### Subscribe General Message
+*Parâmetros:*
 
-*Parameters:*
+- *routingKey: string* - Defini a regra que será utilizada pelo exchange para realizar o rotemento de messagens;
+- *body: any* - Messagem que será encaminhada atráves do barramento;
 
-- *exchange: string* - Name of exchange that will be created or utilized during forwarded of message to rabbitMQ bus
-- *queue: string* - Queue name that will be receive the messages forwarded through the exchange specified
-- *routingKey: string* - Define the rule that the exchange should follow during the message routing
-- *callback: (message: any) => void* - Funciotn that will be executed when some message arrive in queue
+*Retorno:*
 
-*Return:*
+- *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
-- *Promise<boolean | OcariotPubSubException>* - It will return true if realized subscription in rabbitMQ bus with sucess, otherwise will be return false. In error case, will return a exception of type OcariotPubSubException
-
- ```TypeScript
-   sub(exchange: string, queue: string, routingKey: string,
-        callback: (message: any) => void): Promise<void>
+```TypeScript
+    pub(routingKey: string, body: any): Promise<void>
 ```
+
+### Subscribe Message
+De forma análoga a seção do Publish Message, nesta seção será demonstrado como inscrever-se nos eventos de mensagens publicados no barramento. Como visto anteriormente, para o projeto do OCARIoT foram definidos alguns métodos, desta vez, métodos para inscrição de eventos referêntes aos dois microserviços específicos. Atualmente os dois microserviços suportados pela biblioteca são o de Atividade e Conta. Além destes métodos foi criado um método geral, tornando possível a inscrição em outros eventos de mensagens que poderão ser monitorados no barramento por microserviços futuros.
+
 
 #### Subscribe Account Message
 
-*Parameter:*
+*Parâmetro:*
 
-- *callback: (message: any) => void* -
+- *callback: (message: any) => void* - Função que será executada quando uma mensagem for direcionado pelo exchange para o atual subsribe;
 
-*Return:*
+*Retorno:*
 
-- *Promise<boolean | OcariotPubSubException>* - It will return true if realized subscription in rabbitMQ bus with sucess, otherwise will be return false. In error case, will return a exception of type OcariotPubSubException
+- *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
 
 ```TypeScript
@@ -277,13 +299,13 @@ otherwise will be return false. In error case, will return a exception of type O
 
 #### Subscribe Activity Message
 
-*Parameter:*
+*Parâmetro:*
 
-- *callback: (message: any) => void* -
+- *callback: (message: any) => void* - Função que será executada quando uma mensagem for direcionado pelo exchange para o atual subsribe;
 
-*Return:*
+*Retorno:*
 
-- *Promise<void>* -  It will return true if realized subscription in rabbitMQ bus with sucess, otherwise will be return false. In error case, will return a exception of type OcariotPubSubException
+- *Promise<void>* -  A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
 
 ```TypeScript
@@ -311,17 +333,34 @@ otherwise will be return false. In error case, will return a exception of type O
 
     subDeleteEnvironment(callback: (message: any) => void): Promise<void>
 ```
+
+#### Subscribe General Message
+
+*Parâmetros:*
+
+- *targetMicroservice: string* - Nome do microserviço do qual os eventos estarão sendo monitados;
+- *routingKey: string* - Defini a regra que será utilizada pelo exchange para realizar o rotemento de messagens;
+- *callback: (message: any) => void* - Função que será executada quando uma mensagem for direcionado pelo exchange para o atual subsribe;
+
+*Retorno:*
+
+- *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
+
+ ```TypeScript
+   sub(targetMicroservice: string, routingKey: string,
+       callback: (message: any) => void): Promise<void>
+```
+
+
 ---
 
 ### Resource Provider
 
-#### General Resource Provider
-
-```TypeScript
-    provide(name: string, func: (...any) => any): void
-```
-
 #### Account Microservice Resource Provider
+
+*Parâmetros:*
+
+*Retorno:*
 
 ```TypeScript
     providePhysicalActivities(listener: (query: string) => any): any
@@ -338,6 +377,10 @@ otherwise will be return false. In error case, will return a exception of type O
 ```
 
 #### Activity Microservice Resource Provider
+
+*Parâmetros:*
+
+*Retorno:*
 
 ```TypeScript
     provideChildren(listener: (query: string) => any): any
@@ -359,25 +402,26 @@ otherwise will be return false. In error case, will return a exception of type O
     provideInstitutions(listener: (query: string) => any): any
 ```
 
+#### General Resource Provider
+
+*Parâmetros:*
+
+*Retorno:*
+
+```TypeScript
+    provide(name: string, func: (...any) => any): void
+```
+
 ---
 ### Resource Requester
 
-#### General Resource Requester
-
-##### Version Callback
-
-```TypeScript
-    getResource(name: string, params: any[], callback: (...any) => any): void
-```
-
-##### Version Promise
-```TypeScript
-    getResource(name: string, params: any[]): Promise<any>
-```
-
 #### Account Microservice Resource Requester
 
-##### Version Callback
+##### Callback Version 
+
+*Parâmetros:*
+
+*Retorno:*
 
 ```TypeScript
     getChildren(query: string, callback: (err, result) => any): void
@@ -399,7 +443,11 @@ otherwise will be return false. In error case, will return a exception of type O
     getInstitutions(query: string, callback: (err, result) => any): void
 ```
 
-##### Version Promise
+##### Promise Version 
+
+*Parâmetros:*
+
+*Retorno:*
 
 ```TypeScript
 
@@ -426,7 +474,11 @@ otherwise will be return false. In error case, will return a exception of type O
 
 #### Activity Microservice Resource Requester
 
-##### Version Callback
+##### Callback Version 
+
+*Parâmetros:*
+
+*Retorno:*
 
 ```TypeScript
     getPhysicalActivities(query: string, callback: (err, result) => any): void
@@ -442,7 +494,11 @@ otherwise will be return false. In error case, will return a exception of type O
     getEnviroments(query: string, callback: (err, result) => any): void 
 ```
 
-##### Version Promise
+##### Promise Version 
+
+*Parâmetros:*
+
+*Retorno:*
 
 ```TypeScript
     getPhysicalActivities(query: string): Promise<any>
@@ -458,6 +514,29 @@ otherwise will be return false. In error case, will return a exception of type O
     getEnviroments(query: string): Promise<any>  
 ```
 
+#### General Resource Requester 
+
+##### Callback Version  
+
+*Parâmetros:*
+
+*Retorno:*
+
+```TypeScript
+    getResource(name: string, params: any[], callback: (...any) => any): void
+```
+
+##### Promise Version 
+
+*Parâmetros:*
+
+*Retorno:*
+
+```TypeScript
+    getResource(name: string, params: any[]): Promise<any>
+```
+
+
 ---
 ###  Events
 ```TypeScript
@@ -469,7 +548,7 @@ otherwise will be return false. In error case, will return a exception of type O
    
     #on('rpc_server_connected', function() {...})
 ```
-These events are emitted when a connection is concretized, making possible utilize the methods referents client/server and publish/subscribe in Rabbit Bus.
+Estes eventos são emitidos quando ocorre o estabelecimento de uma conexão, tornando possível a utilização dos métodos referente ao publish/subscribe e provider/get no barramento do RabbitMQ. 
 ```TypeScript
     #on('pub_disconnected', function() {...})
 
@@ -479,7 +558,7 @@ These events are emitted when a connection is concretized, making possible utili
 
     #on('rpc_server_disconnected', function() {...})
 ```
-These events are emitted when a connection is closed, after calling the [close method](#events). 
+Estes eventos são emitidos quando uma conexão é fechada corretamente, isto é, após o chamamento dos métodos dispose ou close.
 ```TypeScript
     #on('pub_lost_connection', function() {...})
 
@@ -489,7 +568,8 @@ These events are emitted when a connection is closed, after calling the [close m
 
     #on('rpc_server_lost_connection', function() {...})
 ```
-These events are emitted when the respective connection is lost and before attempting to re-establish the connection.
+Este eventos são emitidos quando uma conexão é perdida, uma vez que a mesma tinha já estabelecido uma conexão anteriormente.
+
 ```TypeScript  
     #on('pub_trying_connection', function() {...})
    
@@ -499,7 +579,8 @@ These events are emitted when the respective connection is lost and before attem
    
     #on('rpc_server_trying_connection', function() {...})
 ```
-These events are emitted during the time that try re-establish the connection.
+Estes eventos são emitidos durante as tentativas de se reconectar com uma conexão que foi perdida, ou durante o estabelecimento da conexão, a qual por exemplo, contém credenciais inválidas.
+
 ```TypeScript
     #on('pub_reconnected', function() {...})
 
@@ -509,7 +590,8 @@ These events are emitted during the time that try re-establish the connection.
 
     #on('rpc_server_reconnected', function() {...})
 ```
-These events are emitted when the respective connection is re-established.
+Estes eventos serão emitidos quando uma conexão que foi anteriormente estabelecida, entretanto por algum motivo perdeu a conexão, conseguiu restabelecer a conexão.
+
 ```TypeScript
     #on('pub_connection_error', function(err) {...})
 
@@ -519,20 +601,17 @@ These events are emitted when the respective connection is re-established.
 
     #on('rpc_server_connection_error', function(err) {...})
 ```
-These events are emitted when a error is registered during the connection.
+Estes eventos serão emitidos quando um erro for registrado durante a conexão. O callback destes eventos são acompanhados com o erro ocorrido em seu primeiro parâmetro.
 
 ---
 
-###  Logs Emission Manager
+### Logs Emission
 
-This method is utilize to visualize logs emitted during the processing of library. It can be enable/disable through the following parameters: 
+Este método é utilizado para visualizar logs emitido durante a utilização da biblioteca. Isto pode ser habilitado ou desabilitado através dos seguintes parâmetros:
 
-*Parameter:*
-- *level: string* - This parameter has to be one of the options:  **'warn'**, **'error'** or **'info'**. The default level is **'info'**
-
-*Return:*
-- *boolean* - This method will return *true* if the operation was actived, otherwise it will return *false*
+*Parâmetro:*
+- *level: string* - Este parâmetro deve ser defino com um dos três níveis de logs suportados pela biblioteca, os quais são:  **'warn'**, **'error'** or **'info'**.
 
 ```TypeScript
-    logger(level: string): boolean
+    logger(level: string): void
 ```

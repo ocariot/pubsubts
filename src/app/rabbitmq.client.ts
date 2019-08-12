@@ -48,7 +48,7 @@ const defaultOptionSub: ISubExchangeOptions = {
     queue: {
         durable: true
     },
-    receiveFromYourself: true
+    receiveFromYourself: false
 }
 const defaultOptionRpcClient: IClientOptions = {
     exchange: {
@@ -256,20 +256,24 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
     private async publish(exchangeName: string, routingKey: string, body: any): Promise<void> {
 
-        return new Promise<void>(async (resolve, reject) => {
+        return new Promise<void>(async () => {
 
             await this.pubConnection()
 
-            return this._pubConnection.pub(exchangeName, routingKey, body, defaultOptionPub)
+            const message = { content: body }
+
+            return this._pubConnection.pub(exchangeName, routingKey, message, defaultOptionPub)
         })
     }
 
     public async pub(routingKey: string, body: any): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
+        return new Promise<void>(async () => {
 
             await this.pubConnection()
 
-            return this._pubConnection.pub(ExchangeName.PUB_SUB_GENERAL, routingKey, body, defaultOptionPub)
+            const message = { content: body }
+
+            return this._pubConnection.pub(ExchangeName.PUB_SUB_GENERAL, routingKey, message, defaultOptionPub)
         })
     }
 
@@ -300,7 +304,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
     public sub(targetMicroservice: string, routingKey: string,
                callback: (message: any) => void): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
+        return new Promise<void>(async () => {
 
             await this.subConnection()
 
@@ -314,7 +318,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
     private subscribe(targetMicroservice: string, exchangeName: string, routingKey: string,
                       callback: (message: any) => void): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
+        return new Promise<void>(async () => {
 
             await this.subConnection()
 
@@ -351,7 +355,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     }
 
     private resource(sourceMicroservice: string, exchangeName: string, name: string, func: (...any) => any[]): void {
-        new Promise<void>(async (resolve, reject) => {
+        new Promise<void>(async () => {
 
             await this.serverConnection()
 
@@ -365,7 +369,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     }
 
     public provide(name: string, func: (...any) => any): void {
-        new Promise<void>(async (resolve, reject) => {
+        new Promise<void>(async () => {
 
             await this.serverConnection()
 
@@ -432,28 +436,25 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
     public async getResourcePromise(exchangeName: string, name: string, params: any[]): Promise<any> {
 
-        return new Promise<void>(async (resolve, reject) => {
-            if (!this._clientConnectionInitialized) {
-                this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
-
-                try {
-                    this._clientConnection = await this._clientConnectionInitialized
-                    this.clientEventInitialization()
-                    this.emit('rpc_client_connected')
-                } catch (err) {
-                    this._clientConnectionInitialized = undefined
-                    return reject(err)
-                }
-            }
+        if (!this._clientConnectionInitialized) {
+            this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
 
             try {
-                await this._clientConnectionInitialized
+                this._clientConnection = await this._clientConnectionInitialized
+                this.clientEventInitialization()
+                this.emit('rpc_client_connected')
             } catch (err) {
-                return reject(err)
+                this._clientConnectionInitialized = undefined
+                return Promise.reject(err)
             }
+        }
 
-            return this._clientConnection.rpcClient(exchangeName, name, params, defaultOptionRpcClient)
-        })
+        try {
+            await this._clientConnectionInitialized
+        } catch (err) {
+            return Promise.reject(err)
+        }
+        return this._clientConnection.rpcClient(exchangeName, name, params, defaultOptionRpcClient)
     }
 
     public pubSavePhysicalActivity(activity: any): Promise<void> {

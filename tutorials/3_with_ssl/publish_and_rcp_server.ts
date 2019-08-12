@@ -10,6 +10,7 @@ const connOptions: IConnectionOptions = {
 }
 
 const connParams: IConnectionConfigs = {
+    protocol: 'amqps',
     host: 'ip-machine',
     port: 5671,
     username: 'guest',
