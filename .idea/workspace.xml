@@ -2,13 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f48b49ab-2dd0-4784-a7ee-1fde50f0a5b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/rabbitmq.client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rabbitmq.client.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/port/connection/config.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/connection/config.interface.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tutorials/2_client_server/rcp_server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/2_client_server/rcp_server.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/resource.name.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/resource.name.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -24,11 +24,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/app/rabbitmq.client.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="22" column="23" lean-forward="true" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
+            <state relative-caret-position="363">
+              <caret line="417" column="82" lean-forward="true" selection-start-line="417" selection-start-column="82" selection-end-line="417" selection-end-column="82" />
               <folding>
                 <element signature="e#1150#1221#0" />
                 <element signature="e#1166#1219#0" />
+                <element signature="e#1268#1444#0" />
                 <element signature="e#1315#1368#0" />
                 <element signature="e#1381#1410#0" />
                 <element signature="e#1492#1585#0" />
@@ -37,6 +38,7 @@
                 <element signature="e#1681#1734#0" />
                 <element signature="e#1747#1776#0" />
                 <element signature="e#1824#1959#0" />
+                <element signature="e#2003#2041#0" />
                 <element signature="e#2764#3538#0" />
                 <element signature="e#2901#3003#0" />
                 <element signature="e#3049#3143#0" />
@@ -80,205 +82,217 @@
                 <element signature="e#7637#7810#0" />
                 <element signature="e#7842#7936#0" />
                 <element signature="e#7949#7999#0" />
-                <element signature="e#8431#8696#0" />
-                <element signature="e#8478#8689#0" />
-                <element signature="e#8741#9597#0" />
-                <element signature="e#8803#9590#0" />
-                <element signature="e#8878#9405#0" />
-                <element signature="e#9010#9205#0" />
-                <element signature="e#9218#9391#0" />
-                <element signature="e#9423#9517#0" />
-                <element signature="e#9530#9580#0" />
-                <element signature="e#9726#10071#0" />
-                <element signature="e#9773#10064#0" />
-                <element signature="e#10236#10565#0" />
-                <element signature="e#10283#10558#0" />
-                <element signature="e#10613#11482#0" />
-                <element signature="e#10675#11475#0" />
-                <element signature="e#10729#11280#0" />
-                <element signature="e#10863#11074#0" />
-                <element signature="e#11087#11266#0" />
-                <element signature="e#11298#11402#0" />
-                <element signature="e#11415#11465#0" />
-                <element signature="e#11600#11991#0" />
-                <element signature="e#11640#11934#0" />
-                <element signature="e#11951#11984#0" />
-                <element signature="e#12055#12506#0" />
-                <element signature="e#12095#12449#0" />
-                <element signature="e#12466#12499#0" />
-                <element signature="e#12767#12976#0" />
-                <element signature="e#12793#12887#0" />
-                <element signature="e#13294#13479#0" />
-                <element signature="e#13320#13402#0" />
-                <element signature="e#13596#14527#0" />
-                <element signature="e#13651#14472#0" />
-                <element signature="e#13705#14202#0" />
-                <element signature="e#13840#14051#0" />
-                <element signature="e#14064#14188#0" />
-                <element signature="e#14220#14291#0" />
-                <element signature="e#14304#14354#0" />
-                <element signature="e#14487#14520#0" />
-                <element signature="e#14630#15392#0" />
-                <element signature="e#14681#15146#0" />
-                <element signature="e#14808#15003#0" />
-                <element signature="e#15016#15136#0" />
-                <element signature="e#15160#15223#0" />
-                <element signature="e#15236#15286#0" />
-                <element signature="e#15459#15794#0" />
-                <element signature="e#15511#15674#0" />
-                <element signature="e#15863#16202#0" />
-                <element signature="e#15915#16080#0" />
-                <element signature="e#16271#16610#0" />
-                <element signature="e#16323#16488#0" />
-                <element signature="e#16981#17248#0" />
-                <element signature="e#17022#17154#0" />
-                <element signature="e#17303#17582#0" />
-                <element signature="e#17344#17476#0" />
-                <element signature="e#17637#17907#0" />
-                <element signature="e#17679#17811#0" />
-                <element signature="e#17964#18238#0" />
-                <element signature="e#18006#18140#0" />
-                <element signature="e#18295#18573#0" />
-                <element signature="e#18338#18473#0" />
-                <element signature="e#18632#18914#0" />
-                <element signature="e#18675#18812#0" />
-                <element signature="e#18979#19274#0" />
-                <element signature="e#19026#19168#0" />
-                <element signature="e#19341#19640#0" />
-                <element signature="e#19388#19532#0" />
-                <element signature="e#19695#19968#0" />
-                <element signature="e#19736#19868#0" />
-                <element signature="e#20025#20301#0" />
-                <element signature="e#20067#20201#0" />
-                <element signature="e#20362#20646#0" />
-                <element signature="e#20406#20544#0" />
-                <element signature="e#20727#21064#0" />
-                <element signature="e#20781#20940#0" />
-                <element signature="e#21131#21442#0" />
-                <element signature="e#21178#21322#0" />
-                <element signature="e#21495#21759#0" />
-                <element signature="e#21535#21665#0" />
-                <element signature="e#21826#22126#0" />
-                <element signature="e#21873#22017#0" />
-                <element signature="e#22212#22398#0" />
-                <element signature="e#22486#22674#0" />
-                <element signature="e#22762#22950#0" />
-                <element signature="e#23025#23181#0" />
-                <element signature="e#23258#23416#0" />
-                <element signature="e#23493#23651#0" />
-                <element signature="e#23727#23887#0" />
-                <element signature="e#23965#24127#0" />
-                <element signature="e#24204#24368#0" />
-                <element signature="e#24447#24613#0" />
-                <element signature="e#24694#24864#0" />
-                <element signature="e#24947#25119#0" />
-                <element signature="e#25196#25359#0" />
-                <element signature="e#25437#25600#0" />
-                <element signature="e#25680#25845#0" />
-                <element signature="e#25935#26122#0" />
-                <element signature="e#26205#26376#0" />
-                <element signature="e#26452#26609#0" />
-                <element signature="e#26692#26863#0" />
-                <element signature="e#26941#27109#0" />
-                <element signature="e#27232#27405#0" />
-                <element signature="e#27470#27624#0" />
-                <element signature="e#27690#27846#0" />
-                <element signature="e#27914#28072#0" />
-                <element signature="e#28143#28303#0" />
-                <element signature="e#28371#28526#0" />
-                <element signature="e#28594#28749#0" />
-                <element signature="e#28827#28989#0" />
-                <element signature="e#29058#29214#0" />
-                <element signature="e#29302#29473#0" />
-                <element signature="e#29552#29719#0" />
-                <element signature="e#29827#30009#0" />
-                <element signature="e#30081#30240#0" />
-                <element signature="e#30312#30471#0" />
-                <element signature="e#30709#30955#0" />
-                <element signature="e#30735#30848#0" />
-                <element signature="e#31439#31773#0" />
-                <element signature="e#31465#31624#0" />
-                <element signature="e#31972#32190#0" />
-                <element signature="e#31998#32097#0" />
-                <element signature="e#32395#32617#0" />
-                <element signature="e#32421#32522#0" />
-                <element signature="e#32825#33051#0" />
-                <element signature="e#32851#32954#0" />
-                <element signature="e#33268#33498#0" />
-                <element signature="e#33294#33399#0" />
-                <element signature="e#33706#33928#0" />
-                <element signature="e#33732#33833#0" />
-                <element signature="e#34136#34358#0" />
-                <element signature="e#34162#34263#0" />
-                <element signature="e#34596#34840#0" />
-                <element signature="e#34622#34734#0" />
-                <element signature="e#35051#35275#0" />
-                <element signature="e#35077#35179#0" />
-                <element signature="e#35543#35809#0" />
-                <element signature="e#35569#35692#0" />
-                <element signature="e#36050#36296#0" />
-                <element signature="e#36076#36189#0" />
-                <element signature="e#36624#36960#0" />
-                <element signature="e#36650#36810#0" />
-                <element signature="e#37180#37410#0" />
-                <element signature="e#37206#37311#0" />
-                <element signature="e#37630#37860#0" />
-                <element signature="e#37656#37761#0" />
+                <element signature="e#8112#8476#0" />
+                <element signature="e#8175#8469#0" />
+                <element signature="e#8194#8252#0" />
+                <element signature="e#8265#8315#0" />
+                <element signature="e#8545#8924#0" />
+                <element signature="e#8607#8917#0" />
+                <element signature="e#8626#8684#0" />
+                <element signature="e#8697#8747#0" />
+                <element signature="e#8969#9825#0" />
+                <element signature="e#9031#9818#0" />
+                <element signature="e#9106#9633#0" />
+                <element signature="e#9238#9433#0" />
+                <element signature="e#9446#9619#0" />
+                <element signature="e#9651#9745#0" />
+                <element signature="e#9758#9808#0" />
+                <element signature="e#9954#10413#0" />
+                <element signature="e#10016#10406#0" />
+                <element signature="e#10035#10093#0" />
+                <element signature="e#10106#10156#0" />
+                <element signature="e#10578#11020#0" />
+                <element signature="e#10640#11013#0" />
+                <element signature="e#10658#10716#0" />
+                <element signature="e#10729#10779#0" />
+                <element signature="e#11068#11937#0" />
+                <element signature="e#11130#11930#0" />
+                <element signature="e#11184#11735#0" />
+                <element signature="e#11318#11529#0" />
+                <element signature="e#11542#11721#0" />
+                <element signature="e#11753#11857#0" />
+                <element signature="e#11870#11920#0" />
+                <element signature="e#12064#12526#0" />
+                <element signature="e#12126#12519#0" />
+                <element signature="e#12145#12206#0" />
+                <element signature="e#12219#12269#0" />
+                <element signature="e#12599#13120#0" />
+                <element signature="e#12661#13113#0" />
+                <element signature="e#12679#12740#0" />
+                <element signature="e#12753#12803#0" />
+                <element signature="e#13381#13590#0" />
+                <element signature="e#13407#13501#0" />
+                <element signature="e#14210#15141#0" />
+                <element signature="e#14265#15086#0" />
+                <element signature="e#14319#14816#0" />
+                <element signature="e#14454#14665#0" />
+                <element signature="e#14678#14802#0" />
+                <element signature="e#14834#14905#0" />
+                <element signature="e#14918#14968#0" />
+                <element signature="e#15101#15134#0" />
+                <element signature="e#15244#16006#0" />
+                <element signature="e#15295#15760#0" />
+                <element signature="e#15422#15617#0" />
+                <element signature="e#15630#15750#0" />
+                <element signature="e#15774#15837#0" />
+                <element signature="e#15850#15900#0" />
+                <element signature="e#16073#16408#0" />
+                <element signature="e#16125#16288#0" />
+                <element signature="e#16477#16816#0" />
+                <element signature="e#16529#16694#0" />
+                <element signature="e#16885#17224#0" />
+                <element signature="e#16937#17102#0" />
+                <element signature="e#17277#17540#0" />
+                <element signature="e#17318#17448#0" />
+                <element signature="e#17595#17862#0" />
+                <element signature="e#17636#17768#0" />
+                <element signature="e#17917#18196#0" />
+                <element signature="e#17958#18090#0" />
+                <element signature="e#18251#18521#0" />
+                <element signature="e#18293#18425#0" />
+                <element signature="e#18578#18852#0" />
+                <element signature="e#18620#18754#0" />
+                <element signature="e#18909#19187#0" />
+                <element signature="e#18952#19087#0" />
+                <element signature="e#19246#19528#0" />
+                <element signature="e#19289#19426#0" />
+                <element signature="e#19593#19888#0" />
+                <element signature="e#19640#19782#0" />
+                <element signature="e#19955#20254#0" />
+                <element signature="e#20002#20146#0" />
+                <element signature="e#20309#20582#0" />
+                <element signature="e#20350#20482#0" />
+                <element signature="e#20639#20915#0" />
+                <element signature="e#20681#20815#0" />
+                <element signature="e#20976#21260#0" />
+                <element signature="e#21020#21158#0" />
+                <element signature="e#21341#21678#0" />
+                <element signature="e#21395#21554#0" />
+                <element signature="e#21745#22056#0" />
+                <element signature="e#21792#21936#0" />
+                <element signature="e#22109#22373#0" />
+                <element signature="e#22149#22279#0" />
+                <element signature="e#22440#22740#0" />
+                <element signature="e#22487#22631#0" />
+                <element signature="e#22826#23012#0" />
+                <element signature="e#23100#23288#0" />
+                <element signature="e#23376#23564#0" />
+                <element signature="e#23639#23795#0" />
+                <element signature="e#23872#24030#0" />
+                <element signature="e#24107#24265#0" />
+                <element signature="e#24341#24501#0" />
+                <element signature="e#24579#24741#0" />
+                <element signature="e#24818#24982#0" />
+                <element signature="e#25061#25227#0" />
+                <element signature="e#25308#25478#0" />
+                <element signature="e#25561#25733#0" />
+                <element signature="e#25810#25973#0" />
+                <element signature="e#26051#26214#0" />
+                <element signature="e#26294#26459#0" />
+                <element signature="e#26549#26736#0" />
+                <element signature="e#26819#26990#0" />
+                <element signature="e#27066#27223#0" />
+                <element signature="e#27306#27477#0" />
+                <element signature="e#27565#27733#0" />
+                <element signature="e#27918#28091#0" />
+                <element signature="e#28166#28320#0" />
+                <element signature="e#28396#28552#0" />
+                <element signature="e#28630#28788#0" />
+                <element signature="e#28869#29029#0" />
+                <element signature="e#29107#29262#0" />
+                <element signature="e#29340#29495#0" />
+                <element signature="e#29583#29745#0" />
+                <element signature="e#29824#29980#0" />
+                <element signature="e#30078#30250#0" />
+                <element signature="e#30339#30506#0" />
+                <element signature="e#30624#30806#0" />
+                <element signature="e#30888#31047#0" />
+                <element signature="e#31129#31288#0" />
+                <element signature="e#31528#31774#0" />
+                <element signature="e#31554#31667#0" />
+                <element signature="e#32254#32584#0" />
+                <element signature="e#32280#32437#0" />
+                <element signature="e#32785#33003#0" />
+                <element signature="e#32811#32910#0" />
+                <element signature="e#33210#33432#0" />
+                <element signature="e#33236#33337#0" />
+                <element signature="e#33642#33868#0" />
+                <element signature="e#33668#33771#0" />
+                <element signature="e#34087#34317#0" />
+                <element signature="e#34113#34218#0" />
+                <element signature="e#34527#34749#0" />
+                <element signature="e#34553#34654#0" />
+                <element signature="e#34959#35181#0" />
+                <element signature="e#34985#35086#0" />
+                <element signature="e#35418#35660#0" />
+                <element signature="e#35444#35555#0" />
+                <element signature="e#35873#36097#0" />
+                <element signature="e#35899#36001#0" />
+                <element signature="e#36364#36630#0" />
+                <element signature="e#36390#36513#0" />
+                <element signature="e#36873#37119#0" />
+                <element signature="e#36899#37012#0" />
+                <element signature="e#37446#37780#0" />
+                <element signature="e#37472#37631#0" />
+                <element signature="e#38002#38232#0" />
+                <element signature="e#38028#38133#0" />
+                <element signature="e#38454#38684#0" />
+                <element signature="e#38480#38585#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/port/connection/opt.interface.ts">
+        <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="30">
-              <caret line="2" column="68" selection-start-line="2" selection-start-column="68" selection-end-line="2" selection-end-column="68" />
+              <caret line="5" column="76" lean-forward="true" selection-start-line="5" selection-start-column="76" selection-end-line="5" selection-end-column="76" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/amqp-client-node/lib/index.d.ts">
+        <entry file="file://$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+            <state relative-caret-position="30">
+              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/src/app/rabbitmq.client.js">
+        <entry file="file://$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="61" column="4" selection-start-line="61" selection-start-column="4" selection-end-line="61" selection-end-column="4" />
+            <state relative-caret-position="480">
+              <caret line="32" column="72" selection-start-line="32" selection-start-column="72" selection-end-line="32" selection-end-column="72" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package.json">
+        <entry file="file://$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="49" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+            <state relative-caret-position="30">
+              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.ts">
+        <entry file="file://$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" selection-start-line="7" selection-end-line="7" />
+            <state relative-caret-position="300">
+              <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tutorials/2_client_server/rcp_server.ts">
+        <entry file="file://$PROJECT_DIR$/node_modules/amqp-client-node/lib/src/application/port/server.register.interface.d.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="33" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="33" />
+            <state relative-caret-position="15">
+              <caret line="1" column="4" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -304,8 +318,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tutorials/2_client_server/rpc_client.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="330">
+              <caret line="22" selection-start-line="22" selection-end-line="27" />
             </state>
           </provider>
         </entry>
@@ -393,14 +407,10 @@
         <option value="$PROJECT_DIR$/src/utils/configurations.ts" />
         <option value="$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/pub/message.interface.ts" />
-        <option value="$PROJECT_DIR$/src/utils/event.name.ts" />
         <option value="$PROJECT_DIR$/src/utils/routing.keys.name.ts" />
-        <option value="$PROJECT_DIR$/src/utils/resource.name.ts" />
         <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/sender.ts" />
         <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/receiver.ts" />
-        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.ts" />
         <option value="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_client.ts" />
-        <option value="$PROJECT_DIR$/tutorials/2_client_server/rpc_client.ts" />
         <option value="$PROJECT_DIR$/src/port/connection/parameters.default.ts" />
         <option value="$PROJECT_DIR$/../pubsub/index.ts" />
         <option value="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" />
@@ -416,17 +426,21 @@
         <option value="$PROJECT_DIR$/tutorials/3_with_ssl/subscribe_and_rcp_client.ts" />
         <option value="$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts" />
-        <option value="$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts" />
         <option value="$PROJECT_DIR$/src/utils/exchange.name.ts" />
         <option value="$PROJECT_DIR$/src/port/pub/pub.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/sub/sub.interface.ts" />
-        <option value="$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts" />
         <option value="$PROJECT_DIR$/src/port/server/server.interface.ts" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/port/connection/config.interface.ts" />
         <option value="$PROJECT_DIR$/tutorials/2_client_server/rcp_server.ts" />
         <option value="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.ts" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.ts" />
+        <option value="$PROJECT_DIR$/tutorials/2_client_server/rpc_client.ts" />
+        <option value="$PROJECT_DIR$/src/utils/event.name.ts" />
+        <option value="$PROJECT_DIR$/src/utils/resource.name.ts" />
+        <option value="$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts" />
         <option value="$PROJECT_DIR$/src/app/rabbitmq.client.ts" />
       </list>
     </option>
@@ -500,14 +514,14 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js.last.introduce.type" value="LET" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../pubsub" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Docker/docker-compose" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="Errors" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.TypeScript" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
@@ -602,12 +616,18 @@
       <workItem from="1565357714840" duration="15912000" />
       <workItem from="1565448684347" duration="599000" />
       <workItem from="1565613728173" duration="16850000" />
-      <workItem from="1565647281310" duration="249000" />
+      <workItem from="1565647281310" duration="1389000" />
+      <workItem from="1565714604264" duration="7600000" />
+      <workItem from="1565803915092" duration="3657000" />
+      <workItem from="1565813254714" duration="5915000" />
+      <workItem from="1565900689338" duration="670000" />
+      <workItem from="1566232324882" duration="983000" />
+      <workItem from="1566252800730" duration="2996000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="569010000" />
+    <option name="totallyTimeSpent" value="591971000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -620,6 +640,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="33" y="-4" width="1887" height="1084" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993498" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -636,7 +657,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49946353" weight="0.32925585" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5005365" side_tool="true" weight="0.32925585" />
       <window_info anchor="bottom" id="TypeScript" order="10" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.28848115" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.24872579" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -698,7 +719,6 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/port/ocariot.client.server.interface.ts" />
     <entry file="file://$PROJECT_DIR$/../pubsub/src/application/pub.sub.ts" />
     <entry file="file://$PROJECT_DIR$/../pubsub/src/application/port/connection.configuration.inteface.ts" />
     <entry file="file://$PROJECT_DIR$/lib/src/utils/queue.name.js">
@@ -746,24 +766,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/resource.name.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/configurations.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/event.name.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="48" selection-start-line="11" selection-start-column="27" selection-end-line="11" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -795,31 +801,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="33" selection-start-line="33" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="5" column="94" selection-start-line="5" selection-start-column="94" selection-end-line="5" selection-end-column="94" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
         </state>
       </provider>
     </entry>
@@ -834,20 +819,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="37" selection-start-line="2" selection-start-column="37" selection-end-line="2" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="38" selection-start-line="2" selection-start-column="38" selection-end-line="2" selection-end-column="38" />
         </state>
       </provider>
     </entry>
@@ -900,23 +871,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="145">
-            <caret line="507" column="38" selection-start-line="507" selection-start-column="38" selection-end-line="507" selection-end-column="38" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/subscribe.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/publish_and_subscribe.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -958,17 +912,62 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="9240">
+            <caret line="616" column="3" selection-start-line="616" selection-start-column="3" selection-end-line="616" selection-end-column="3" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/connection/opt.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="68" selection-start-line="2" selection-start-column="68" selection-end-line="2" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/amqp-client-node/lib/index.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.ts">
       <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="2" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/event.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="85" selection-start-line="13" selection-start-column="63" selection-end-line="13" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/resource.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="40" selection-start-line="12" selection-start-column="40" selection-end-line="12" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/subscribe.ts">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+          <caret line="7" selection-end-line="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tutorials/2_client_server/rcp_server.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="33" selection-start-line="11" selection-start-column="8" selection-end-line="11" selection-end-column="33" />
+        <state>
+          <caret selection-end-line="18" />
         </state>
       </provider>
     </entry>
@@ -988,32 +987,61 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tutorials/2_client_server/rpc_client.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="330">
+          <caret line="22" selection-start-line="22" selection-end-line="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/port/connection/opt.interface.ts">
+    <entry file="file://$PROJECT_DIR$/node_modules/amqp-client-node/lib/src/application/port/server.register.interface.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="4" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="72" selection-start-line="32" selection-start-column="72" selection-end-line="32" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
-          <caret line="2" column="68" selection-start-line="2" selection-start-column="68" selection-end-line="2" selection-end-column="68" />
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/amqp-client-node/lib/index.d.ts">
+    <entry file="file://$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="28" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+        <state relative-caret-position="30">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="5" column="76" lean-forward="true" selection-start-line="5" selection-start-column="76" selection-end-line="5" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/app/rabbitmq.client.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="22" column="23" lean-forward="true" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
+        <state relative-caret-position="363">
+          <caret line="417" column="82" lean-forward="true" selection-start-line="417" selection-start-column="82" selection-end-line="417" selection-end-column="82" />
           <folding>
             <element signature="e#1150#1221#0" />
             <element signature="e#1166#1219#0" />
+            <element signature="e#1268#1444#0" />
             <element signature="e#1315#1368#0" />
             <element signature="e#1381#1410#0" />
             <element signature="e#1492#1585#0" />
@@ -1022,6 +1050,7 @@
             <element signature="e#1681#1734#0" />
             <element signature="e#1747#1776#0" />
             <element signature="e#1824#1959#0" />
+            <element signature="e#2003#2041#0" />
             <element signature="e#2764#3538#0" />
             <element signature="e#2901#3003#0" />
             <element signature="e#3049#3143#0" />
@@ -1065,150 +1094,162 @@
             <element signature="e#7637#7810#0" />
             <element signature="e#7842#7936#0" />
             <element signature="e#7949#7999#0" />
-            <element signature="e#8431#8696#0" />
-            <element signature="e#8478#8689#0" />
-            <element signature="e#8741#9597#0" />
-            <element signature="e#8803#9590#0" />
-            <element signature="e#8878#9405#0" />
-            <element signature="e#9010#9205#0" />
-            <element signature="e#9218#9391#0" />
-            <element signature="e#9423#9517#0" />
-            <element signature="e#9530#9580#0" />
-            <element signature="e#9726#10071#0" />
-            <element signature="e#9773#10064#0" />
-            <element signature="e#10236#10565#0" />
-            <element signature="e#10283#10558#0" />
-            <element signature="e#10613#11482#0" />
-            <element signature="e#10675#11475#0" />
-            <element signature="e#10729#11280#0" />
-            <element signature="e#10863#11074#0" />
-            <element signature="e#11087#11266#0" />
-            <element signature="e#11298#11402#0" />
-            <element signature="e#11415#11465#0" />
-            <element signature="e#11600#11991#0" />
-            <element signature="e#11640#11934#0" />
-            <element signature="e#11951#11984#0" />
-            <element signature="e#12055#12506#0" />
-            <element signature="e#12095#12449#0" />
-            <element signature="e#12466#12499#0" />
-            <element signature="e#12767#12976#0" />
-            <element signature="e#12793#12887#0" />
-            <element signature="e#13294#13479#0" />
-            <element signature="e#13320#13402#0" />
-            <element signature="e#13596#14527#0" />
-            <element signature="e#13651#14472#0" />
-            <element signature="e#13705#14202#0" />
-            <element signature="e#13840#14051#0" />
-            <element signature="e#14064#14188#0" />
-            <element signature="e#14220#14291#0" />
-            <element signature="e#14304#14354#0" />
-            <element signature="e#14487#14520#0" />
-            <element signature="e#14630#15392#0" />
-            <element signature="e#14681#15146#0" />
-            <element signature="e#14808#15003#0" />
-            <element signature="e#15016#15136#0" />
-            <element signature="e#15160#15223#0" />
-            <element signature="e#15236#15286#0" />
-            <element signature="e#15459#15794#0" />
-            <element signature="e#15511#15674#0" />
-            <element signature="e#15863#16202#0" />
-            <element signature="e#15915#16080#0" />
-            <element signature="e#16271#16610#0" />
-            <element signature="e#16323#16488#0" />
-            <element signature="e#16981#17248#0" />
-            <element signature="e#17022#17154#0" />
-            <element signature="e#17303#17582#0" />
-            <element signature="e#17344#17476#0" />
-            <element signature="e#17637#17907#0" />
-            <element signature="e#17679#17811#0" />
-            <element signature="e#17964#18238#0" />
-            <element signature="e#18006#18140#0" />
-            <element signature="e#18295#18573#0" />
-            <element signature="e#18338#18473#0" />
-            <element signature="e#18632#18914#0" />
-            <element signature="e#18675#18812#0" />
-            <element signature="e#18979#19274#0" />
-            <element signature="e#19026#19168#0" />
-            <element signature="e#19341#19640#0" />
-            <element signature="e#19388#19532#0" />
-            <element signature="e#19695#19968#0" />
-            <element signature="e#19736#19868#0" />
-            <element signature="e#20025#20301#0" />
-            <element signature="e#20067#20201#0" />
-            <element signature="e#20362#20646#0" />
-            <element signature="e#20406#20544#0" />
-            <element signature="e#20727#21064#0" />
-            <element signature="e#20781#20940#0" />
-            <element signature="e#21131#21442#0" />
-            <element signature="e#21178#21322#0" />
-            <element signature="e#21495#21759#0" />
-            <element signature="e#21535#21665#0" />
-            <element signature="e#21826#22126#0" />
-            <element signature="e#21873#22017#0" />
-            <element signature="e#22212#22398#0" />
-            <element signature="e#22486#22674#0" />
-            <element signature="e#22762#22950#0" />
-            <element signature="e#23025#23181#0" />
-            <element signature="e#23258#23416#0" />
-            <element signature="e#23493#23651#0" />
-            <element signature="e#23727#23887#0" />
-            <element signature="e#23965#24127#0" />
-            <element signature="e#24204#24368#0" />
-            <element signature="e#24447#24613#0" />
-            <element signature="e#24694#24864#0" />
-            <element signature="e#24947#25119#0" />
-            <element signature="e#25196#25359#0" />
-            <element signature="e#25437#25600#0" />
-            <element signature="e#25680#25845#0" />
-            <element signature="e#25935#26122#0" />
-            <element signature="e#26205#26376#0" />
-            <element signature="e#26452#26609#0" />
-            <element signature="e#26692#26863#0" />
-            <element signature="e#26941#27109#0" />
-            <element signature="e#27232#27405#0" />
-            <element signature="e#27470#27624#0" />
-            <element signature="e#27690#27846#0" />
-            <element signature="e#27914#28072#0" />
-            <element signature="e#28143#28303#0" />
-            <element signature="e#28371#28526#0" />
-            <element signature="e#28594#28749#0" />
-            <element signature="e#28827#28989#0" />
-            <element signature="e#29058#29214#0" />
-            <element signature="e#29302#29473#0" />
-            <element signature="e#29552#29719#0" />
-            <element signature="e#29827#30009#0" />
-            <element signature="e#30081#30240#0" />
-            <element signature="e#30312#30471#0" />
-            <element signature="e#30709#30955#0" />
-            <element signature="e#30735#30848#0" />
-            <element signature="e#31439#31773#0" />
-            <element signature="e#31465#31624#0" />
-            <element signature="e#31972#32190#0" />
-            <element signature="e#31998#32097#0" />
-            <element signature="e#32395#32617#0" />
-            <element signature="e#32421#32522#0" />
-            <element signature="e#32825#33051#0" />
-            <element signature="e#32851#32954#0" />
-            <element signature="e#33268#33498#0" />
-            <element signature="e#33294#33399#0" />
-            <element signature="e#33706#33928#0" />
-            <element signature="e#33732#33833#0" />
-            <element signature="e#34136#34358#0" />
-            <element signature="e#34162#34263#0" />
-            <element signature="e#34596#34840#0" />
-            <element signature="e#34622#34734#0" />
-            <element signature="e#35051#35275#0" />
-            <element signature="e#35077#35179#0" />
-            <element signature="e#35543#35809#0" />
-            <element signature="e#35569#35692#0" />
-            <element signature="e#36050#36296#0" />
-            <element signature="e#36076#36189#0" />
-            <element signature="e#36624#36960#0" />
-            <element signature="e#36650#36810#0" />
-            <element signature="e#37180#37410#0" />
-            <element signature="e#37206#37311#0" />
-            <element signature="e#37630#37860#0" />
-            <element signature="e#37656#37761#0" />
+            <element signature="e#8112#8476#0" />
+            <element signature="e#8175#8469#0" />
+            <element signature="e#8194#8252#0" />
+            <element signature="e#8265#8315#0" />
+            <element signature="e#8545#8924#0" />
+            <element signature="e#8607#8917#0" />
+            <element signature="e#8626#8684#0" />
+            <element signature="e#8697#8747#0" />
+            <element signature="e#8969#9825#0" />
+            <element signature="e#9031#9818#0" />
+            <element signature="e#9106#9633#0" />
+            <element signature="e#9238#9433#0" />
+            <element signature="e#9446#9619#0" />
+            <element signature="e#9651#9745#0" />
+            <element signature="e#9758#9808#0" />
+            <element signature="e#9954#10413#0" />
+            <element signature="e#10016#10406#0" />
+            <element signature="e#10035#10093#0" />
+            <element signature="e#10106#10156#0" />
+            <element signature="e#10578#11020#0" />
+            <element signature="e#10640#11013#0" />
+            <element signature="e#10658#10716#0" />
+            <element signature="e#10729#10779#0" />
+            <element signature="e#11068#11937#0" />
+            <element signature="e#11130#11930#0" />
+            <element signature="e#11184#11735#0" />
+            <element signature="e#11318#11529#0" />
+            <element signature="e#11542#11721#0" />
+            <element signature="e#11753#11857#0" />
+            <element signature="e#11870#11920#0" />
+            <element signature="e#12064#12526#0" />
+            <element signature="e#12126#12519#0" />
+            <element signature="e#12145#12206#0" />
+            <element signature="e#12219#12269#0" />
+            <element signature="e#12599#13120#0" />
+            <element signature="e#12661#13113#0" />
+            <element signature="e#12679#12740#0" />
+            <element signature="e#12753#12803#0" />
+            <element signature="e#13381#13590#0" />
+            <element signature="e#13407#13501#0" />
+            <element signature="e#14210#15141#0" />
+            <element signature="e#14265#15086#0" />
+            <element signature="e#14319#14816#0" />
+            <element signature="e#14454#14665#0" />
+            <element signature="e#14678#14802#0" />
+            <element signature="e#14834#14905#0" />
+            <element signature="e#14918#14968#0" />
+            <element signature="e#15101#15134#0" />
+            <element signature="e#15244#16006#0" />
+            <element signature="e#15295#15760#0" />
+            <element signature="e#15422#15617#0" />
+            <element signature="e#15630#15750#0" />
+            <element signature="e#15774#15837#0" />
+            <element signature="e#15850#15900#0" />
+            <element signature="e#16073#16408#0" />
+            <element signature="e#16125#16288#0" />
+            <element signature="e#16477#16816#0" />
+            <element signature="e#16529#16694#0" />
+            <element signature="e#16885#17224#0" />
+            <element signature="e#16937#17102#0" />
+            <element signature="e#17277#17540#0" />
+            <element signature="e#17318#17448#0" />
+            <element signature="e#17595#17862#0" />
+            <element signature="e#17636#17768#0" />
+            <element signature="e#17917#18196#0" />
+            <element signature="e#17958#18090#0" />
+            <element signature="e#18251#18521#0" />
+            <element signature="e#18293#18425#0" />
+            <element signature="e#18578#18852#0" />
+            <element signature="e#18620#18754#0" />
+            <element signature="e#18909#19187#0" />
+            <element signature="e#18952#19087#0" />
+            <element signature="e#19246#19528#0" />
+            <element signature="e#19289#19426#0" />
+            <element signature="e#19593#19888#0" />
+            <element signature="e#19640#19782#0" />
+            <element signature="e#19955#20254#0" />
+            <element signature="e#20002#20146#0" />
+            <element signature="e#20309#20582#0" />
+            <element signature="e#20350#20482#0" />
+            <element signature="e#20639#20915#0" />
+            <element signature="e#20681#20815#0" />
+            <element signature="e#20976#21260#0" />
+            <element signature="e#21020#21158#0" />
+            <element signature="e#21341#21678#0" />
+            <element signature="e#21395#21554#0" />
+            <element signature="e#21745#22056#0" />
+            <element signature="e#21792#21936#0" />
+            <element signature="e#22109#22373#0" />
+            <element signature="e#22149#22279#0" />
+            <element signature="e#22440#22740#0" />
+            <element signature="e#22487#22631#0" />
+            <element signature="e#22826#23012#0" />
+            <element signature="e#23100#23288#0" />
+            <element signature="e#23376#23564#0" />
+            <element signature="e#23639#23795#0" />
+            <element signature="e#23872#24030#0" />
+            <element signature="e#24107#24265#0" />
+            <element signature="e#24341#24501#0" />
+            <element signature="e#24579#24741#0" />
+            <element signature="e#24818#24982#0" />
+            <element signature="e#25061#25227#0" />
+            <element signature="e#25308#25478#0" />
+            <element signature="e#25561#25733#0" />
+            <element signature="e#25810#25973#0" />
+            <element signature="e#26051#26214#0" />
+            <element signature="e#26294#26459#0" />
+            <element signature="e#26549#26736#0" />
+            <element signature="e#26819#26990#0" />
+            <element signature="e#27066#27223#0" />
+            <element signature="e#27306#27477#0" />
+            <element signature="e#27565#27733#0" />
+            <element signature="e#27918#28091#0" />
+            <element signature="e#28166#28320#0" />
+            <element signature="e#28396#28552#0" />
+            <element signature="e#28630#28788#0" />
+            <element signature="e#28869#29029#0" />
+            <element signature="e#29107#29262#0" />
+            <element signature="e#29340#29495#0" />
+            <element signature="e#29583#29745#0" />
+            <element signature="e#29824#29980#0" />
+            <element signature="e#30078#30250#0" />
+            <element signature="e#30339#30506#0" />
+            <element signature="e#30624#30806#0" />
+            <element signature="e#30888#31047#0" />
+            <element signature="e#31129#31288#0" />
+            <element signature="e#31528#31774#0" />
+            <element signature="e#31554#31667#0" />
+            <element signature="e#32254#32584#0" />
+            <element signature="e#32280#32437#0" />
+            <element signature="e#32785#33003#0" />
+            <element signature="e#32811#32910#0" />
+            <element signature="e#33210#33432#0" />
+            <element signature="e#33236#33337#0" />
+            <element signature="e#33642#33868#0" />
+            <element signature="e#33668#33771#0" />
+            <element signature="e#34087#34317#0" />
+            <element signature="e#34113#34218#0" />
+            <element signature="e#34527#34749#0" />
+            <element signature="e#34553#34654#0" />
+            <element signature="e#34959#35181#0" />
+            <element signature="e#34985#35086#0" />
+            <element signature="e#35418#35660#0" />
+            <element signature="e#35444#35555#0" />
+            <element signature="e#35873#36097#0" />
+            <element signature="e#35899#36001#0" />
+            <element signature="e#36364#36630#0" />
+            <element signature="e#36390#36513#0" />
+            <element signature="e#36873#37119#0" />
+            <element signature="e#36899#37012#0" />
+            <element signature="e#37446#37780#0" />
+            <element signature="e#37472#37631#0" />
+            <element signature="e#38002#38232#0" />
+            <element signature="e#38028#38133#0" />
+            <element signature="e#38454#38684#0" />
+            <element signature="e#38480#38585#0" />
           </folding>
         </state>
       </provider>

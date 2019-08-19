@@ -1,4 +1,4 @@
-import { IConnectionConfigs, RabbitMQClient } from '../../index'
+import { RabbitMQClient } from '../../index'
 
 const ocariot: RabbitMQClient = new RabbitMQClient('Account')
 

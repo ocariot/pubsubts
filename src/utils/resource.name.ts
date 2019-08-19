@@ -10,7 +10,7 @@ export abstract class ResourceName {
     public static readonly FAMILIES: string = 'Families'
     public static readonly FAMILY_CHILDREN: string = 'FamilyChildren'
     public static readonly EDUCATORS: string = 'Educators'
-    public static readonly EDUCATORS_CILDRES_GROUPS: string = 'EducatorChildrenGroups'
+    public static readonly EDUCATORS_CHILDRES_GROUPS: string = 'EducatorChildrenGroups'
     public static readonly HEALTH_PROFESSIONALS: string = 'HealthProfessionals'
     public static readonly HEALTH_PROFESSIONAL_CHILDREN_GROUPS: string = 'HealthProfessionalChildrenGroups'
     public static readonly APPLICATIONS: string = 'Applications'

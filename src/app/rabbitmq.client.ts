@@ -256,9 +256,13 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
     private async publish(exchangeName: string, routingKey: string, body: any): Promise<void> {
 
-        return new Promise<void>(async () => {
+        return new Promise<void>(async (resolve, reject) => {
 
-            await this.pubConnection()
+            try {
+                await this.pubConnection()
+            } catch (err) {
+                return reject(err)
+            }
 
             const message = { content: body }
 
@@ -267,9 +271,13 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
     }
 
     public async pub(routingKey: string, body: any): Promise<void> {
-        return new Promise<void>(async () => {
+        return new Promise<void>(async (resolve, reject) => {
 
-            await this.pubConnection()
+            try {
+                await this.pubConnection()
+            } catch (err) {
+                return reject(err)
+            }
 
             const message = { content: body }
 
@@ -304,9 +312,13 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
     public sub(targetMicroservice: string, routingKey: string,
                callback: (message: any) => void): Promise<void> {
-        return new Promise<void>(async () => {
+        return new Promise<void>(async (resolve, reject) => {
 
-            await this.subConnection()
+            try {
+                await this.subConnection()
+            } catch (err) {
+                return reject(err)
+            }
 
             return this._subConnection.sub(this._appName.concat(targetMicroservice),
                 ExchangeName.PUB_SUB_GENERAL,
@@ -318,9 +330,13 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
 
     private subscribe(targetMicroservice: string, exchangeName: string, routingKey: string,
                       callback: (message: any) => void): Promise<void> {
-        return new Promise<void>(async () => {
+        return new Promise<void>(async (resolve, reject) => {
 
-            await this.subConnection()
+            try {
+                await this.subConnection()
+            } catch (err) {
+                return reject(err)
+            }
 
             return this._subConnection.sub(this._appName.concat(targetMicroservice),
                 exchangeName,
@@ -354,36 +370,40 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
         })
     }
 
-    private resource(sourceMicroservice: string, exchangeName: string, name: string, func: (...any) => any[]): void {
-        new Promise<void>(async () => {
+    private resource(sourceMicroservice: string, exchangeName: string, name: string, func: (...any) => any[]): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
 
-            await this.serverConnection()
+            try {
+                await this.serverConnection()
+            } catch (err) {
+                return reject(err)
+            }
 
             const server: IServerRegister = this._serverConnection
                 .createRpcServer(sourceMicroservice, exchangeName, [], defaultOptionRpcServer)
 
             if (server.addResource(name, func)) return await server.start()
-        }).catch((err) => {
-            throw err
         })
     }
 
-    public provide(name: string, func: (...any) => any): void {
-        new Promise<void>(async () => {
+    public provide(name: string, func: (...any) => any): Promise<void> {
+        return new Promise<void>(async (resolve, reject) => {
 
-            await this.serverConnection()
+            try {
+                await this.serverConnection()
+            } catch (err) {
+                return reject(err)
+            }
 
             const server: IServerRegister = this._serverConnection
                 .createRpcServer(TargetMicroservice.RCP_OCARIOT_GENERAL_SERVICE,
                     ExchangeName.RPC_GENERAL, [], defaultOptionRpcServer)
 
             if (server.addResource(name, func)) return await server.start()
-        }).catch((err) => {
-            throw err
         })
     }
 
-    public getResource(name: string, params: any[], callback: (...any) => any): void
+    public getResource(name: string, params: any[], callback: (err, result) => any): void
 
     public getResource(name: string, params: any[]): Promise<any>
 
@@ -395,11 +415,12 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
         this.getResourceCallback(ExchangeName.RPC_GENERAL, name, params, callback)
     }
 
-    private request(exchangeName: string, name: string, params: any[], callback: (...any) => any): void
+    private requestResource(exchangeName: string, name: string, params: any[], callback: (err, result) => any): void
 
-    private request(exchangeName: string, name: string, params: any[]): Promise<any>
+    private requestResource(exchangeName: string, name: string, params: any[]): Promise<any>
 
-    private request(exchangeName: string, name: string, params: any[], callback?: (err, result) => any): void | Promise<any> {
+    private requestResource(exchangeName: string, name: string, params: any[],
+                            callback?: (err, result) => any): void | Promise<any> {
 
         if (!callback) {
             return this.getResourcePromise(exchangeName, name, params)
@@ -751,266 +772,267 @@ export class RabbitMQClient extends EventEmitter implements IOcariotPubSub {
             ExchangeName.INSTITUTIONS, RoutingKeysName.DELETE_INSTITUTIONS, callback)
     }
 
-    public providePhysicalActivities(listener: (query: string) => any): any {
+    public providePhysicalActivities(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES, listener)
     }
 
-    public providePhysicalActivitiesLogs(listener: (resource: string, date_start: string, date_end: string) => any): any {
+    public providePhysicalActivitiesLogs(listener: (resource: string, date_start: string,
+                                                    date_end: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES_LOGS, listener)
     }
 
-    public provideSleep(listener: (query: string) => any): any {
+    public provideSleep(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.RPC_ACTIVITY, ResourceName.SLEEP, listener)
     }
 
-    public provideWights(listener: (query: string) => any): any {
+    public provideWights(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.RPC_ACTIVITY, ResourceName.WEIGHTS, listener)
     }
 
-    public provideBodyFats(listener: (query: string) => any): any {
+    public provideBodyFats(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.RPC_ACTIVITY, ResourceName.BODY_FATS, listener)
     }
 
-    public provideEnviroments(listener: (query: string) => any): any {
+    public provideEnviroments(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE,
             ExchangeName.RPC_ACTIVITY, ResourceName.ENVIROMENTS, listener)
     }
 
-    public provideChildren(listener: (query: string) => any): any {
+    public provideChildren(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.RPC_ACCOUNT, ResourceName.CHILDREN, listener)
     }
 
-    public provideFamilies(listener: (query: string) => any): any {
+    public provideFamilies(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.RPC_ACCOUNT, ResourceName.FAMILIES, listener)
     }
 
-    public provideFamilyChildren(listener: (family_id: string) => any): any {
+    public provideFamilyChildren(listener: (family_id: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.RPC_ACCOUNT, ResourceName.FAMILY_CHILDREN, listener)
     }
 
-    public provideEducators(listener: (query: string) => any): any {
+    public provideEducators(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS, listener)
     }
 
-    public provideEducatorChildrenGroups(listener: (educator_id: string) => any): any {
+    public provideEducatorChildrenGroups(listener: (educator_id: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
-            ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS_CILDRES_GROUPS, listener)
+            ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS_CHILDRES_GROUPS, listener)
     }
 
-    public provideHealthProfessionals(listener: (query: string) => any): any {
+    public provideHealthProfessionals(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONALS, listener)
     }
 
-    public provideHealthProfessionalChildrenGroups(listener: (healthprofessional_id: string) => any): any {
+    public provideHealthProfessionalChildrenGroups(listener: (healthprofessional_id: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, listener)
     }
 
-    public provideApplications(listener: (query: string) => any): any {
+    public provideApplications(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.RPC_ACCOUNT, ResourceName.APPLICATIONS, listener)
     }
 
-    public provideInstitutions(listener: (query: string) => any): any {
+    public provideInstitutions(listener: (query: string) => any): Promise<void> {
         return this.resource(TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE,
             ExchangeName.RPC_ACCOUNT, ResourceName.INSTITUTIONS, listener)
     }
 
-    public getPhysicalActivities(query: string, callback: (err, result) => any): void
+    public getPhysicalActivities(query: string, callback: (err, result) => void): void
 
     public getPhysicalActivities(query: string): Promise<any>
 
-    public getPhysicalActivities(query: string, callback?: (err, result) => any): any {
+    public getPhysicalActivities(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES, [query])
+            return this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES, [query])
         }
-        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES, [query], callback)
     }
 
-    public getPhysicalActivitiesLogs(resource: string, date_start: number,
-                                     date_end: number, callback: (err, result) => any): void
+    public getPhysicalActivitiesLogs(resource: string, dateStart: string,
+                                     dateEnd: string, callback: (err, result) => void): void
 
-    public getPhysicalActivitiesLogs(resource: string, date_start: number,
-                                     date_end: number): Promise<any>
+    public getPhysicalActivitiesLogs(resource: string, dateStart: string,
+                                     dateEnd: string): Promise<any>
 
-    public getPhysicalActivitiesLogs(resource: string, date_start: number,
-                                     date_end: number, callback?: (err, result) => any): any {
+    public getPhysicalActivitiesLogs(resource: string, dateStart: string,
+                                     dateEnd: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES_LOGS,
-                [resource, date_start, date_end])
+            return this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES_LOGS,
+                [resource, dateStart, dateEnd])
         }
-        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES_LOGS,
-            [resource, date_start, date_end], callback)
+        this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.PHYSICAL_ACTIVITIES_LOGS,
+            [resource, dateStart, dateEnd], callback)
     }
 
-    public getSleep(query: string, callback: (err, result) => any): void
+    public getSleep(query: string, callback: (err, result) => void): void
 
     public getSleep(query: string): Promise<any>
 
-    public getSleep(query: string, callback?: (err, result) => any): any {
+    public getSleep(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.SLEEP, [query])
+            return this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.SLEEP, [query])
         }
-        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.SLEEP, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.SLEEP, [query], callback)
     }
 
-    public getWeights(query: string, callback: (err, result) => any): void
+    public getWeights(query: string, callback: (err, result) => void): void
 
     public getWeights(query: string): Promise<any>
 
-    public getWeights(query: string, callback?: (err, result) => any): any {
+    public getWeights(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.WEIGHTS, [query])
+            return this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.WEIGHTS, [query])
         }
-        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.WEIGHTS, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.WEIGHTS, [query], callback)
     }
 
-    public getBodyFats(query: string, callback: (err, result) => any): void
+    public getBodyFats(query: string, callback: (err, result) => void): void
 
     public getBodyFats(query: string): Promise<any>
 
-    public getBodyFats(query: string, callback?: (err, result) => any): any {
+    public getBodyFats(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.BODY_FATS, [query])
+            return this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.BODY_FATS, [query])
         }
-        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.BODY_FATS, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.BODY_FATS, [query], callback)
     }
 
-    public getEnviroments(query: string, callback: (err, result) => any): void
+    public getEnviroments(query: string, callback: (err, result) => void): void
 
     public getEnviroments(query: string): Promise<any>
 
-    public getEnviroments(query: string, callback?: (err, result) => any): any {
+    public getEnviroments(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACTIVITY, ResourceName.ENVIROMENTS, [query])
+            return this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.ENVIROMENTS, [query])
         }
-        this.request(ExchangeName.RPC_ACTIVITY, ResourceName.ENVIROMENTS, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACTIVITY, ResourceName.ENVIROMENTS, [query], callback)
     }
 
-    public getChildren(query: string, callback: (err, result) => any): void
+    public getChildren(query: string, callback: (err, result) => void): void
 
     public getChildren(query: string): Promise<any>
 
-    public getChildren(query: string, callback?: (err, result) => any): any {
+    public getChildren(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.CHILDREN, [query])
+            return this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.CHILDREN, [query])
         }
-        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.CHILDREN, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.CHILDREN, [query], callback)
     }
 
-    public getFamilies(query: string, callback: (err, result) => any): void
+    public getFamilies(query: string, callback: (err, result) => void): void
 
     public getFamilies(query: string): Promise<any>
 
-    public getFamilies(query: string, callback?: (err, result) => any): any {
+    public getFamilies(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILIES, [query])
+            return this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILIES, [query])
         }
-        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILIES, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILIES, [query], callback)
     }
 
-    public getFamilyChildren(family_id: number, callback: (err, result) => any): void
+    public getFamilyChildren(familyId: string, callback: (err, result) => void): void
 
-    public getFamilyChildren(family_id: number): Promise<any>
+    public getFamilyChildren(familyId: string): Promise<any>
 
-    public getFamilyChildren(family_id: number, callback?: (err, result) => any): any {
+    public getFamilyChildren(familyId: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILY_CHILDREN, [family_id])
+            return this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILY_CHILDREN, [familyId])
         }
-        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILY_CHILDREN, [family_id], callback)
+        this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.FAMILY_CHILDREN, [familyId], callback)
     }
 
-    public getEducators(query: string, callback: (err, result) => any): void
+    public getEducators(query: string, callback: (err, result) => void): void
 
     public getEducators(query: string): Promise<any>
 
-    public getEducators(query: string, callback?: (err, result) => any): any {
+    public getEducators(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS, [query])
+            return this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS, [query])
         }
-        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS, [query], callback)
     }
 
-    public getEducatorChildrenGroups(educator_id: number, callback: (err, result) => any): void
+    public getEducatorChildrenGroups(educatorId: string, callback: (err, result) => void): void
 
-    public getEducatorChildrenGroups(educator_id: number): Promise<any>
+    public getEducatorChildrenGroups(educatorId: string): Promise<any>
 
-    public getEducatorChildrenGroups(educator_id: number, callback?: (err, result) => any): any {
+    public getEducatorChildrenGroups(educatorId: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS_CILDRES_GROUPS, [educator_id])
+            return this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS_CHILDRES_GROUPS, [educatorId])
         }
-        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS_CILDRES_GROUPS, [educator_id], callback)
+        this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.EDUCATORS_CHILDRES_GROUPS, [educatorId], callback)
     }
 
-    public getHealthProfessionals(query: string, callback: (err, result) => any): void
+    public getHealthProfessionals(query: string, callback: (err, result) => void): void
 
     public getHealthProfessionals(query: string): Promise<any>
 
-    public getHealthProfessionals(query: string, callback?: (err, result) => any): any {
+    public getHealthProfessionals(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONALS, [query])
+            return this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONALS, [query])
         }
-        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONALS, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONALS, [query], callback)
     }
 
-    public getHealthProfessionalChildrenGroups(healthprofessional_id: number, callback: (err, result) => any): void
+    public getHealthProfessionalChildrenGroups(healthProfessionalId: string, callback: (err, result) => void): void
 
-    public getHealthProfessionalChildrenGroups(healthprofessional_id: number): Promise<any>
+    public getHealthProfessionalChildrenGroups(healthProfessionalId: string): Promise<any>
 
-    public getHealthProfessionalChildrenGroups(healthprofessional_id: number, callback?: (err, result) => any): any {
+    public getHealthProfessionalChildrenGroups(healthProfessionalId: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS,
-                [healthprofessional_id])
+            return this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS,
+                [healthProfessionalId])
         }
-        this.request(ExchangeName.RPC_ACCOUNT,
-            ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, [healthprofessional_id], callback)
+        this.requestResource(ExchangeName.RPC_ACCOUNT,
+            ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, [healthProfessionalId], callback)
     }
 
-    public getApplications(query: string, callback: (err, result) => any): void
+    public getApplications(query: string, callback: (err, result) => void): void
 
     public getApplications(query: string): Promise<any>
 
-    public getApplications(query: string, callback?: (err, result) => any): any {
+    public getApplications(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.APPLICATIONS, [query])
+            return this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.APPLICATIONS, [query])
         }
-        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.APPLICATIONS, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.APPLICATIONS, [query], callback)
     }
 
-    public getInstitutions(query: string, callback: (err, result) => any): void
+    public getInstitutions(query: string, callback: (err, result) => void): void
 
     public getInstitutions(query: string): Promise<any>
 
-    public getInstitutions(query: string, callback?: (err, result) => any): any {
+    public getInstitutions(query: string, callback?: (err, result) => void): any {
 
         if (!callback) {
-            return this.request(ExchangeName.RPC_ACCOUNT, ResourceName.INSTITUTIONS, [query])
+            return this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.INSTITUTIONS, [query])
         }
-        this.request(ExchangeName.RPC_ACCOUNT, ResourceName.INSTITUTIONS, [query], callback)
+        this.requestResource(ExchangeName.RPC_ACCOUNT, ResourceName.INSTITUTIONS, [query], callback)
     }
 
 }
