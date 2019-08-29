@@ -11,10 +11,9 @@ var RoutingKeysName = /** @class */ (function () {
     RoutingKeysName.DELETE_SLEEP = 'sleep.delete';
     RoutingKeysName.SAVE_WEIGHTS = 'weights.save';
     RoutingKeysName.DELETE_WEIGHTS = 'weights.delete';
-    RoutingKeysName.SAVE_BODY_FATS = 'bodyfats.save';
-    RoutingKeysName.DELETE_BODY_FATS = 'bodyfats.delete';
     RoutingKeysName.SAVE_ENVIRONMENTS = 'environments.save';
     RoutingKeysName.DELETE_ENVIRONMENTS = 'environments.delete';
+    RoutingKeysName.SAVE_LOG = 'logs.save';
     RoutingKeysName.UPDATE_CHILDREN = 'children.update';
     RoutingKeysName.UPDATE_FAMILIES = 'families.update';
     RoutingKeysName.UPDATE_EDUCATORS = 'educators.update';
@@ -22,6 +21,8 @@ var RoutingKeysName = /** @class */ (function () {
     RoutingKeysName.UPDATE_APPLICATIONS = 'applications.update';
     RoutingKeysName.DELETE_USERS = 'users.delete';
     RoutingKeysName.DELETE_INSTITUTIONS = 'institutions.delete';
+    RoutingKeysName.LASTSYNC_FIIBIT = 'fitbit.lastsync';
+    RoutingKeysName.ERROR_FITBIT_AUTH = 'fitbit.auth.error';
     return RoutingKeysName;
 }());
 exports.RoutingKeysName = RoutingKeysName;

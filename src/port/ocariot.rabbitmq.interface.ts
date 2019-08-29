@@ -3,7 +3,7 @@ import { IOcariotSub } from './sub/ocariot.sub.interface'
 import { IOcariotClient } from './client/ocariot.client.interface'
 import { IOcariotServer } from './server/ocariot.server.interface'
 
-export interface IOcariotPubSub extends IOcariotPub, IOcariotSub, IOcariotClient, IOcariotServer {
+export interface IOcariotRabbitMQ extends IOcariotPub, IOcariotSub, IOcariotClient, IOcariotServer {
 
     close(): Promise<void>
 

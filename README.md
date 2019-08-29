@@ -47,7 +47,7 @@ Em geral o exemplo a seguir demonstra o estabelecimento de uma conexão, na qual
 
 5. Por fim, é realizado a publicação do evento SavePhysicalActivity através do chamamento do método *pubSavePhysicalActivity(message)*, o qual terá como parâmetro a mesagem que será trafegada no barramento.
 
-```TypeScript
+```js
 import { RabbitMQClient, IConnectionOptions } from '../../index'
 
 const options: IConnectionOptions = {
@@ -76,14 +76,14 @@ No construtor são passadas informações referentes a configuração da conexã
 - *appName: string* - Nome do microserviço que irá se conectar com o barramento
 - *conf?: IConnectionConfigs | string* - Parâmetro referẽnte a passagem das configuraçãoes da conexão. É possível realizar a passagem de tais informções atráves da interface IConnectionConfigs, ou atráves da passagem da URI, no seguinte formato: 
 >*<protocol>://<user>:<password>@<ip>:<port>*
->
+
 >Por exemplo:
 >
 >amqp://guest:guest@localhost:5672
 - *options?: IConnectionOptions* - Opções associadas ao estabelecimento da conexão. As propriedades não informadas da interface assumiram os valores padrões;
 
 
-```TypeScript
+```js
     OcariotPubSub (appName: string, conf?: IConnectionConfigs,
                    options?: IConnectionOptions)
 ```
@@ -98,7 +98,7 @@ Configuração para o estabelecimento da conexão com o barramento. As proprieda
 - *username: string* - Nome do usuário já resgistrado no barramento; 
 - *password: string* - Senha do respectivo usuário informado na propriedade anterior;
 
-```TypeScript
+```js
     IConnectionConfigs {
         host?: string,
         port?: number,
@@ -109,7 +109,7 @@ Configuração para o estabelecimento da conexão com o barramento. As proprieda
 
 *Valores Padões:*
 
-```TypeScript
+```js
     IConnectionParams = {
         protocol: 'amqp',
         hostname: '127.0.0.1',
@@ -130,7 +130,7 @@ Atráves desta interface são definidos configurações capazes de habilitar ou 
 - *rcpTimeout: number* - Defini o tempo máximo que uma requisição aguardará por uma resposta;
 - *receiveFromYourself: boolean* - Esta proriedade é utilizada para habilitar ou desabilitar o monitaramento de eventos publicados e inscritos através de uma mesma conexão no barramento. Quanto true, é possível receber mensagens, desde que se tenha realizado a inscrição no mesmo evento de publicação;
 
-```TypeScript
+```js
     IConnectionOptions {
         retries?: number 
         interval?: number 
@@ -141,7 +141,7 @@ Atráves desta interface são definidos configurações capazes de habilitar ou 
 ```
 *Valores das Padrões das Propriedades:*
 
-```TypeScript
+```js
     IConnectionOptions = {
         retries: 0,
         interval: 1000,
@@ -161,7 +161,7 @@ Atráves desta interface são definidos configurações capazes de habilitar ou 
 - *passphrase: string* - Frase secreta de proteção a chave secreta do cliente;
 - *ca: Buffer[ ]* - Array contendo todas os certificados gerados de entidades de cerficicações reconhecidas;
 
-```TypeScript
+```js
     ISSLOptions {
         cert?: Buffer,
         key?: Buffer,
@@ -180,7 +180,7 @@ Este método é utilizado para fechar todas as conexões abertadas de uma única
 - *Promise\<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
 
-```TypeScript
+```js
     close(): Promise<void>
 ```
 ---
@@ -199,7 +199,7 @@ Esta seção demonstra como publicar mensagens no barramento. Para o projeto do 
 
 - *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
-```TypeScript
+```js
     pubUpdateChild(child: any): Promise<void>
 
     pubUpdateFamily(family: any): Promise<void>
@@ -225,7 +225,7 @@ Esta seção demonstra como publicar mensagens no barramento. Para o projeto do 
 
 - *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
-```TypeScript
+```js
     pubSavePhysicalActivity(activity: any): Promise<void>
 
     pubUpdatePhysicalActivity(activity: any): Promise<void>
@@ -262,7 +262,7 @@ Esta seção demonstra como publicar mensagens no barramento. Para o projeto do 
 
 - *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
-```TypeScript
+```js
     pub(routingKey: string, body: any): Promise<void>
 ```
 
@@ -281,7 +281,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 - *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
 
-```TypeScript
+```js
     subUpdateChild(callback: (message: any) => void): Promise<void>
 
     subUpdateFamily(callback: (message: any) => void): Promise<void>
@@ -308,7 +308,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 - *Promise<void>* -  A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
 
-```TypeScript
+```js
     subSavePhysicalActivity(callback: (message: any) => void): Promise<void>
 
     subUpdatePhysicalActivity(callback: (message: any) => void): Promise<void>
@@ -346,7 +346,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 - *Promise<void>* - A Promise não retornará nada, caso o subscribe no evento tenha sido realizada com sucesso. Em caso de erro, um exceção será retornada.
 
- ```TypeScript
+ ```js
    sub(targetMicroservice: string, routingKey: string,
        callback: (message: any) => void): Promise<void>
 ```
@@ -362,7 +362,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 *Retorno:*
 
-```TypeScript
+```js
     providePhysicalActivities(listener: (query: string) => any): any
 
     providePhysicalActivitiesLogs(listener: (resource: string, date_start: string, date_end: string) => any): any
@@ -382,7 +382,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 *Retorno:*
 
-```TypeScript
+```js
     provideChildren(listener: (query: string) => any): any
 
     provideFamilies(listener: (query: string) => any): any
@@ -408,7 +408,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 *Retorno:*
 
-```TypeScript
+```js
     provide(name: string, func: (...any) => any): void
 ```
 
@@ -423,7 +423,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 *Retorno:*
 
-```TypeScript
+```js
     getChildren(query: string, callback: (err, result) => any): void
 
     getFamilies(query: string, callback: (err, result) => any): void
@@ -449,7 +449,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 *Retorno:*
 
-```TypeScript
+```js
 
     getChildren(query: string): Promise<any>
 
@@ -480,7 +480,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 *Retorno:*
 
-```TypeScript
+```js
     getPhysicalActivities(query: string, callback: (err, result) => any): void
 
     getPhysicalActivitiesLogs(resource: string, date_start: number, date_end: number, callback: (err, result) => any): void
@@ -500,7 +500,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 *Retorno:*
 
-```TypeScript
+```js
     getPhysicalActivities(query: string): Promise<any>
 
     getPhysicalActivitiesLogs(resource: string, date_start: number, date_end: number): Promise<any>
@@ -522,7 +522,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 *Retorno:*
 
-```TypeScript
+```js
     getResource(name: string, params: any[], callback: (...any) => any): void
 ```
 
@@ -532,14 +532,14 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
 
 *Retorno:*
 
-```TypeScript
+```js
     getResource(name: string, params: any[]): Promise<any>
 ```
 
 
 ---
 ###  Events
-```TypeScript
+```js
     #on('pub_connected', function() {...})
    
     #on('sub_connected', function() {...})
@@ -549,7 +549,7 @@ De forma análoga a seção do Publish Message, nesta seção será demonstrado 
     #on('rpc_server_connected', function() {...})
 ```
 Estes eventos são emitidos quando ocorre o estabelecimento de uma conexão, tornando possível a utilização dos métodos referente ao publish/subscribe e provider/get no barramento do RabbitMQ. 
-```TypeScript
+```js
     #on('pub_disconnected', function() {...})
 
     #on('sub_disconnected', function() {...})
@@ -559,7 +559,7 @@ Estes eventos são emitidos quando ocorre o estabelecimento de uma conexão, tor
     #on('rpc_server_disconnected', function() {...})
 ```
 Estes eventos são emitidos quando uma conexão é fechada corretamente, isto é, após o chamamento dos métodos dispose ou close.
-```TypeScript
+```js
     #on('pub_lost_connection', function() {...})
 
     #on('sub_lost_connection', function() {...})
@@ -570,7 +570,7 @@ Estes eventos são emitidos quando uma conexão é fechada corretamente, isto é
 ```
 Este eventos são emitidos quando uma conexão é perdida, uma vez que a mesma tinha já estabelecido uma conexão anteriormente.
 
-```TypeScript  
+```js  
     #on('pub_trying_connection', function() {...})
    
     #on('sub_trying_connection', function() {...})
@@ -581,7 +581,7 @@ Este eventos são emitidos quando uma conexão é perdida, uma vez que a mesma t
 ```
 Estes eventos são emitidos durante as tentativas de se reconectar com uma conexão que foi perdida, ou durante o estabelecimento da conexão, a qual por exemplo, contém credenciais inválidas.
 
-```TypeScript
+```js
     #on('pub_reconnected', function() {...})
 
     #on('sub_reconnected', function() {...})
@@ -592,7 +592,7 @@ Estes eventos são emitidos durante as tentativas de se reconectar com uma conex
 ```
 Estes eventos serão emitidos quando uma conexão que foi anteriormente estabelecida, entretanto por algum motivo perdeu a conexão, conseguiu restabelecer a conexão.
 
-```TypeScript
+```js
     #on('pub_connection_error', function(err) {...})
 
     #on('sub_connection_error', function(err) {...})
@@ -612,6 +612,6 @@ Este método é utilizado para visualizar logs emitido durante a utilização da
 *Parâmetro:*
 - *level: string* - Este parâmetro deve ser defino com um dos três níveis de logs suportados pela biblioteca, os quais são:  **'warn'**, **'error'** or **'info'**.
 
-```TypeScript
+```js
     logger(level: string): void
 ```

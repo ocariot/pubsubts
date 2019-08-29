@@ -1,7 +1,7 @@
 import { IConnectionConfigs, RabbitMQClient } from '../../index'
 
 const connParams: IConnectionConfigs = {
-    host: 'localhost',
+    hostname: 'localhost',
     port: 5672,
     username: 'guest',
     password: 'guest'

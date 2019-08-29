@@ -11,10 +11,22 @@ const connOptions: IConnectionOptions = {
 
 const connParams: IConnectionConfigs = {
     protocol: 'amqps',
-    host: 'ip-machine',
+    hostname: 'ip-machine',
     port: 5671,
     username: 'guest',
     password: 'guest'
 }
 
 const ocariot: RabbitMQClient = new RabbitMQClient('Account', connParams, connOptions)
+
+ocariot.pubSavePhysicalActivity({ activity: 'Saving Activity...' }).catch((err) => {
+    console.log(err)
+})
+
+ocariot.providePhysicalActivities((query: string) => {
+    return query + ' PhysicalActivities Processado'
+})
+
+ocariot.provideSleep((query: string) => {
+    return query + ' Sleep Processado'
+})

@@ -15,16 +15,16 @@ export interface IMessageSleep extends IMessage {
     sleep: object
 }
 
-export interface IMessageEnvironment extends IMessage {
-    environment: object
-}
-
 export interface IMessageWeigth extends IMessage {
     weight: object
 }
 
-export interface IMessageBodyFat extends IMessage {
-    bodyfat: object
+export interface IMessageEnvironment extends IMessage {
+    environment: object
+}
+
+export interface IMessageLog extends IMessage {
+    log: object
 }
 
 export interface IMessageChild extends IMessage {
@@ -53,4 +53,12 @@ export interface IMessageUser extends IMessage {
 
 export interface IMessageInstitution extends IMessage {
     institution: object
+}
+
+export interface IMessageFitbitLastSync extends IMessage {
+    datetime: object
+}
+
+export interface IMessageFitbitAuthError extends IMessage {
+    error: object
 }

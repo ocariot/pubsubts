@@ -18,13 +18,11 @@ export interface IOcariotPub extends IPub {
 
     pubDeleteWeight(weight: any): Promise<void>
 
-    pubSaveBodyFat(bodyfat: any): Promise<void>
-
-    pubDeleteBodyFat(bodyfat: any): Promise<void>
-
     pubSaveEnvironment(environment: any): Promise<void>
 
     pubDeleteEnvironment(environment: any): Promise<void>
+
+    pubSaveLog(log: any): Promise<void>
 
     pubUpdateChild(child: any): Promise<void>
 
@@ -39,4 +37,9 @@ export interface IOcariotPub extends IPub {
     pubDeleteUser(user: any): Promise<void>
 
     pubDeleteInstitution(institution: any): Promise<void>
+
+    pubFitbitLastSync(datetime: any): Promise<void>
+
+    pubFitbitAuthError(error: any): Promise<void>
+
 }

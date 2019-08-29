@@ -4,15 +4,13 @@ export interface IOcariotClient extends IClient{
 
     getPhysicalActivities(query: string, callback?: (err, result) => void): any
 
-    getPhysicalActivitiesLogs(resource: string, dateStart: string, dateEnd: string, callback?: (err, result) => void): any
-
     getSleep(query: string, callback?: (err, result) => void): any
 
     getWeights(query: string, callback?: (err, result) => void): any
 
-    getBodyFats(query: string, callback?: (err, result) => void): any
+    getEnvironments(query: string, callback?: (err, result) => void): any
 
-    getEnviroments(query: string, callback?: (err, result) => void): any
+    getLogs(query: string, callback?: (err, result) => void): any
 
     getChildren(query: string, callback?: (err, result) => void): any
 

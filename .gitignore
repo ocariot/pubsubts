@@ -1,4 +1,4 @@
-#ignore auto-generate files
+# ignore auto-generate files
 /lib
 /ssl
 
@@ -64,19 +64,24 @@ typings/
 # next.js build output
 .next
 
+# IDE
+.idea
+
+# Directory files dist
+dist
+
+# Docs
+docs
+
+# Bash
+bash.exe.stackdump
 
 # certificates and keys directories and files
-
+certs
 .certs
-
 *.pem
-
 *.crt
-
 *.key
-
 *.csr
-
 *.cert
 
-certs

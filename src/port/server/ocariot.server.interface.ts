@@ -1,18 +1,16 @@
 import { IServer } from './server.interface'
 
-export interface IOcariotServer extends IServer{
+export interface IOcariotServer extends IServer {
 
     providePhysicalActivities(listener: (query: string) => any): Promise<void>
 
-    providePhysicalActivitiesLogs(listener: (resource: string, date_start: string, date_end: string) => any): Promise<void>
-
     provideSleep(listener: (query: string) => any): Promise<void>
 
-    provideWights(listener: (query: string) => any): Promise<void>
+    provideWeights(listener: (query: string) => any): Promise<void>
 
-    provideBodyFats(listener: (query: string) => any): Promise<void>
+    provideEnvironments(listener: (query: string) => any): Promise<void>
 
-    provideEnviroments(listener: (query: string) => any): Promise<void>
+    provideLogs(listener: (query: string) => any): Promise<void>
 
     provideChildren(listener: (query: string) => any): Promise<void>
 

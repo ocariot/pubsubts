@@ -18,13 +18,11 @@ export interface IOcariotSub extends ISub {
 
     subDeleteWeight(callback: (message: any) => void): Promise<void>
 
-    subSaveBodyFat(callback: (message: any) => void): Promise<void>
-
-    subDeleteBodyFat(callback: (message: any) => void): Promise<void>
-
     subSaveEnvironment(callback: (message: any) => void): Promise<void>
 
     subDeleteEnvironment(callback: (message: any) => void): Promise<void>
+
+    subSaveLog(callback: (message: any) => void): Promise<void>
 
     subUpdateChild(callback: (message: any) => void): Promise<void>
 
@@ -39,5 +37,9 @@ export interface IOcariotSub extends ISub {
     subDeleteUser(callback: (message: any) => void): Promise<void>
 
     subDeleteInstitution(callback: (message: any) => void): Promise<void>
+
+    subFitbitLastSync(callback: (message: any) => void): Promise<void>
+
+    subFitbitAuthError(callback: (message: any) => void): Promise<void>
 
 }

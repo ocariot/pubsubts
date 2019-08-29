@@ -5,3 +5,4 @@ var ocariot = new index_1.RabbitMQClient('Account');
 ocariot.pubSavePhysicalActivity({ activity: 'Saving Activity...' })["catch"](function (err) {
     console.log(err);
 });
+setTimeout(ocariot.close, 3000);

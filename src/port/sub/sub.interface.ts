@@ -1,6 +1,6 @@
 export interface ISub {
 
-    sub(targetMicroservice: string, routingKey: string,
+    sub(routingKey: string,
         callback: (message: any) => void): Promise<void>
 
 }

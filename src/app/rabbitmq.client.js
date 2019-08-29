@@ -65,7 +65,7 @@ var exchange_name_1 = require("../utils/exchange.name");
 var event_name_1 = require("../utils/event.name");
 var configurations_1 = require("../utils/configurations");
 var events_1 = require("events");
-var queue_name_1 = require("../utils/queue.name");
+var endpoint_queue_1 = require("../utils/endpoint.queue");
 var resource_name_1 = require("../utils/resource.name");
 var defaultOptionPub = {
     exchange: {
@@ -82,7 +82,7 @@ var defaultOptionSub = {
     queue: {
         durable: true
     },
-    receiveFromYourself: true
+    receiveFromYourself: false
 };
 var defaultOptionRpcClient = {
     exchange: {
@@ -206,7 +206,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             _this.emit('rpc_client_connection_error', err);
         });
     };
-    RabbitMQClient.prototype.logger = function (enabled, level) {
+    RabbitMQClient.prototype.logger = function (level) {
         if (level === 'warn' || level === 'error' || level === 'info' || !level) {
             amqp_client_node_1.amqpClient.logger(level);
         }
@@ -267,52 +267,101 @@ var RabbitMQClient = /** @class */ (function (_super) {
             });
         });
     };
-    RabbitMQClient.prototype.pub = function (exchangeName, routingKey, body) {
+    RabbitMQClient.prototype.pubConnection = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var _a, err_3, err_4;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!(!this._pubConnection && !this._pubConnectionInitialized)) return [3 /*break*/, 4];
+                        this._pubConnectionInitialized = amqp_client_node_1.amqpClient.createConnetion(this._connConfig, this._connOpt);
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        _a = this;
+                        return [4 /*yield*/, this._pubConnectionInitialized];
+                    case 2:
+                        _a._pubConnection = _b.sent();
+                        this.pubEventInitialization();
+                        this.emit('pub_connected');
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_3 = _b.sent();
+                        this._pubConnection = undefined;
+                        this._pubConnectionInitialized = undefined;
+                        return [2 /*return*/, reject(err_3)];
+                    case 4:
+                        _b.trys.push([4, 6, , 7]);
+                        return [4 /*yield*/, this._pubConnectionInitialized];
+                    case 5:
+                        _b.sent();
+                        resolve();
+                        return [3 /*break*/, 7];
+                    case 6:
+                        err_4 = _b.sent();
+                        return [2 /*return*/, reject(err_4)];
+                    case 7: return [2 /*return*/];
+                }
+            });
+        }); });
+    };
+    RabbitMQClient.prototype.publish = function (exchangeName, routingKey, body) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, err_3, err_4;
-                        return __generator(this, function (_b) {
-                            switch (_b.label) {
+                        var err_5, message;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
                                 case 0:
-                                    if (!(!this._pubConnection && !this._pubConnectionInitialized)) return [3 /*break*/, 4];
-                                    this._pubConnectionInitialized = amqp_client_node_1.amqpClient.createConnetion(this._connConfig, this._connOpt);
-                                    _b.label = 1;
+                                    _a.trys.push([0, 2, , 3]);
+                                    return [4 /*yield*/, this.pubConnection()];
                                 case 1:
-                                    _b.trys.push([1, 3, , 4]);
-                                    _a = this;
-                                    return [4 /*yield*/, this._pubConnectionInitialized];
+                                    _a.sent();
+                                    return [3 /*break*/, 3];
                                 case 2:
-                                    _a._pubConnection = _b.sent();
-                                    this.pubEventInitialization();
-                                    this.emit('pub_connected');
-                                    return [3 /*break*/, 4];
+                                    err_5 = _a.sent();
+                                    return [2 /*return*/, reject(err_5)];
                                 case 3:
-                                    err_3 = _b.sent();
-                                    this._pubConnection = undefined;
-                                    this._pubConnectionInitialized = undefined;
-                                    return [2 /*return*/, reject(err_3)];
-                                case 4:
-                                    _b.trys.push([4, 6, , 7]);
-                                    return [4 /*yield*/, this._pubConnectionInitialized];
-                                case 5:
-                                    _b.sent();
-                                    return [3 /*break*/, 7];
-                                case 6:
-                                    err_4 = _b.sent();
-                                    return [2 /*return*/, reject(err_4)];
-                                case 7: return [2 /*return*/, this._pubConnection.pub(exchangeName, routingKey, body, defaultOptionPub)];
+                                    message = { content: body };
+                                    return [2 /*return*/, this._pubConnection.pub(exchangeName, routingKey, message, defaultOptionPub)];
                             }
                         });
                     }); })];
             });
         });
     };
-    RabbitMQClient.prototype.sub = function (targetMicroservice, exchangeName, routingKey, callback) {
+    RabbitMQClient.prototype.pub = function (routingKey, body) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                        var err_6, message;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    _a.trys.push([0, 2, , 3]);
+                                    return [4 /*yield*/, this.pubConnection()];
+                                case 1:
+                                    _a.sent();
+                                    return [3 /*break*/, 3];
+                                case 2:
+                                    err_6 = _a.sent();
+                                    return [2 /*return*/, reject(err_6)];
+                                case 3:
+                                    message = { content: body };
+                                    return [2 /*return*/, this._pubConnection.pub(exchange_name_1.ExchangeName.PERSONALIZED, routingKey, message, defaultOptionPub)];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    RabbitMQClient.prototype.subConnection = function () {
         var _this = this;
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, err_5, err_6;
+            var _a, err_7, err_8;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -329,20 +378,61 @@ var RabbitMQClient = /** @class */ (function (_super) {
                         this.emit('sub_connected');
                         return [3 /*break*/, 4];
                     case 3:
-                        err_5 = _b.sent();
+                        err_7 = _b.sent();
                         this._subConnection = undefined;
                         this._subConnectionInitialized = undefined;
-                        return [2 /*return*/, reject(err_5)];
+                        return [2 /*return*/, reject(err_7)];
                     case 4:
                         _b.trys.push([4, 6, , 7]);
                         return [4 /*yield*/, this._subConnectionInitialized];
                     case 5:
                         _b.sent();
+                        resolve();
                         return [3 /*break*/, 7];
                     case 6:
-                        err_6 = _b.sent();
-                        return [2 /*return*/, reject(err_6)];
-                    case 7: return [2 /*return*/, this._subConnection.sub(this._appName.concat(targetMicroservice), exchangeName, routingKey, function (msg) { return callback(msg.content); }, defaultOptionSub)];
+                        err_8 = _b.sent();
+                        return [2 /*return*/, reject(err_8)];
+                    case 7: return [2 /*return*/];
+                }
+            });
+        }); });
+    };
+    RabbitMQClient.prototype.sub = function (routingKey, callback) {
+        var _this = this;
+        return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var err_9;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.subConnection()];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_9 = _a.sent();
+                        return [2 /*return*/, reject(err_9)];
+                    case 3: return [2 /*return*/, this._subConnection.sub(this._appName.concat(endpoint_queue_1.EndpointQueue.PERSONALIZED_SUB), exchange_name_1.ExchangeName.PERSONALIZED, routingKey, function (msg) { return callback(msg.content); }, defaultOptionSub)];
+                }
+            });
+        }); });
+    };
+    RabbitMQClient.prototype.subscribe = function (exchangeName, routingKey, callback) {
+        var _this = this;
+        return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var err_10;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.subConnection()];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_10 = _a.sent();
+                        return [2 /*return*/, reject(err_10)];
+                    case 3: return [2 /*return*/, this._subConnection.sub(this._appName, exchangeName, routingKey, function (msg) { return callback(msg.content); }, defaultOptionSub)];
                 }
             });
         }); });
@@ -350,7 +440,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
     RabbitMQClient.prototype.serverConnection = function () {
         var _this = this;
         return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, err_7, err_8;
+            var _a, err_11, err_12;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -367,10 +457,10 @@ var RabbitMQClient = /** @class */ (function (_super) {
                         this.emit('rpc_server_connected');
                         return [3 /*break*/, 4];
                     case 3:
-                        err_7 = _b.sent();
+                        err_11 = _b.sent();
                         this._serverConnection = undefined;
                         this._serverConnectionInitialized = undefined;
-                        return [2 /*return*/, reject(err_7)];
+                        return [2 /*return*/, reject(err_11)];
                     case 4:
                         _b.trys.push([4, 6, , 7]);
                         return [4 /*yield*/, this._serverConnectionInitialized];
@@ -378,62 +468,72 @@ var RabbitMQClient = /** @class */ (function (_super) {
                         _b.sent();
                         return [2 /*return*/, resolve()];
                     case 6:
-                        err_8 = _b.sent();
-                        return [2 /*return*/, reject(err_8)];
+                        err_12 = _b.sent();
+                        return [2 /*return*/, reject(err_12)];
                     case 7: return [2 /*return*/];
                 }
             });
         }); });
     };
-    RabbitMQClient.prototype.resource = function (sourceMicroservice, exchangeName, name, func) {
+    RabbitMQClient.prototype.resource = function (exchangeName, name, func) {
         var _this = this;
-        new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-            var server;
+        return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var err_13, server;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.serverConnection()];
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.serverConnection()];
                     case 1:
                         _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_13 = _a.sent();
+                        return [2 /*return*/, reject(err_13)];
+                    case 3:
                         server = this._serverConnection
-                            .createRpcServer(sourceMicroservice, exchangeName, [], defaultOptionRpcServer);
-                        if (!server.addResource(name, func)) return [3 /*break*/, 3];
+                            .createRpcServer(this._appName.concat(endpoint_queue_1.EndpointQueue.RPC), exchangeName, [], defaultOptionRpcServer);
+                        if (!server.addResource(name, func)) return [3 /*break*/, 5];
                         return [4 /*yield*/, server.start()];
-                    case 2: return [2 /*return*/, _a.sent()];
-                    case 3: return [2 /*return*/];
+                    case 4: return [2 /*return*/, _a.sent()];
+                    case 5: return [2 /*return*/];
                 }
             });
-        }); })["catch"](function (err) {
-            throw err;
-        });
+        }); });
     };
     RabbitMQClient.prototype.provide = function (name, func) {
         var _this = this;
-        new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-            var server;
+        return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+            var err_14, server;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.serverConnection()];
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.serverConnection()];
                     case 1:
                         _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_14 = _a.sent();
+                        return [2 /*return*/, reject(err_14)];
+                    case 3:
                         server = this._serverConnection
-                            .createRpcServer(queue_name_1.TargetMicroservice.RCP_OCARIOT_GENERAL_SERVICE, exchange_name_1.ExchangeName.RPC_GENERAL, [], defaultOptionRpcServer);
-                        if (!server.addResource(name, func)) return [3 /*break*/, 3];
+                            .createRpcServer(this._appName.concat(endpoint_queue_1.EndpointQueue.PERSONALIZED_RPC), exchange_name_1.ExchangeName.PERSONALIZED_RPC, [], defaultOptionRpcServer);
+                        if (!server.addResource(name, func)) return [3 /*break*/, 5];
                         return [4 /*yield*/, server.start()];
-                    case 2: return [2 /*return*/, _a.sent()];
-                    case 3: return [2 /*return*/];
+                    case 4: return [2 /*return*/, _a.sent()];
+                    case 5: return [2 /*return*/];
                 }
             });
-        }); })["catch"](function (err) {
-            throw err;
-        });
+        }); });
     };
     RabbitMQClient.prototype.getResource = function (name, params, callback) {
         if (!callback) {
-            return this.getResourcePromise(exchange_name_1.ExchangeName.RPC_GENERAL, name, params);
+            return this.getResourcePromise(exchange_name_1.ExchangeName.PERSONALIZED_RPC, name, params);
         }
-        this.getResourceCallback(exchange_name_1.ExchangeName.RPC_GENERAL, name, params, callback);
+        this.getResourceCallback(exchange_name_1.ExchangeName.PERSONALIZED_RPC, name, params, callback);
     };
-    RabbitMQClient.prototype.request = function (exchangeName, name, params, callback) {
+    RabbitMQClient.prototype.requestResource = function (exchangeName, name, params, callback) {
         if (!callback) {
             return this.getResourcePromise(exchangeName, name, params);
         }
@@ -442,7 +542,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
     RabbitMQClient.prototype.getResourceCallback = function (exchangeName, name, params, callback) {
         var _this = this;
         new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-            var _a, err_9, err_10;
+            var _a, err_15, err_16;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -459,9 +559,9 @@ var RabbitMQClient = /** @class */ (function (_super) {
                         this.emit('rpc_client_connected');
                         return [3 /*break*/, 4];
                     case 3:
-                        err_9 = _b.sent();
+                        err_15 = _b.sent();
                         this._clientConnectionInitialized = undefined;
-                        return [2 /*return*/, reject(err_9)];
+                        return [2 /*return*/, reject(err_15)];
                     case 4:
                         _b.trys.push([4, 6, , 7]);
                         return [4 /*yield*/, this._clientConnectionInitialized];
@@ -469,8 +569,8 @@ var RabbitMQClient = /** @class */ (function (_super) {
                         _b.sent();
                         return [3 /*break*/, 7];
                     case 6:
-                        err_10 = _b.sent();
-                        return [2 /*return*/, reject(err_10)];
+                        err_16 = _b.sent();
+                        return [2 /*return*/, reject(err_16)];
                     case 7:
                         this._clientConnection.rpcClient(exchangeName, name, params, callback, defaultOptionRpcClient);
                         return [2 /*return*/];
@@ -482,42 +582,37 @@ var RabbitMQClient = /** @class */ (function (_super) {
     };
     RabbitMQClient.prototype.getResourcePromise = function (exchangeName, name, params) {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-                        var _a, err_11, err_12;
-                        return __generator(this, function (_b) {
-                            switch (_b.label) {
-                                case 0:
-                                    if (!!this._clientConnectionInitialized) return [3 /*break*/, 4];
-                                    this._clientConnectionInitialized = amqp_client_node_1.amqpClient.createConnetion(this._connConfig, this._connOpt);
-                                    _b.label = 1;
-                                case 1:
-                                    _b.trys.push([1, 3, , 4]);
-                                    _a = this;
-                                    return [4 /*yield*/, this._clientConnectionInitialized];
-                                case 2:
-                                    _a._clientConnection = _b.sent();
-                                    this.clientEventInitialization();
-                                    this.emit('rpc_client_connected');
-                                    return [3 /*break*/, 4];
-                                case 3:
-                                    err_11 = _b.sent();
-                                    this._clientConnectionInitialized = undefined;
-                                    return [2 /*return*/, reject(err_11)];
-                                case 4:
-                                    _b.trys.push([4, 6, , 7]);
-                                    return [4 /*yield*/, this._clientConnectionInitialized];
-                                case 5:
-                                    _b.sent();
-                                    return [3 /*break*/, 7];
-                                case 6:
-                                    err_12 = _b.sent();
-                                    return [2 /*return*/, reject(err_12)];
-                                case 7: return [2 /*return*/, this._clientConnection.rpcClient(exchangeName, name, params, defaultOptionRpcClient)];
-                            }
-                        });
-                    }); })];
+            var _a, err_17, err_18;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        if (!!this._clientConnectionInitialized) return [3 /*break*/, 4];
+                        this._clientConnectionInitialized = amqp_client_node_1.amqpClient.createConnetion(this._connConfig, this._connOpt);
+                        _b.label = 1;
+                    case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        _a = this;
+                        return [4 /*yield*/, this._clientConnectionInitialized];
+                    case 2:
+                        _a._clientConnection = _b.sent();
+                        this.clientEventInitialization();
+                        this.emit('rpc_client_connected');
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_17 = _b.sent();
+                        this._clientConnectionInitialized = undefined;
+                        return [2 /*return*/, Promise.reject(err_17)];
+                    case 4:
+                        _b.trys.push([4, 6, , 7]);
+                        return [4 /*yield*/, this._clientConnectionInitialized];
+                    case 5:
+                        _b.sent();
+                        return [3 /*break*/, 7];
+                    case 6:
+                        err_18 = _b.sent();
+                        return [2 /*return*/, Promise.reject(err_18)];
+                    case 7: return [2 /*return*/, this._clientConnection.rpcClient(exchangeName, name, params, defaultOptionRpcClient)];
+                }
             });
         });
     };
@@ -527,7 +622,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             physicalactivity: activity
         };
-        return this.pub(exchange_name_1.ExchangeName.PHYSICAL_ACTIVITIES, routing_keys_name_1.RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, message);
     };
     RabbitMQClient.prototype.pubUpdatePhysicalActivity = function (activity) {
         var message = {
@@ -535,7 +630,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             physicalactivity: activity
         };
-        return this.pub(exchange_name_1.ExchangeName.PHYSICAL_ACTIVITIES, routing_keys_name_1.RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, message);
     };
     RabbitMQClient.prototype.pubDeletePhysicalActivity = function (activity) {
         var message = {
@@ -543,7 +638,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             physicalactivity: activity
         };
-        return this.pub(exchange_name_1.ExchangeName.PHYSICAL_ACTIVITIES, routing_keys_name_1.RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, message);
     };
     RabbitMQClient.prototype.pubSaveSleep = function (sleep) {
         var message = {
@@ -551,7 +646,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             sleep: sleep
         };
-        return this.pub(exchange_name_1.ExchangeName.SLEEP, routing_keys_name_1.RoutingKeysName.SAVE_SLEEP, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_SLEEP, message);
     };
     RabbitMQClient.prototype.pubUpdateSleep = function (sleep) {
         var message = {
@@ -559,7 +654,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             sleep: sleep
         };
-        return this.pub(exchange_name_1.ExchangeName.SLEEP, routing_keys_name_1.RoutingKeysName.UPDATE_SLEEP, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.UPDATE_SLEEP, message);
     };
     RabbitMQClient.prototype.pubDeleteSleep = function (sleep) {
         var message = {
@@ -567,7 +662,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             sleep: sleep
         };
-        return this.pub(exchange_name_1.ExchangeName.SLEEP, routing_keys_name_1.RoutingKeysName.DELETE_SLEEP, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.DELETE_SLEEP, message);
     };
     RabbitMQClient.prototype.pubSaveWeight = function (weight) {
         var message = {
@@ -575,7 +670,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             weight: weight
         };
-        return this.pub(exchange_name_1.ExchangeName.WEIGHTS, routing_keys_name_1.RoutingKeysName.SAVE_WEIGHTS, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_WEIGHTS, message);
     };
     RabbitMQClient.prototype.pubDeleteWeight = function (weight) {
         var message = {
@@ -583,23 +678,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             weight: weight
         };
-        return this.pub(exchange_name_1.ExchangeName.WEIGHTS, routing_keys_name_1.RoutingKeysName.DELETE_WEIGHTS, message);
-    };
-    RabbitMQClient.prototype.pubSaveBodyFat = function (bodyfat) {
-        var message = {
-            event_name: event_name_1.EventName.SAVE_BODY_FAT_EVENT,
-            timestamp: new Date().toISOString(),
-            bodyfat: bodyfat
-        };
-        return this.pub(exchange_name_1.ExchangeName.BODY_FATS, routing_keys_name_1.RoutingKeysName.SAVE_BODY_FATS, message);
-    };
-    RabbitMQClient.prototype.pubDeleteBodyFat = function (bodyfat) {
-        var message = {
-            event_name: event_name_1.EventName.DELETE_BODY_FAT_EVENT,
-            timestamp: new Date().toISOString(),
-            bodyfat: bodyfat
-        };
-        return this.pub(exchange_name_1.ExchangeName.BODY_FATS, routing_keys_name_1.RoutingKeysName.DELETE_BODY_FATS, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.DELETE_WEIGHTS, message);
     };
     RabbitMQClient.prototype.pubSaveEnvironment = function (environment) {
         var message = {
@@ -607,7 +686,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             environment: environment
         };
-        return this.pub(exchange_name_1.ExchangeName.ENVIRONMENTS, routing_keys_name_1.RoutingKeysName.SAVE_ENVIRONMENTS, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_ENVIRONMENTS, message);
     };
     RabbitMQClient.prototype.pubDeleteEnvironment = function (environment) {
         var message = {
@@ -615,7 +694,15 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             environment: environment
         };
-        return this.pub(exchange_name_1.ExchangeName.ENVIRONMENTS, routing_keys_name_1.RoutingKeysName.DELETE_ENVIRONMENTS, message);
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.DELETE_ENVIRONMENTS, message);
+    };
+    RabbitMQClient.prototype.pubSaveLog = function (log) {
+        var message = {
+            event_name: event_name_1.EventName.SAVE_LOG_EVENT,
+            timestamp: new Date().toISOString(),
+            log: log
+        };
+        return this.publish(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_LOG, message);
     };
     RabbitMQClient.prototype.pubUpdateChild = function (child) {
         var message = {
@@ -623,7 +710,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             child: child
         };
-        return this.pub(exchange_name_1.ExchangeName.CHILDREN, routing_keys_name_1.RoutingKeysName.UPDATE_CHILDREN, message);
+        return this.publish(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_CHILDREN, message);
     };
     RabbitMQClient.prototype.pubUpdateFamily = function (family) {
         var message = {
@@ -631,7 +718,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             family: family
         };
-        return this.pub(exchange_name_1.ExchangeName.FAMILIES, routing_keys_name_1.RoutingKeysName.UPDATE_FAMILIES, message);
+        return this.publish(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_FAMILIES, message);
     };
     RabbitMQClient.prototype.pubUpdateEducator = function (educator) {
         var message = {
@@ -639,7 +726,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             educator: educator
         };
-        return this.pub(exchange_name_1.ExchangeName.EDUCATORS, routing_keys_name_1.RoutingKeysName.UPDATE_EDUCATORS, message);
+        return this.publish(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_EDUCATORS, message);
     };
     RabbitMQClient.prototype.pubUpdateHealthProfessional = function (healthprofessional) {
         var message = {
@@ -647,7 +734,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             healthprofessional: healthprofessional
         };
-        return this.pub(exchange_name_1.ExchangeName.HEALTH_PROFESSIONALS, routing_keys_name_1.RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, message);
+        return this.publish(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, message);
     };
     RabbitMQClient.prototype.pubUpdateApplication = function (application) {
         var message = {
@@ -655,7 +742,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             application: application
         };
-        return this.pub(exchange_name_1.ExchangeName.APPLICATIONS, routing_keys_name_1.RoutingKeysName.UPDATE_APPLICATIONS, message);
+        return this.publish(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_APPLICATIONS, message);
     };
     RabbitMQClient.prototype.pubDeleteUser = function (user) {
         var message = {
@@ -663,7 +750,7 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             user: user
         };
-        return this.pub(exchange_name_1.ExchangeName.USERS, routing_keys_name_1.RoutingKeysName.DELETE_USERS, message);
+        return this.publish(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.DELETE_USERS, message);
     };
     RabbitMQClient.prototype.pubDeleteInstitution = function (institution) {
         var message = {
@@ -671,199 +758,209 @@ var RabbitMQClient = /** @class */ (function (_super) {
             timestamp: new Date().toISOString(),
             institution: institution
         };
-        return this.pub(exchange_name_1.ExchangeName.INSTITUTIONS, routing_keys_name_1.RoutingKeysName.DELETE_INSTITUTIONS, message);
+        return this.publish(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.DELETE_INSTITUTIONS, message);
+    };
+    RabbitMQClient.prototype.pubFitbitLastSync = function (datetime) {
+        var message = {
+            event_name: event_name_1.EventName.DELETE_INSTITUTION_EVENT,
+            timestamp: new Date().toISOString(),
+            datetime: datetime
+        };
+        return this.publish(exchange_name_1.ExchangeName.DATA_SYNC, routing_keys_name_1.RoutingKeysName.LASTSYNC_FIIBIT, message);
+    };
+    RabbitMQClient.prototype.pubFitbitAuthError = function (error) {
+        var message = {
+            event_name: event_name_1.EventName.DELETE_INSTITUTION_EVENT,
+            timestamp: new Date().toISOString(),
+            error: error
+        };
+        return this.publish(exchange_name_1.ExchangeName.DATA_SYNC, routing_keys_name_1.RoutingKeysName.ERROR_FITBIT_AUTH, message);
     };
     RabbitMQClient.prototype.subSavePhysicalActivity = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.PHYSICAL_ACTIVITIES, routing_keys_name_1.RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback);
     };
     RabbitMQClient.prototype.subUpdatePhysicalActivity = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.PHYSICAL_ACTIVITIES, routing_keys_name_1.RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, callback);
     };
     RabbitMQClient.prototype.subDeletePhysicalActivity = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.PHYSICAL_ACTIVITIES, routing_keys_name_1.RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, callback);
     };
     RabbitMQClient.prototype.subSaveSleep = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.SLEEP, routing_keys_name_1.RoutingKeysName.SAVE_SLEEP, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_SLEEP, callback);
     };
     RabbitMQClient.prototype.subUpdateSleep = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.SLEEP, routing_keys_name_1.RoutingKeysName.UPDATE_SLEEP, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.UPDATE_SLEEP, callback);
     };
     RabbitMQClient.prototype.subDeleteSleep = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.SLEEP, routing_keys_name_1.RoutingKeysName.DELETE_SLEEP, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.DELETE_SLEEP, callback);
     };
     RabbitMQClient.prototype.subSaveWeight = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.WEIGHTS, routing_keys_name_1.RoutingKeysName.SAVE_WEIGHTS, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_WEIGHTS, callback);
     };
     RabbitMQClient.prototype.subDeleteWeight = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.WEIGHTS, routing_keys_name_1.RoutingKeysName.DELETE_WEIGHTS, callback);
-    };
-    RabbitMQClient.prototype.subSaveBodyFat = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.BODY_FATS, routing_keys_name_1.RoutingKeysName.SAVE_BODY_FATS, callback);
-    };
-    RabbitMQClient.prototype.subDeleteBodyFat = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.BODY_FATS, routing_keys_name_1.RoutingKeysName.DELETE_BODY_FATS, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.DELETE_WEIGHTS, callback);
     };
     RabbitMQClient.prototype.subSaveEnvironment = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.ENVIRONMENTS, routing_keys_name_1.RoutingKeysName.SAVE_ENVIRONMENTS, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_ENVIRONMENTS, callback);
     };
     RabbitMQClient.prototype.subDeleteEnvironment = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.ENVIRONMENTS, routing_keys_name_1.RoutingKeysName.DELETE_ENVIRONMENTS, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.DELETE_ENVIRONMENTS, callback);
+    };
+    RabbitMQClient.prototype.subSaveLog = function (callback) {
+        return this.subscribe(exchange_name_1.ExchangeName.ACTIVITY_TRACKING, routing_keys_name_1.RoutingKeysName.SAVE_LOG, callback);
     };
     RabbitMQClient.prototype.subUpdateChild = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.CHILDREN, routing_keys_name_1.RoutingKeysName.UPDATE_CHILDREN, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_CHILDREN, callback);
     };
     RabbitMQClient.prototype.subUpdateFamily = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.FAMILIES, routing_keys_name_1.RoutingKeysName.UPDATE_FAMILIES, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_FAMILIES, callback);
     };
     RabbitMQClient.prototype.subUpdateEducator = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.EDUCATORS, routing_keys_name_1.RoutingKeysName.UPDATE_EDUCATORS, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_EDUCATORS, callback);
     };
     RabbitMQClient.prototype.subUpdateHealthProfessional = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.HEALTH_PROFESSIONALS, routing_keys_name_1.RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, callback);
     };
     RabbitMQClient.prototype.subUpdateApplication = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.APPLICATIONS, routing_keys_name_1.RoutingKeysName.UPDATE_APPLICATIONS, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.UPDATE_APPLICATIONS, callback);
     };
     RabbitMQClient.prototype.subDeleteUser = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.USERS, routing_keys_name_1.RoutingKeysName.DELETE_USERS, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.DELETE_USERS, callback);
     };
     RabbitMQClient.prototype.subDeleteInstitution = function (callback) {
-        return this.sub(queue_name_1.TargetMicroservice.SUB_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.INSTITUTIONS, routing_keys_name_1.RoutingKeysName.DELETE_INSTITUTIONS, callback);
+        return this.subscribe(exchange_name_1.ExchangeName.ACCOUNT, routing_keys_name_1.RoutingKeysName.DELETE_INSTITUTIONS, callback);
     };
-    RabbitMQClient.prototype.resourcePhysicalActivities = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.PHYSICAL_ACTIVITIES, listener);
+    RabbitMQClient.prototype.subFitbitLastSync = function (callback) {
+        return this.subscribe(exchange_name_1.ExchangeName.DATA_SYNC, routing_keys_name_1.RoutingKeysName.LASTSYNC_FIIBIT, callback);
     };
-    RabbitMQClient.prototype.resourcePhysicalActivitiesLogs = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.PHYSICAL_ACTIVITIES_LOGS, listener);
+    RabbitMQClient.prototype.subFitbitAuthError = function (callback) {
+        return this.subscribe(exchange_name_1.ExchangeName.DATA_SYNC, routing_keys_name_1.RoutingKeysName.ERROR_FITBIT_AUTH, callback);
     };
-    RabbitMQClient.prototype.resourceSleep = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.SLEEP, listener);
+    RabbitMQClient.prototype.providePhysicalActivities = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.PHYSICAL_ACTIVITIES, listener);
     };
-    RabbitMQClient.prototype.resourceWights = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.WEIGHTS, listener);
+    RabbitMQClient.prototype.provideSleep = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.SLEEP, listener);
     };
-    RabbitMQClient.prototype.resourceBodyFats = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.BODY_FATS, listener);
+    RabbitMQClient.prototype.provideWeights = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.WEIGHTS, listener);
     };
-    RabbitMQClient.prototype.resourceEnviroments = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACTIVITY_SERVICE, exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.ENVIROMENTS, listener);
+    RabbitMQClient.prototype.provideEnvironments = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.ENVIRONMENTS, listener);
     };
-    RabbitMQClient.prototype.resourceChildren = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.CHILDREN, listener);
+    RabbitMQClient.prototype.provideLogs = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.LOGS, listener);
     };
-    RabbitMQClient.prototype.resourceFamilies = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.FAMILIES, listener);
+    RabbitMQClient.prototype.provideChildren = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.CHILDREN, listener);
     };
-    RabbitMQClient.prototype.resourceFamilyChildren = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.FAMILY_CHILDREN, listener);
+    RabbitMQClient.prototype.provideFamilies = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.FAMILIES, listener);
     };
-    RabbitMQClient.prototype.resourceEducators = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.EDUCATORS, listener);
+    RabbitMQClient.prototype.provideFamilyChildren = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.FAMILY_CHILDREN, listener);
     };
-    RabbitMQClient.prototype.resourceEducatorChildrenGroups = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.EDUCATORS_CILDRES_GROUPS, listener);
+    RabbitMQClient.prototype.provideEducators = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.EDUCATORS, listener);
     };
-    RabbitMQClient.prototype.resourceHealthProfessionals = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.HEALTH_PROFESSIONALS, listener);
+    RabbitMQClient.prototype.provideEducatorChildrenGroups = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.EDUCATORS_CHILDRES_GROUPS, listener);
     };
-    RabbitMQClient.prototype.resourceHealthProfessionalChildrenGroups = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, listener);
+    RabbitMQClient.prototype.provideHealthProfessionals = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.HEALTH_PROFESSIONALS, listener);
     };
-    RabbitMQClient.prototype.resourceApplications = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.APPLICATIONS, listener);
+    RabbitMQClient.prototype.provideHealthProfessionalChildrenGroups = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, listener);
     };
-    RabbitMQClient.prototype.resourceInstitutions = function (listener) {
-        return this.resource(queue_name_1.TargetMicroservice.RCP_OCARIOT_ACCOUNT_SERVICE, exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.INSTITUTIONS, listener);
+    RabbitMQClient.prototype.provideApplications = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.APPLICATIONS, listener);
+    };
+    RabbitMQClient.prototype.provideInstitutions = function (listener) {
+        return this.resource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.INSTITUTIONS, listener);
     };
     RabbitMQClient.prototype.getPhysicalActivities = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.PHYSICAL_ACTIVITIES, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.PHYSICAL_ACTIVITIES, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.PHYSICAL_ACTIVITIES, [query], callback);
-    };
-    RabbitMQClient.prototype.getPhysicalActivitiesLogs = function (resource, date_start, date_end, callback) {
-        if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.PHYSICAL_ACTIVITIES_LOGS, [resource, date_start, date_end]);
-        }
-        this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.PHYSICAL_ACTIVITIES_LOGS, [resource, date_start, date_end], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.PHYSICAL_ACTIVITIES, [query], callback);
     };
     RabbitMQClient.prototype.getSleep = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.SLEEP, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.SLEEP, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.SLEEP, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.SLEEP, [query], callback);
     };
     RabbitMQClient.prototype.getWeights = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.WEIGHTS, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.WEIGHTS, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.WEIGHTS, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.WEIGHTS, [query], callback);
     };
-    RabbitMQClient.prototype.getBodyFats = function (query, callback) {
+    RabbitMQClient.prototype.getEnvironments = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.BODY_FATS, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.ENVIRONMENTS, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.BODY_FATS, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.ENVIRONMENTS, [query], callback);
     };
-    RabbitMQClient.prototype.getEnviroments = function (query, callback) {
+    RabbitMQClient.prototype.getLogs = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.ENVIROMENTS, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.LOGS, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACTIVITY, resource_name_1.ResourceName.ENVIROMENTS, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACTIVITY_TRACKING_RPC, resource_name_1.ResourceName.LOGS, [query], callback);
     };
     RabbitMQClient.prototype.getChildren = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.CHILDREN, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.CHILDREN, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.CHILDREN, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.CHILDREN, [query], callback);
     };
     RabbitMQClient.prototype.getFamilies = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.FAMILIES, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.FAMILIES, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.FAMILIES, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.FAMILIES, [query], callback);
     };
-    RabbitMQClient.prototype.getFamilyChildren = function (family_id, callback) {
+    RabbitMQClient.prototype.getFamilyChildren = function (familyId, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.FAMILY_CHILDREN, [family_id]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.FAMILY_CHILDREN, [familyId]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.FAMILY_CHILDREN, [family_id], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.FAMILY_CHILDREN, [familyId], callback);
     };
     RabbitMQClient.prototype.getEducators = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.EDUCATORS, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.EDUCATORS, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.EDUCATORS, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.EDUCATORS, [query], callback);
     };
-    RabbitMQClient.prototype.getEducatorChildrenGroups = function (educator_id, callback) {
+    RabbitMQClient.prototype.getEducatorChildrenGroups = function (educatorId, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.EDUCATORS_CILDRES_GROUPS, [educator_id]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.EDUCATORS_CHILDRES_GROUPS, [educatorId]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.EDUCATORS_CILDRES_GROUPS, [educator_id], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.EDUCATORS_CHILDRES_GROUPS, [educatorId], callback);
     };
     RabbitMQClient.prototype.getHealthProfessionals = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.HEALTH_PROFESSIONALS, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.HEALTH_PROFESSIONALS, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.HEALTH_PROFESSIONALS, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.HEALTH_PROFESSIONALS, [query], callback);
     };
-    RabbitMQClient.prototype.getHealthProfessionalChildrenGroups = function (healthprofessional_id, callback) {
+    RabbitMQClient.prototype.getHealthProfessionalChildrenGroups = function (healthProfessionalId, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, [healthprofessional_id]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, [healthProfessionalId]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, [healthprofessional_id], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, [healthProfessionalId], callback);
     };
     RabbitMQClient.prototype.getApplications = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.APPLICATIONS, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.APPLICATIONS, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.APPLICATIONS, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.APPLICATIONS, [query], callback);
     };
     RabbitMQClient.prototype.getInstitutions = function (query, callback) {
         if (!callback) {
-            return this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.INSTITUTIONS, [query]);
+            return this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.INSTITUTIONS, [query]);
         }
-        this.request(exchange_name_1.ExchangeName.RPC_ACCOUNT, resource_name_1.ResourceName.INSTITUTIONS, [query], callback);
+        this.requestResource(exchange_name_1.ExchangeName.ACCOUNT_RPC, resource_name_1.ResourceName.INSTITUTIONS, [query], callback);
     };
     return RabbitMQClient;
 }(events_1.EventEmitter));
