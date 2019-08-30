@@ -1,7 +1,6 @@
 import { ISub } from './sub.interface'
 
 export interface IOcariotSub extends ISub {
-
     subSavePhysicalActivity(callback: (message: any) => void): Promise<void>
 
     subUpdatePhysicalActivity(callback: (message: any) => void): Promise<void>
@@ -41,5 +40,4 @@ export interface IOcariotSub extends ISub {
     subFitbitLastSync(callback: (message: any) => void): Promise<void>
 
     subFitbitAuthError(callback: (message: any) => void): Promise<void>
-
 }

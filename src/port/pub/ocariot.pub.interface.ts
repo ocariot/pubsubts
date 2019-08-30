@@ -1,7 +1,6 @@
 import { IPub } from './pub.interface'
 
 export interface IOcariotPub extends IPub {
-
     pubSavePhysicalActivity(activity: any): Promise<void>
 
     pubUpdatePhysicalActivity(activity: any): Promise<void>
@@ -41,5 +40,4 @@ export interface IOcariotPub extends IPub {
     pubFitbitLastSync(datetime: any): Promise<void>
 
     pubFitbitAuthError(error: any): Promise<void>
-
 }

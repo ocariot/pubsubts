@@ -18,5 +18,6 @@ export abstract class EventName {
     public static readonly UPDATE_APPLICATION_EVENT: string = 'ApplicationUpdateEvent'
     public static readonly DELETE_USER_EVENT: string = 'UserDeleteEvent'
     public static readonly DELETE_INSTITUTION_EVENT: string = 'InstitutionDeleteEvent'
-
+    public static readonly LASTSYNC_FIIBIT_FITBIT: string = 'FitbitLastSyncEvent'
+    public static readonly ERROR_FITBIT_AUTH_EVENT: string = 'FitbitAuthErrorEvent'
 }

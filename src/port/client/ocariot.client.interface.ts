@@ -1,7 +1,6 @@
 import { IClient } from './client.interface'
 
-export interface IOcariotClient extends IClient{
-
+export interface IOcariotClient extends IClient {
     getPhysicalActivities(query: string, callback?: (err, result) => void): any
 
     getSleep(query: string, callback?: (err, result) => void): any
@@ -29,5 +28,4 @@ export interface IOcariotClient extends IClient{
     getApplications(query: string, callback?: (err, result) => void): any
 
     getInstitutions(query: string, callback?: (err, result) => void): any
-
 }

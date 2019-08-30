@@ -1,7 +1,6 @@
 import { IServer } from './server.interface'
 
 export interface IOcariotServer extends IServer {
-
     providePhysicalActivities(listener: (query: string) => any): Promise<void>
 
     provideSleep(listener: (query: string) => any): Promise<void>
@@ -29,5 +28,4 @@ export interface IOcariotServer extends IServer {
     provideApplications(listener: (query: string) => any): Promise<void>
 
     provideInstitutions(listener: (query: string) => any): Promise<void>
-
 }

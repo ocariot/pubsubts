@@ -18,7 +18,7 @@ export abstract class RoutingKeysName {
     public static readonly UPDATE_APPLICATIONS: string = 'applications.update'
     public static readonly DELETE_USERS: string = 'users.delete'
     public static readonly DELETE_INSTITUTIONS: string = 'institutions.delete'
-    public static readonly LASTSYNC_FIIBIT: string = 'fitbit.lastsync'
+    public static readonly LAST_SYNC_FIIBIT: string = 'fitbit.lastsync'
     public static readonly ERROR_FITBIT_AUTH: string = 'fitbit.auth.error'
 
 }

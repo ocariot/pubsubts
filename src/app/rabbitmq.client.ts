@@ -3,7 +3,9 @@ import {
     IMessageChild,
     IMessageEducator,
     IMessageEnvironment,
-    IMessageFamily, IMessageFitbitAuthError, IMessageFitbitLastSync,
+    IMessageFamily,
+    IMessageFitbitAuthError,
+    IMessageFitbitLastSync,
     IMessageHealthProfessional,
     IMessageInstitution,
     IMessageLog,
@@ -39,6 +41,7 @@ const defaultOptionPub: IPubExchangeOptions = {
         type: 'direct'
     }
 }
+
 const defaultOptionSub: ISubExchangeOptions = {
     consumer: { noAck: true },
     exchange: {
@@ -50,6 +53,7 @@ const defaultOptionSub: ISubExchangeOptions = {
     },
     receiveFromYourself: false
 }
+
 const defaultOptionRpcClient: IClientOptions = {
     exchange: {
         durable: true,
@@ -57,6 +61,7 @@ const defaultOptionRpcClient: IClientOptions = {
     },
     rcpTimeout: 5000
 }
+
 const defaultOptionRpcServer: IServerOptions = {
     consumer: { noAck: false },
     exchange: {
@@ -67,6 +72,7 @@ const defaultOptionRpcServer: IServerOptions = {
         durable: true
     }
 }
+
 const defaultConnConfig: IConnectionParams = {
     protocol: 'amqp',
     hostname: '127.0.0.1',
@@ -75,13 +81,13 @@ const defaultConnConfig: IConnectionParams = {
     password: 'guest',
     vhost: 'ocariot'
 }
+
 const defaultConnOpt: IConnectionOptions = {
     retries: 0,
     interval: 1000
 }
 
 export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
-
     private readonly _connConfig: IConnectionParams | string
     private readonly _connOpt: IConnectionOptions
 
@@ -94,7 +100,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     private _clientConnection: IConnection
     private _clientConnectionInitialized: Promise<IConnection>
 
-    constructor(private _appName: string, connParams?: IConnectionConfigs | string, connOptions?: IConnectionOptions) {
+    constructor(private appName: string, connParams?: IConnectionConfigs | string, connOptions?: IConnectionOptions) {
         super()
 
         this._connConfig = { ...defaultConnConfig } as IConnectionParams
@@ -115,11 +121,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             if (connOptions.rpcTimeout)
                 defaultOptionRpcClient.rcpTimeout = connOptions.rpcTimeout
         }
-
     }
 
     private pubEventInitialization(): void {
-
         this._pubConnection.on('close_connection', () => {
             this.emit('pub_disconnected')
         })
@@ -139,7 +143,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     }
 
     private subEventInitialization(): void {
-
         this._subConnection.on('close_connection', () => {
             this.emit('sub_disconnected')
         })
@@ -155,11 +158,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
         this._subConnection.on('error_connection', (err) => {
             this.emit('sub_connection_error', err)
         })
-
     }
 
     private serverEventInitialization(): void {
-
         this._serverConnection.on('close_connection', () => {
             this.emit('rpc_server_disconnected')
         })
@@ -178,7 +179,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     }
 
     private clientEventInitialization(): void {
-
         this._clientConnection.on('close_connection', () => {
             this.emit('rpc_client_disconnected')
         })
@@ -194,15 +194,12 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
         this._clientConnection.on('error_connection', (err) => {
             this.emit('rpc_client_connection_error', err)
         })
-
     }
 
     public logger(level: string): void {
-
         if (level === 'warn' || level === 'error' || level === 'info' || !level) {
             amqpClient.logger(level)
         }
-
     }
 
     public async close(): Promise<void> {
@@ -233,7 +230,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
         return new Promise<void>(async (resolve, reject) => {
             if (!this._pubConnection && !this._pubConnectionInitialized) {
                 this._pubConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
-
                 try {
                     this._pubConnection = await this._pubConnectionInitialized
                     this.pubEventInitialization()
@@ -244,7 +240,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
                     return reject(err)
                 }
             }
-
             try {
                 await this._pubConnectionInitialized
                 resolve()
@@ -255,32 +250,25 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     }
 
     private async publish(exchangeName: string, routingKey: string, body: any): Promise<void> {
-
         return new Promise<void>(async (resolve, reject) => {
-
             try {
                 await this.pubConnection()
             } catch (err) {
                 return reject(err)
             }
-
             const message = { content: body }
-
             return this._pubConnection.pub(exchangeName, routingKey, message, defaultOptionPub)
         })
     }
 
     public async pub(routingKey: string, body: any): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
-
             try {
                 await this.pubConnection()
             } catch (err) {
                 return reject(err)
             }
-
             const message = { content: body }
-
             return this._pubConnection.pub(ExchangeName.PERSONALIZED, routingKey, message, defaultOptionPub)
         })
     }
@@ -289,7 +277,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
         return new Promise<void>(async (resolve, reject) => {
             if (!this._subConnection && !this._subConnectionInitialized) {
                 this._subConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
-
                 try {
                     this._subConnection = await this._subConnectionInitialized
                     this.subEventInitialization()
@@ -300,7 +287,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
                     return reject(err)
                 }
             }
-
             try {
                 await this._subConnectionInitialized
                 resolve()
@@ -313,14 +299,12 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public sub(routingKey: string,
                callback: (message: any) => void): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
-
             try {
                 await this.subConnection()
             } catch (err) {
                 return reject(err)
             }
-
-            return this._subConnection.sub(this._appName.concat(EndpointQueue.PERSONALIZED_SUB),
+            return this._subConnection.sub(this.appName.concat(EndpointQueue.PERSONALIZED_SUB),
                 ExchangeName.PERSONALIZED,
                 routingKey,
                 msg => callback(msg.content),
@@ -331,14 +315,12 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     private subscribe(exchangeName: string, routingKey: string,
                       callback: (message: any) => void): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
-
             try {
                 await this.subConnection()
             } catch (err) {
                 return reject(err)
             }
-
-            return this._subConnection.sub(this._appName,
+            return this._subConnection.sub(this.appName,
                 exchangeName,
                 routingKey,
                 msg => callback(msg.content),
@@ -360,7 +342,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
                     return reject(err)
                 }
             }
-
             try {
                 await this._serverConnectionInitialized
                 return resolve()
@@ -372,33 +353,27 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
 
     private resource(exchangeName: string, name: string, func: (...any) => any[]): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
-
             try {
                 await this.serverConnection()
             } catch (err) {
                 return reject(err)
             }
-
             const server: IServerRegister = this._serverConnection
-                .createRpcServer(this._appName.concat(EndpointQueue.RPC), exchangeName, [], defaultOptionRpcServer)
-
+                .createRpcServer(this.appName.concat(EndpointQueue.RPC), exchangeName, [], defaultOptionRpcServer)
             if (server.addResource(name, func)) return await server.start()
         })
     }
 
     public provide(name: string, func: (...any) => any): Promise<void> {
         return new Promise<void>(async (resolve, reject) => {
-
             try {
                 await this.serverConnection()
             } catch (err) {
                 return reject(err)
             }
-
             const server: IServerRegister = this._serverConnection
-                .createRpcServer(this._appName.concat(EndpointQueue.PERSONALIZED_RPC),
+                .createRpcServer(this.appName.concat(EndpointQueue.PERSONALIZED_RPC),
                     ExchangeName.PERSONALIZED_RPC, [], defaultOptionRpcServer)
-
             if (server.addResource(name, func)) return await server.start()
         })
     }
@@ -408,7 +383,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getResource(name: string, params: any[]): Promise<any>
 
     public getResource(name: string, params: any[], callback?: (err, result) => any): void | Promise<any> {
-
         if (!callback) {
             return this.getResourcePromise(ExchangeName.PERSONALIZED_RPC, name, params)
         }
@@ -421,7 +395,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
 
     private requestResource(exchangeName: string, name: string, params: any[],
                             callback?: (err, result) => any): void | Promise<any> {
-
         if (!callback) {
             return this.getResourcePromise(exchangeName, name, params)
         }
@@ -432,7 +405,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
         new Promise<void>(async (resolve, reject) => {
             if (!this._clientConnectionInitialized) {
                 this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
-
                 try {
                     this._clientConnection = await this._clientConnectionInitialized
                     this.clientEventInitialization()
@@ -448,7 +420,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             } catch (err) {
                 return reject(err)
             }
-
             this._clientConnection.rpcClient(exchangeName, name, params, callback, defaultOptionRpcClient)
         }).catch(err => {
             throw err
@@ -456,10 +427,8 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     }
 
     public async getResourcePromise(exchangeName: string, name: string, params: any[]): Promise<any> {
-
         if (!this._clientConnectionInitialized) {
             this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
-
             try {
                 this._clientConnection = await this._clientConnectionInitialized
                 this.clientEventInitialization()
@@ -469,7 +438,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
                 return Promise.reject(err)
             }
         }
-
         try {
             await this._clientConnectionInitialized
         } catch (err) {
@@ -484,7 +452,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             physicalactivity: activity
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, message)
     }
 
@@ -494,7 +461,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             physicalactivity: activity
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, message)
     }
 
@@ -504,7 +470,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             physicalactivity: activity
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, message)
     }
 
@@ -514,7 +479,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             sleep
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_SLEEP, message)
     }
 
@@ -524,7 +488,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             sleep
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.UPDATE_SLEEP, message)
     }
 
@@ -534,9 +497,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             sleep
         }
-
-        return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.DELETE_SLEEP,
-            message)
+        return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.DELETE_SLEEP, message)
     }
 
     public pubSaveWeight(weight: any): Promise<void> {
@@ -545,7 +506,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             weight
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_WEIGHTS, message)
     }
 
@@ -555,7 +515,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             weight
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.DELETE_WEIGHTS, message)
     }
 
@@ -565,7 +524,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             environment
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_ENVIRONMENTS, message)
     }
 
@@ -575,7 +533,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             environment
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.DELETE_ENVIRONMENTS, message)
     }
 
@@ -585,7 +542,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             log
         }
-
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_LOG, message)
     }
 
@@ -595,7 +551,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             child
         }
-
         return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.UPDATE_CHILDREN, message)
     }
 
@@ -605,7 +560,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             family
         }
-
         return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.UPDATE_FAMILIES, message)
     }
 
@@ -615,7 +569,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             educator
         }
-
         return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.UPDATE_EDUCATORS, message)
     }
 
@@ -625,7 +578,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             healthprofessional
         }
-
         return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.UPDATE_HEALTH_PROFESSIONALS, message)
     }
 
@@ -635,9 +587,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             application
         }
-
-        return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.UPDATE_APPLICATIONS,
-            message)
+        return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.UPDATE_APPLICATIONS, message)
     }
 
     public pubDeleteUser(user: any): Promise<void> {
@@ -656,47 +606,37 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             timestamp: new Date().toISOString(),
             institution
         }
-
         return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.DELETE_INSTITUTIONS, message)
-
     }
 
     public pubFitbitLastSync(datetime: any): Promise<void> {
         const message: IMessageFitbitLastSync = {
-            event_name: EventName.DELETE_INSTITUTION_EVENT,
+            event_name: EventName.LASTSYNC_FIIBIT_FITBIT,
             timestamp: new Date().toISOString(),
             datetime
         }
-
-        return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.LASTSYNC_FIIBIT, message)
+        return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.LAST_SYNC_FIIBIT, message)
     }
 
     public pubFitbitAuthError(error: any): Promise<void> {
         const message: IMessageFitbitAuthError = {
-            event_name: EventName.DELETE_INSTITUTION_EVENT,
+            event_name: EventName.ERROR_FITBIT_AUTH_EVENT,
             timestamp: new Date().toISOString(),
             error
         }
-
         return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.ERROR_FITBIT_AUTH, message)
     }
 
     public subSavePhysicalActivity(callback: (message: any) => void): Promise<void> {
-
         return this.subscribe(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback)
-
     }
 
     public subUpdatePhysicalActivity(callback: (message: any) => void): Promise<void> {
-
         return this.subscribe(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.UPDATE_PHYSICAL_ACTIVITIES, callback)
-
     }
 
     public subDeletePhysicalActivity(callback: (message: any) => void): Promise<void> {
-
         return this.subscribe(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.DELETE_PHYSICAL_ACTIVITIES, callback)
-
     }
 
     public subSaveSleep(callback: (message: any) => void): Promise<void> {
@@ -760,7 +700,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     }
 
     public subFitbitLastSync(callback: (message: any) => void): Promise<void> {
-        return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.LASTSYNC_FIIBIT, callback)
+        return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.LAST_SYNC_FIIBIT, callback)
     }
 
     public subFitbitAuthError(callback: (message: any) => void): Promise<void> {
@@ -828,7 +768,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getPhysicalActivities(query: string): Promise<any>
 
     public getPhysicalActivities(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.PHYSICAL_ACTIVITIES, [query])
         }
@@ -840,7 +779,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getSleep(query: string): Promise<any>
 
     public getSleep(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.SLEEP, [query])
         }
@@ -852,7 +790,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getWeights(query: string): Promise<any>
 
     public getWeights(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.WEIGHTS, [query])
         }
@@ -864,7 +801,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getEnvironments(query: string): Promise<any>
 
     public getEnvironments(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.ENVIRONMENTS, [query])
         }
@@ -876,7 +812,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getLogs(query: string): Promise<any>
 
     public getLogs(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.LOGS, [query])
         }
@@ -888,7 +823,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getChildren(query: string): Promise<any>
 
     public getChildren(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILDREN, [query])
         }
@@ -900,7 +834,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getFamilies(query: string): Promise<any>
 
     public getFamilies(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.FAMILIES, [query])
         }
@@ -912,7 +845,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getFamilyChildren(familyId: string): Promise<any>
 
     public getFamilyChildren(familyId: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.FAMILY_CHILDREN, [familyId])
         }
@@ -924,7 +856,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getEducators(query: string): Promise<any>
 
     public getEducators(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.EDUCATORS, [query])
         }
@@ -936,7 +867,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getEducatorChildrenGroups(educatorId: string): Promise<any>
 
     public getEducatorChildrenGroups(educatorId: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.EDUCATORS_CHILDRES_GROUPS, [educatorId])
         }
@@ -948,7 +878,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getHealthProfessionals(query: string): Promise<any>
 
     public getHealthProfessionals(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.HEALTH_PROFESSIONALS, [query])
         }
@@ -960,7 +889,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getHealthProfessionalChildrenGroups(healthProfessionalId: string): Promise<any>
 
     public getHealthProfessionalChildrenGroups(healthProfessionalId: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS,
                 [healthProfessionalId])
@@ -974,7 +902,6 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getApplications(query: string): Promise<any>
 
     public getApplications(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.APPLICATIONS, [query])
         }
@@ -986,11 +913,9 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     public getInstitutions(query: string): Promise<any>
 
     public getInstitutions(query: string, callback?: (err, result) => void): any {
-
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, [query])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, [query], callback)
     }
-
 }

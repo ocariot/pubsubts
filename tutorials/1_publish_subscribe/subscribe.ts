@@ -1,7 +1,14 @@
 import { RabbitMQClient } from '../../index'
 
-const ocariot: RabbitMQClient = new RabbitMQClient('Account')
+const rabbitMQClient: RabbitMQClient = new RabbitMQClient('analytics.app')
 
-ocariot.subSavePhysicalActivity((message) => {
-    console.log(message)
-})
+rabbitMQClient
+    .subSaveWeight((message) => {
+        console.log(message)
+    })
+    .then(() => {
+        console.log(`Sub in SaveWeights  successfully registered!`)
+    })
+    .catch(err => {
+        console.log(`Sub error: ${err.message}`)
+    })
