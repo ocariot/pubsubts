@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f48b49ab-2dd0-4784-a7ee-1fde50f0a5b9" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/utils/endpoint.queue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/endpoint.queue.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tutorials/2_client_server/rpc_client.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tutorials/2_client_server/rpc_server.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tutorials/3_with_ssl/subscribe_and_rcp_client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/rabbitmq.client.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rabbitmq.client.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/rabbitmq.client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rabbitmq.client.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/connection/config.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/connection/config.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/ocariot.rabbitmq.interface.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/ocariot.rabbitmq.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/pub/message.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/pub/message.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/port/sub/sub.interface.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/port/sub/sub.interface.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/event.name.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/event.name.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/event.name.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/event.name.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/exchange.name.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/exchange.name.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/exchange.name.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/exchange.name.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/queue.name.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/queue.name.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/resource.name.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/resource.name.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/resource.name.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/resource.name.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/routing.keys.name.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/routing.keys.name.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/routing.keys.name.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/routing.keys.name.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.js" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutorials/2_client_server/rcp_server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/2_client_server/rpc_server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tutorials/3_with_ssl/subscribe_and_rcp_client.ts" beforeDir="false" afterPath="$PROJECT_DIR$/tutorials/3_with_ssl/subscribe_and_rcp_client.ts" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" selection-start-line="4" selection-end-line="6" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorials/2_client_server/rpc_client.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" selection-start-line="4" selection-end-line="10" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="180">
+              <caret line="12" selection-start-line="12" selection-end-line="13" />
+              <folding>
+                <element signature="e#0#84#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tsconfig.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorials/3_with_ssl/subscribe_and_rcp_client.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#84#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/app/rabbitmq.client.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="82" column="68" selection-start-line="82" selection-start-column="68" selection-end-line="82" selection-end-column="68" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/port/ocariot.rabbitmq.interface.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/subscribe.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" selection-start-line="4" selection-end-line="6" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tutorials/2_client_server/rpc_server.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" selection-start-line="11" selection-end-line="18" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>_rebuildAll</find>
+      <find>_connection</find>
+      <find>_logger</find>
+      <find>close_connection</find>
+      <find>const</find>
+      <find>this._connection</find>
+      <find>conn</find>
+      <find>isConnected</find>
+      <find>IMessageGeneric</find>
+      <find>this.pubsub</find>
+      <find>this.pubconnection.conn</find>
+      <find>pubEventInitialization</find>
+      <find>boolean | OcariotPubSubException</find>
+      <find>Promise&lt;boolean | OcariotPubSubException&gt;</find>
+      <find>return</find>
+      <find>(message: any) =&gt; void</find>
+      <find>query</find>
+      <find>callback</find>
+      <find>void</find>
+      <find>: void</find>
+      <find>serverConnection</find>
+      <find>here</find>
+      <find>cons</find>
+      <find>defaultOptionSub</find>
+      <find>, callback?: (err, result) =&gt; any): any</find>
+      <find>getPhysicalActivities</find>
+      <find>save</find>
+      <find>IConnectionOptions</find>
+      <find>_appName</find>
+      <find>conc</find>
+    </findStrings>
+    <replaceStrings>
+      <replace />
+      <replace>new Date().toISOString()</replace>
+      <replace>this.pubsub</replace>
+      <replace>void</replace>
+      <replace>(err,message: any) =&gt; void</replace>
+      <replace>callback: (err, result) =&gt; any)</replace>
+      <replace>callback: (err, result) =&gt; any</replace>
+      <replace>query: string</replace>
+      <replace>any</replace>
+      <replace>Promise&lt;any&gt;</replace>
+      <replace>callback?</replace>
+      <replace>: Promise&lt;void&gt;</replace>
+      <replace>Promise&lt;void&gt;</replace>
+      <replace>): Promise&lt;&gt;</replace>
+      <replace>): Promise&lt;any&gt;</replace>
+      <replace>, callback: (err, result) =&gt; any): void</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/../pubsub/src/port/eventbus.interface.ts" />
+        <option value="$PROJECT_DIR$/test/publish.spec.ts" />
+        <option value="$PROJECT_DIR$/test/subscriber.spec.ts" />
+        <option value="$PROJECT_DIR$/test/connection.spec.ts" />
+        <option value="$PROJECT_DIR$/src/port/pub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/sub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/connection.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/opt.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/ocariot.pub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/pub/ocariot.pub.sub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/ocariot.client.server.interface.ts" />
+        <option value="$PROJECT_DIR$/src/utils/configurations.ts" />
+        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/sender.ts" />
+        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/receiver.ts" />
+        <option value="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_client.ts" />
+        <option value="$PROJECT_DIR$/src/port/connection/parameters.default.ts" />
+        <option value="$PROJECT_DIR$/../pubsub/index.ts" />
+        <option value="$PROJECT_DIR$/src/app/ocariot.pub.sub.ts" />
+        <option value="$PROJECT_DIR$/src/app/rabbitMQClient.ts" />
+        <option value="$PROJECT_DIR$/../pubsub/src/application/port/connection.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/client/client.interface.ts" />
+        <option value="$PROJECT_DIR$/index.ts" />
+        <option value="$PROJECT_DIR$/src/port/connection/opt.interface.ts" />
+        <option value="$PROJECT_DIR$/tslint.json" />
+        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish_and_subscribe.ts" />
+        <option value="$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/pub/pub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/server/server.interface.ts" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/tutorials/2_client_server/rpc_client.ts" />
+        <option value="$PROJECT_DIR$/src/port/connection/config.interface.ts" />
+        <option value="$PROJECT_DIR$/src/utils/exchange.name.ts" />
+        <option value="$PROJECT_DIR$/src/utils/event.name.ts" />
+        <option value="$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts" />
+        <option value="$PROJECT_DIR$/src/utils/resource.name.ts" />
+        <option value="$PROJECT_DIR$/src/port/sub/sub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts" />
+        <option value="$PROJECT_DIR$/src/utils/routing.keys.name.ts" />
+        <option value="$PROJECT_DIR$/src/port/pub/message.interface.ts" />
+        <option value="$PROJECT_DIR$/src/utils/queue.name.ts" />
+        <option value="$PROJECT_DIR$/src/app/rabbitmq.client.ts" />
+        <option value="$PROJECT_DIR$/src/utils/endpoint.queue.ts" />
+        <option value="$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts" />
+        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/subscribe.ts" />
+        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.ts" />
+        <option value="$PROJECT_DIR$/tutorials/2_client_server/rcp_server.ts" />
+        <option value="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.js" />
+        <option value="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.ts" />
+        <option value="$PROJECT_DIR$/tutorials/3_with_ssl/subscribe_and_rcp_client.ts" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="33" />
+    <option name="y" value="24" />
+    <option name="width" value="1333" />
+    <option name="height" value="744" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="rabbitmq-client-node" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rabbitmq-client-node" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rabbitmq-client-node" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rabbitmq-client-node" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rabbitmq-client-node" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rabbitmq-client-node" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rabbitmq-client-node" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rabbitmq-client-node" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rabbitmq-client-node" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rabbitmq-client-node" type="462c0819:PsiDirectoryNode" />
+              <item name="tutorials" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rabbitmq-client-node" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rabbitmq-client-node" type="462c0819:PsiDirectoryNode" />
+              <item name="tutorials" type="462c0819:PsiDirectoryNode" />
+              <item name="1_publish_subscribe" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rabbitmq-client-node" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rabbitmq-client-node" type="462c0819:PsiDirectoryNode" />
+              <item name="tutorials" type="462c0819:PsiDirectoryNode" />
+              <item name="2_client_server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="rabbitmq-client-node" type="b2602c69:ProjectViewProjectNode" />
+              <item name="rabbitmq-client-node" type="462c0819:PsiDirectoryNode" />
+              <item name="tutorials" type="462c0819:PsiDirectoryNode" />
+              <item name="3_with_ssl" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="js.last.introduce.type" value="LET" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tutorials/3_with_ssl" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.TypeScript" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tutorials/3_with_ssl" />
+      <recent name="$PROJECT_DIR$/ssl/certifications1" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/utils" />
+      <recent name="$PROJECT_DIR$/ssl/certifications" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/port/pub" />
+      <recent name="$PROJECT_DIR$/src/port" />
+      <recent name="$PROJECT_DIR$/src/port/connection" />
+      <recent name="$PROJECT_DIR$/src/port/sub" />
+      <recent name="$PROJECT_DIR$/test" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f48b49ab-2dd0-4784-a7ee-1fde50f0a5b9" name="Default Changelist" comment="" />
+      <created>1556120560580</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1556120560580</updated>
+      <workItem from="1556120562482" duration="757000" />
+      <workItem from="1556565767491" duration="1781000" />
+      <workItem from="1556567560699" duration="5862000" />
+      <workItem from="1556646675681" duration="13150000" />
+      <workItem from="1556828803504" duration="6884000" />
+      <workItem from="1556887387105" duration="8606000" />
+      <workItem from="1557146573319" duration="12215000" />
+      <workItem from="1557263714201" duration="2749000" />
+      <workItem from="1557340536372" duration="7058000" />
+      <workItem from="1557406520707" duration="4151000" />
+      <workItem from="1557509242262" duration="15108000" />
+      <workItem from="1557767255345" duration="14135000" />
+      <workItem from="1557853258029" duration="8008000" />
+      <workItem from="1557941281727" duration="8828000" />
+      <workItem from="1558029338573" duration="11310000" />
+      <workItem from="1558129857040" duration="1823000" />
+      <workItem from="1558132528508" duration="1237000" />
+      <workItem from="1558381471462" duration="14794000" />
+      <workItem from="1558613600186" duration="799000" />
+      <workItem from="1558722506276" duration="14967000" />
+      <workItem from="1558979917263" duration="15253000" />
+      <workItem from="1559064365482" duration="16103000" />
+      <workItem from="1559157059072" duration="593000" />
+      <workItem from="1559331183996" duration="5143000" />
+      <workItem from="1559675326676" duration="13952000" />
+      <workItem from="1559764293200" duration="14690000" />
+      <workItem from="1559845737792" duration="12414000" />
+      <workItem from="1559913520143" duration="25035000" />
+      <workItem from="1560197834942" duration="7375000" />
+      <workItem from="1560261383700" duration="7785000" />
+      <workItem from="1560434276619" duration="6777000" />
+      <workItem from="1560520977059" duration="6390000" />
+      <workItem from="1560866152489" duration="3977000" />
+      <workItem from="1562243046428" duration="2873000" />
+      <workItem from="1562247121498" duration="3196000" />
+      <workItem from="1562252484797" duration="2514000" />
+      <workItem from="1562275367654" duration="33000" />
+      <workItem from="1562331058958" duration="15900000" />
+      <workItem from="1562860766206" duration="28000" />
+      <workItem from="1563299729348" duration="18174000" />
+      <workItem from="1563458639999" duration="2012000" />
+      <workItem from="1563544282506" duration="9358000" />
+      <workItem from="1563578533053" duration="1886000" />
+      <workItem from="1563810517458" duration="5836000" />
+      <workItem from="1563840987496" duration="116000" />
+      <workItem from="1563890665541" duration="6040000" />
+      <workItem from="1564592762950" duration="8217000" />
+      <workItem from="1564602256821" duration="4216000" />
+      <workItem from="1564669114941" duration="3495000" />
+      <workItem from="1564759977964" duration="19023000" />
+      <workItem from="1565266035122" duration="25230000" />
+      <workItem from="1565357714840" duration="15912000" />
+      <workItem from="1565448684347" duration="599000" />
+      <workItem from="1565613728173" duration="16850000" />
+      <workItem from="1565647281310" duration="1389000" />
+      <workItem from="1565714604264" duration="7600000" />
+      <workItem from="1565803915092" duration="3657000" />
+      <workItem from="1565813254714" duration="5915000" />
+      <workItem from="1565900689338" duration="670000" />
+      <workItem from="1566232324882" duration="983000" />
+      <workItem from="1566252800730" duration="2996000" />
+      <workItem from="1567103864305" duration="16260000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="610278000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="32" y="-11" width="1889" height="1092" extended-state="6" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4993498" visible="true" weight="0.13948497" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="npm" order="2" sideWeight="0.50065017" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3282365" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32925585" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3282365" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49946353" weight="0.32925585" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5005365" side_tool="true" weight="0.32925585" />
+      <window_info anchor="bottom" id="TypeScript" order="10" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.2874618" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4993498" visible="true" weight="0.25" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="npm" order="2" sideWeight="0.50065017" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3282365" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32925585" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3282365" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" sideWeight="0.49946353" weight="0.32925585" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5005365" side_tool="true" weight="0.32925585" />
+      <window_info anchor="bottom" id="TypeScript" order="10" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.27828747" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/../testLibrary/ocariot.server.js" />
+        <option value="$PROJECT_DIR$/src/port/ocariot.rabbitmq.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/connection/opt.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/connection/config.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/client/ocariot.client.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/client/client.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/sub/sub.interface.js" />
+        <option value="$PROJECT_DIR$/src/utils/event.name.js" />
+        <option value="$PROJECT_DIR$/../testLibrary/index.js" />
+        <option value="$PROJECT_DIR$/src/utils/configurations.js" />
+        <option value="$PROJECT_DIR$/src/utils/exchange.name.js" />
+        <option value="$PROJECT_DIR$/src/utils/resource.name.js" />
+        <option value="$PROJECT_DIR$/src/utils/routing.keys.name.js" />
+        <option value="$PROJECT_DIR$/../testLibrary/ocariot.client.js" />
+        <option value="$PROJECT_DIR$/src/utils/endpoint.queue.js" />
+        <option value="$PROJECT_DIR$/src/port/server/server.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/server/ocariot.server.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/pub/pub.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/pub/message.interface.js" />
+        <option value="$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.js" />
+        <option value="$PROJECT_DIR$/index.js" />
+        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.js" />
+        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/subscribe.js" />
+        <option value="$PROJECT_DIR$/src/app/rabbitmq.client.js" />
+        <option value="$PROJECT_DIR$/tutorials/1_publish_subscribe/publish_and_subscribe.js" />
+        <option value="$PROJECT_DIR$/tutorials/2_client_server/rpc_client.js" />
+        <option value="$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.js" />
+        <option value="$PROJECT_DIR$/tutorials/3_with_ssl/subscribe_and_rcp_client.js" />
+        <option value="$PROJECT_DIR$/../testLibrary/ocariot.client.second.js" />
+      </list>
+    </option>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/port/connection/parameters.default.ts" />
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/pub.sub.ts" />
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/application/port/server.register.interface.ts" />
+    <entry file="file://$PROJECT_DIR$/lib/index.js" />
+    <entry file="file://$PROJECT_DIR$/lib/index.d.ts" />
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/application/port/communication.option.interface.ts" />
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/application/port/exchange.option.interface.ts" />
+    <entry file="file://$PROJECT_DIR$/src/utils/configurations.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/application/port/connection.interface.ts" />
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/application/port/message.interface.ts" />
+    <entry file="file://$PROJECT_DIR$/../pubsub/index.ts" />
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/amqp.client.ts" />
+    <entry file="file://$PROJECT_DIR$/../pubsub/src/application/port/connection.config.inteface.ts" />
+    <entry file="file://$PROJECT_DIR$/lib/src/app/rabbitmq.client.js" />
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="441">
+            <caret line="87" column="48" selection-start-line="87" selection-start-column="48" selection-end-line="87" selection-end-column="48" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/connection/opt.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="68" selection-start-line="2" selection-start-column="68" selection-end-line="2" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/amqp-client-node/lib/index.d.ts" />
+    <entry file="file://$PROJECT_DIR$/node_modules/amqp-client-node/lib/src/application/port/server.register.interface.d.ts" />
+    <entry file="file://$PROJECT_DIR$/src/port/ocariot.pub.sub.interface.ts" />
+    <entry file="file://$PROJECT_DIR$/index.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/client/client.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/pub/pub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="4" selection-start-line="2" selection-start-column="4" selection-end-line="2" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/connection/config.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/amqp-client-node/lib/src/application/port/connection.interface.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/client/ocariot.client.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="11" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/resource.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="31" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/event.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="27" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/sub/sub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="8" selection-start-line="2" selection-start-column="8" selection-end-line="2" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/server/server.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="17" selection-start-column="17" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/sub/ocariot.sub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="617">
+          <caret line="42" column="55" selection-start-line="42" selection-start-column="55" selection-end-line="42" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/pub/ocariot.pub.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="617">
+          <caret line="42" column="33" selection-start-line="42" selection-start-column="33" selection-end-line="42" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/pub/message.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="57" column="39" selection-start-line="57" selection-start-column="17" selection-end-line="57" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/routing.keys.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="42" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/endpoint.queue.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="27" selection-start-line="3" selection-start-column="27" selection-end-line="3" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/server/ocariot.server.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/exchange.name.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="27" selection-start-line="2" selection-start-column="27" selection-end-line="2" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/publish_and_subscribe.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tslint.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="269">
+          <caret line="65" column="24" selection-start-line="65" selection-start-column="24" selection-end-line="65" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tsconfig.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/2_client_server/rpc_server.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/subscribe.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="6" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/2_client_server/rpc_client.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="10" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/1_publish_subscribe/publish.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" selection-start-line="4" selection-end-line="6" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/3_with_ssl/ssl/certifications/ca_key.pem">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/3_with_ssl/publish_and_rcp_server.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" selection-start-line="12" selection-end-line="13" />
+          <folding>
+            <element signature="e#0#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tutorials/3_with_ssl/subscribe_and_rcp_client.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="17" lean-forward="true" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/rabbitmq.client.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="82" column="68" selection-start-line="82" selection-start-column="68" selection-end-line="82" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/port/ocariot.rabbitmq.interface.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
