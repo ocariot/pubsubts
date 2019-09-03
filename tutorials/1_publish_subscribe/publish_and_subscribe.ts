@@ -1,4 +1,4 @@
-import { RabbitMQClient, IConnectionOptions } from '../../index'
+import { IConnectionOptions, RabbitMQClient } from '../../index'
 
 const options: IConnectionOptions = {
     receiveFromYourself: true
@@ -8,7 +8,7 @@ const rabbitMQClient: RabbitMQClient = new RabbitMQClient('activity.tracking.app
 
 rabbitMQClient
     .subSavePhysicalActivity((message) => {
-        console.log(`Event received: ${message}`)
+        console.log('Event received:', message)
     })
     .then(() => {
         console.log('Subscribe successfully registered!')
@@ -20,12 +20,12 @@ rabbitMQClient
 rabbitMQClient
     .pubSavePhysicalActivity({
         activity: {
-            'name': 'Walk',
-            'start_time': '2018-12-14T12:52:59Z',
-            'end_time': '2018-12-14T13:12:37Z',
-            'duration': 1178000,
-            'calories': 109,
-            'steps': 1407
+            name: 'Walk',
+            start_time: '2018-12-14T12:52:59Z',
+            end_time: '2018-12-14T13:12:37Z',
+            duration: 1178000,
+            calories: 109,
+            steps: 1407
         }
     })
     .then(() => {

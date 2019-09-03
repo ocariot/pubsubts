@@ -23,6 +23,8 @@ export interface IOcariotSub extends ISub {
 
     subSaveLog(callback: (message: any) => void): Promise<void>
 
+    subSaveChild(callback: (message: any) => void): Promise<void>
+
     subUpdateChild(callback: (message: any) => void): Promise<void>
 
     subUpdateFamily(callback: (message: any) => void): Promise<void>

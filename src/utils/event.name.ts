@@ -11,6 +11,7 @@ export abstract class EventName {
     public static readonly SAVE_ENVIRONMENT_EVENT: string = 'EnvironmentSaveEvent'
     public static readonly DELETE_ENVIRONMENT_EVENT: string = 'EnvironmentDeleteEvent'
     public static readonly SAVE_LOG_EVENT: string = 'LogSaveEvent'
+    public static readonly SAVE_CHILD_EVENT: string = 'ChildSaveEvent'
     public static readonly UPDATE_CHILD_EVENT: string = 'ChildUpdateEvent'
     public static readonly UPDATE_FAMILY_EVENT: string = 'FamilyUpdateEvent'
     public static readonly UPDATE_EDUCATOR_EVENT: string = 'EducatorUpdateEvent'

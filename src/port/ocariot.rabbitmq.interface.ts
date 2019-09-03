@@ -6,7 +6,5 @@ import { IOcariotServer } from './server/ocariot.server.interface'
 export interface IOcariotRabbitMQ extends IOcariotPub, IOcariotSub, IOcariotClient, IOcariotServer {
     close(): Promise<void>
 
-    dispose(): Promise<void>
-
     logger(level: string): void
 }

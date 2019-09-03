@@ -8,7 +8,7 @@ const rabbitMQClient: RabbitMQClient = new RabbitMQClient('analytics.app',
 rabbitMQClient
     .getChildren('?age=gt:8&age=lte:12 ')
     .then(resource => {
-        console.log(`Children received (promise): ${resource}`)
+        console.log('Children received (promise):', resource)
     })
     .catch((err) => {
         console.log(`Error (promise): ${err.message}`)
@@ -23,6 +23,6 @@ rabbitMQClient.getPhysicalActivities(
             console.log(`Error (callback): ${err.message}`)
             return
         }
-        console.log(`Physical Activities received (callback): ${resource}`)
+        console.log('Physical Activities received (callback):', resource)
     }
 )

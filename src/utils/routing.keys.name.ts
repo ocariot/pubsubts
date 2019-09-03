@@ -11,6 +11,7 @@ export abstract class RoutingKeysName {
     public static readonly SAVE_ENVIRONMENTS: string = 'environments.save'
     public static readonly DELETE_ENVIRONMENTS: string = 'environments.delete'
     public static readonly SAVE_LOG: string = 'logs.save'
+    public static readonly SAVE_CHILDREN: string = 'children.save'
     public static readonly UPDATE_CHILDREN: string = 'children.update'
     public static readonly UPDATE_FAMILIES: string = 'families.update'
     public static readonly UPDATE_EDUCATORS: string = 'educators.update'

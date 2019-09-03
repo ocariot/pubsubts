@@ -29,7 +29,7 @@ rabbitMQClient
             child_id: '5d601e0775e1850012fd161a',
             name: 'Outdoor Bike',
             calories: 73,
-            xXXXXXsteps: 0
+            steps: 0
         }
     })
     .then(() => {
@@ -44,7 +44,7 @@ rabbitMQClient
         return environments
     })
     .then(() => {
-        console.log('RPC server to provide successfully initialized Environments sresource.')
+        console.log('RPC server to provide successfully initialized Environments resource.')
     })
     .catch((err) => {
         console.log(`Error initializing RPC server: ${err.message}`)
@@ -55,8 +55,8 @@ const environments = [
         id: '5a62be07de34500146d9c544',
         institution_id: '5a62be07de34500146d9c544',
         location: {
-            local: 'indoor',
-            room: 'Bloco H sala 01',
+            local: 'Indoor',
+            room: 'A101',
             latitude: -7.2100766,
             longitude: -35.9175756
         },

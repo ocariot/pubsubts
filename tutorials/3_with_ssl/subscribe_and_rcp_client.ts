@@ -16,7 +16,7 @@ const connParams: IConnectionConfigs = {
     password: 'guest'
 }
 
-const rabbitMQClient: RabbitMQClient = new RabbitMQClient('Account', connParams, connOptions)
+const rabbitMQClient: RabbitMQClient = new RabbitMQClient('account.app', connParams, connOptions)
 
 rabbitMQClient
     .subSavePhysicalActivity((message) => {
@@ -32,9 +32,8 @@ rabbitMQClient
 rabbitMQClient
     .getEnvironments('?end_at=2018-12-11&period=10d')
     .then(resource => {
-        console.log(`Environments received: ${resource}`)
+        console.log('Environments received:', resource)
     })
     .catch((err) => {
         console.log(`Error (promise): ${err.message}`)
     })
-

@@ -54,14 +54,6 @@ const defaultOptionSub: ISubExchangeOptions = {
     receiveFromYourself: false
 }
 
-const defaultOptionRpcClient: IClientOptions = {
-    exchange: {
-        durable: true,
-        type: 'direct'
-    },
-    rcpTimeout: 5000
-}
-
 const defaultOptionRpcServer: IServerOptions = {
     consumer: { noAck: false },
     exchange: {
@@ -73,15 +65,6 @@ const defaultOptionRpcServer: IServerOptions = {
     }
 }
 
-const defaultConnConfig: IConnectionParams = {
-    protocol: 'amqp',
-    hostname: '127.0.0.1',
-    port: 5672,
-    username: 'guest',
-    password: 'guest',
-    vhost: 'ocariot'
-}
-
 const defaultConnOpt: IConnectionOptions = {
     retries: 0,
     interval: 1000
@@ -90,6 +73,23 @@ const defaultConnOpt: IConnectionOptions = {
 export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     private readonly _connConfig: IConnectionParams | string
     private readonly _connOpt: IConnectionOptions
+
+    private defaultOptionRpcClient: IClientOptions = {
+        exchange: {
+            durable: true,
+            type: 'direct'
+        },
+        rcpTimeout: 5000
+    }
+
+    private defaultConnConfig: IConnectionParams = {
+        protocol: 'amqp',
+        hostname: '127.0.0.1',
+        port: 5672,
+        username: 'guest',
+        password: 'guest',
+        vhost: 'ocariot'
+    }
 
     private _pubConnection: IConnection
     private _pubConnectionInitialized: Promise<IConnection>
@@ -103,7 +103,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     constructor(private appName: string, connParams?: IConnectionConfigs | string, connOptions?: IConnectionOptions) {
         super()
 
-        this._connConfig = { ...defaultConnConfig } as IConnectionParams
+        this._connConfig = this.defaultConnConfig
 
         if (typeof connParams === 'object') {
             this._connConfig = { ...this._connConfig, ...connParams } as IConnectionParams
@@ -119,7 +119,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             if (connOptions.receiveFromYourself !== undefined)
                 defaultOptionSub.receiveFromYourself = connOptions.receiveFromYourself
             if (connOptions.rpcTimeout)
-                defaultOptionRpcClient.rcpTimeout = connOptions.rpcTimeout
+                this.defaultOptionRpcClient.rcpTimeout = connOptions.rpcTimeout
         }
     }
 
@@ -204,178 +204,146 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
 
     public async close(): Promise<void> {
         try {
-            await this._pubConnection.close()
-            await this._subConnection.close()
-            await this._clientConnection.close()
-            await this._serverConnection.close()
+            if (this._pubConnection) await this._pubConnection.close()
+            if (this._subConnection) await this._subConnection.close()
+            if (this._clientConnection) await this._clientConnection.close()
+            if (this._serverConnection) await this._serverConnection.close()
             return Promise.resolve()
         } catch (err) {
             return Promise.reject(err)
         }
     }
 
-    public async dispose(): Promise<void> {
+    private async pubConnection(): Promise<void> {
         try {
-            await this._pubConnection.dispose()
-            await this._subConnection.dispose()
-            await this._clientConnection.dispose()
-            await this._serverConnection.dispose()
-            return Promise.resolve()
-        } catch (err) {
-            return Promise.reject(err)
-        }
-    }
-
-    private pubConnection(): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
             if (!this._pubConnection && !this._pubConnectionInitialized) {
                 this._pubConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
-                try {
-                    this._pubConnection = await this._pubConnectionInitialized
-                    this.pubEventInitialization()
-                    this.emit('pub_connected')
-                } catch (err) {
-                    this._pubConnection = undefined
-                    this._pubConnectionInitialized = undefined
-                    return reject(err)
-                }
+                this._pubConnection = await this._pubConnectionInitialized
+                this.pubEventInitialization()
+                this.emit('pub_connected')
             }
-            try {
-                await this._pubConnectionInitialized
-                resolve()
-            } catch (err) {
-                return reject(err)
-            }
-        })
+            await this._pubConnectionInitialized
+            return Promise.resolve()
+        } catch (err) {
+            this._pubConnection = undefined
+            this._pubConnectionInitialized = undefined
+            return Promise.reject(err)
+        }
     }
 
     private async publish(exchangeName: string, routingKey: string, body: any): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
-            try {
-                await this.pubConnection()
-            } catch (err) {
-                return reject(err)
-            }
+        try {
+            await this.pubConnection()
             const message = { content: body }
             return this._pubConnection.pub(exchangeName, routingKey, message, defaultOptionPub)
-        })
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 
     public async pub(routingKey: string, body: any): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
-            try {
-                await this.pubConnection()
-            } catch (err) {
-                return reject(err)
-            }
+        try {
+            await this.pubConnection()
             const message = { content: body }
-            return this._pubConnection.pub(ExchangeName.PERSONALIZED, routingKey, message, defaultOptionPub)
-        })
+            return this._pubConnection.pub(ExchangeName.PERSONALIZED, routingKey, message, {
+                exchange: {
+                    durable: true,
+                    type: 'topic'
+                }
+            })
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 
-    private subConnection(): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
+    private async subConnection(): Promise<void> {
+        try {
             if (!this._subConnection && !this._subConnectionInitialized) {
                 this._subConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
-                try {
-                    this._subConnection = await this._subConnectionInitialized
-                    this.subEventInitialization()
-                    this.emit('sub_connected')
-                } catch (err) {
-                    this._subConnection = undefined
-                    this._subConnectionInitialized = undefined
-                    return reject(err)
-                }
+                this._subConnection = await this._subConnectionInitialized
+                this.subEventInitialization()
+                this.emit('sub_connected')
             }
-            try {
-                await this._subConnectionInitialized
-                resolve()
-            } catch (err) {
-                return reject(err)
-            }
-        })
+            await this._subConnectionInitialized
+            return Promise.resolve()
+        } catch (err) {
+            this._subConnection = undefined
+            this._subConnectionInitialized = undefined
+            return Promise.reject(err)
+        }
     }
 
-    public sub(routingKey: string,
-               callback: (message: any) => void): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
-            try {
-                await this.subConnection()
-            } catch (err) {
-                return reject(err)
+    public async sub(routingKey: string, callback: (message: any) => void): Promise<void> {
+        try {
+            await this.subConnection()
+            const options = {
+                ...defaultOptionSub, ...{
+                    exchange: { durable: true, type: 'topic' }
+                }
             }
             return this._subConnection.sub(this.appName.concat(EndpointQueue.PERSONALIZED_SUB),
                 ExchangeName.PERSONALIZED,
                 routingKey,
                 msg => callback(msg.content),
-                defaultOptionSub)
-        })
+                options)
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 
-    private subscribe(exchangeName: string, routingKey: string,
-                      callback: (message: any) => void): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
-            try {
-                await this.subConnection()
-            } catch (err) {
-                return reject(err)
-            }
+    private async subscribe(exchangeName: string, routingKey: string, callback: (message: any) => void): Promise<void> {
+        try {
+            await this.subConnection()
             return this._subConnection.sub(this.appName,
                 exchangeName,
                 routingKey,
                 msg => callback(msg.content),
                 defaultOptionSub)
-        })
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 
-    private serverConnection(): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
+    private async serverConnection(): Promise<void> {
+        try {
             if (!this._serverConnectionInitialized) {
                 this._serverConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
-                try {
-                    this._serverConnection = await this._serverConnectionInitialized
-                    this.serverEventInitialization()
-                    this.emit('rpc_server_connected')
-                } catch (err) {
-                    this._serverConnection = undefined
-                    this._serverConnectionInitialized = undefined
-                    return reject(err)
-                }
+                this._serverConnection = await this._serverConnectionInitialized
+                this.serverEventInitialization()
+                this.emit('rpc_server_connected')
             }
-            try {
-                await this._serverConnectionInitialized
-                return resolve()
-            } catch (err) {
-                return reject(err)
-            }
-        })
+            await this._serverConnectionInitialized
+            return Promise.resolve()
+        } catch (err) {
+            this._serverConnection = undefined
+            this._serverConnectionInitialized = undefined
+            return Promise.reject(err)
+        }
     }
 
-    private resource(exchangeName: string, name: string, func: (...any) => any[]): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
-            try {
-                await this.serverConnection()
-            } catch (err) {
-                return reject(err)
-            }
+    private async resource(exchangeName: string, name: string, func: (...any) => any[]): Promise<void> {
+        try {
+            await this.serverConnection()
             const server: IServerRegister = this._serverConnection
                 .createRpcServer(this.appName.concat(EndpointQueue.RPC), exchangeName, [], defaultOptionRpcServer)
-            if (server.addResource(name, func)) return await server.start()
-        })
+            if (server.addResource(name, func)) return server.start()
+            return Promise.reject(new Error('Could not add resource to RPC Server. Resource already exists!'))
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 
-    public provide(name: string, func: (...any) => any): Promise<void> {
-        return new Promise<void>(async (resolve, reject) => {
-            try {
-                await this.serverConnection()
-            } catch (err) {
-                return reject(err)
-            }
+    public async provide(name: string, func: (...any) => any): Promise<void> {
+        try {
+            await this.serverConnection()
             const server: IServerRegister = this._serverConnection
                 .createRpcServer(this.appName.concat(EndpointQueue.PERSONALIZED_RPC),
                     ExchangeName.PERSONALIZED_RPC, [], defaultOptionRpcServer)
-            if (server.addResource(name, func)) return await server.start()
-        })
+            if (server.addResource(name, func)) return server.start()
+            return Promise.reject(new Error('Could not add resource to RPC Server. Resource already exists!'))
+        } catch (err) {
+            return Promise.reject(err)
+        }
     }
 
     public getResource(name: string, params: any[], callback: (err, result) => any): void
@@ -402,48 +370,64 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     }
 
     public getResourceCallback(exchangeName: string, name: string, params: any[], callback: (...any) => any): void {
-        new Promise<void>(async (resolve, reject) => {
-            if (!this._clientConnectionInitialized) {
-                this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
-                try {
-                    this._clientConnection = await this._clientConnectionInitialized
+        let time
+        if (!this._clientConnection) {
+            new Promise<any>((res) => {
+                time = setTimeout(res, this.defaultOptionRpcClient.rcpTimeout)
+            }).then(() => {
+                return callback(new Error('rpc timed out'))
+            })
+        }
+
+        if (!this._clientConnection && !this._clientConnectionInitialized) {
+            this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
+            this._clientConnectionInitialized
+                .then((conn) => {
+                    this._clientConnection = conn
                     this.clientEventInitialization()
                     this.emit('rpc_client_connected')
-                } catch (err) {
+                })
+                .catch(() => {
                     this._clientConnectionInitialized = undefined
-                    return reject(err)
-                }
-            }
+                })
+        }
 
-            try {
-                await this._clientConnectionInitialized
-            } catch (err) {
-                return reject(err)
-            }
-            this._clientConnection.rpcClient(exchangeName, name, params, callback, defaultOptionRpcClient)
-        }).catch(err => {
-            throw err
-        })
+        this._clientConnectionInitialized
+            .then(() => {
+                clearTimeout(time)
+                this._clientConnection.rpcClient(exchangeName, name, params, callback, this.defaultOptionRpcClient)
+            })
+            .catch(err => {
+                callback(err, null)
+            })
     }
 
     public async getResourcePromise(exchangeName: string, name: string, params: any[]): Promise<any> {
-        if (!this._clientConnectionInitialized) {
-            this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
+        return new Promise<any>(async (resolve, reject) => {
             try {
-                this._clientConnection = await this._clientConnectionInitialized
-                this.clientEventInitialization()
-                this.emit('rpc_client_connected')
+                let time
+                if (!this._clientConnection) {
+                    new Promise<any>((res) => {
+                        time = setTimeout(res, this.defaultOptionRpcClient.rcpTimeout)
+                    }).then(() => {
+                        return reject(new Error('rpc timed out'))
+                    })
+                }
+
+                if (!this._clientConnection && !this._clientConnectionInitialized) {
+                    this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
+                    this._clientConnection = await this._clientConnectionInitialized
+                    this.clientEventInitialization()
+                    this.emit('rpc_client_connected')
+                }
+                await this._clientConnectionInitialized
+                clearTimeout(time)
+                return resolve(this._clientConnection.rpcClient(exchangeName, name, params, this.defaultOptionRpcClient))
             } catch (err) {
                 this._clientConnectionInitialized = undefined
-                return Promise.reject(err)
+                return reject(err)
             }
-        }
-        try {
-            await this._clientConnectionInitialized
-        } catch (err) {
-            return Promise.reject(err)
-        }
-        return this._clientConnection.rpcClient(exchangeName, name, params, defaultOptionRpcClient)
+        })
     }
 
     public pubSavePhysicalActivity(activity: any): Promise<void> {
@@ -543,6 +527,15 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             log
         }
         return this.publish(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_LOG, message)
+    }
+
+    public pubSaveChild(child: any): Promise<void> {
+        const message: IMessageChild = {
+            event_name: EventName.SAVE_CHILD_EVENT,
+            timestamp: new Date().toISOString(),
+            child
+        }
+        return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.UPDATE_CHILDREN, message)
     }
 
     public pubUpdateChild(child: any): Promise<void> {
@@ -669,6 +662,10 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
 
     public subSaveLog(callback: (message: any) => void): Promise<void> {
         return this.subscribe(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_LOG, callback)
+    }
+
+    public subSaveChild(callback: (message: any) => void): Promise<void> {
+        return this.subscribe(ExchangeName.ACCOUNT, RoutingKeysName.SAVE_CHILDREN, callback)
     }
 
     public subUpdateChild(callback: (message: any) => void): Promise<void> {

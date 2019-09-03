@@ -23,6 +23,8 @@ export interface IOcariotPub extends IPub {
 
     pubSaveLog(log: any): Promise<void>
 
+    pubSaveChild(child: any): Promise<void>
+
     pubUpdateChild(child: any): Promise<void>
 
     pubUpdateFamily(family: any): Promise<void>
