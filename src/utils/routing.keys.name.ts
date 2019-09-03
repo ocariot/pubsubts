@@ -1,5 +1,4 @@
 export abstract class RoutingKeysName {
-
     public static readonly SAVE_PHYSICAL_ACTIVITIES: string = 'physicalactivities.save'
     public static readonly UPDATE_PHYSICAL_ACTIVITIES: string = 'physicalactivities.update'
     public static readonly DELETE_PHYSICAL_ACTIVITIES: string = 'physicalactivities.delete'
@@ -21,5 +20,4 @@ export abstract class RoutingKeysName {
     public static readonly DELETE_INSTITUTIONS: string = 'institutions.delete'
     public static readonly LAST_SYNC_FIIBIT: string = 'fitbit.lastsync'
     public static readonly ERROR_FITBIT_AUTH: string = 'fitbit.auth.error'
-
 }

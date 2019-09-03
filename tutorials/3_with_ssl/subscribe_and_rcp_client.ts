@@ -1,14 +1,14 @@
-import { IConnectionConfigs, IConnectionOptions, RabbitMQClient } from '../../index'
+import { IConnectionConfig, IConnectionOption, IOcariotRabbitMQClient, OcariotRabbitMQClient } from '../../index'
 import * as fs from 'fs'
 
-const connOptions: IConnectionOptions = {
+const connOptions: IConnectionOption = {
     interval: 1000,
     sslOptions: {
         ca: [fs.readFileSync('./ssl/certifications/ca_certificate.pem')]
     }
 }
 
-const connParams: IConnectionConfigs = {
+const connParams: IConnectionConfig = {
     protocol: 'amqps',
     hostname: 'localhost',
     port: 5671,
@@ -16,7 +16,7 @@ const connParams: IConnectionConfigs = {
     password: 'guest'
 }
 
-const rabbitMQClient: RabbitMQClient = new RabbitMQClient('account.app', connParams, connOptions)
+const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('account.app', connParams, connOptions)
 
 rabbitMQClient
     .subSavePhysicalActivity((message) => {

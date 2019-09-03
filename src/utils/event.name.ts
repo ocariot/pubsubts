@@ -1,5 +1,4 @@
 export abstract class EventName {
-
     public static readonly SAVE_PHYSICAL_ACTIVITY_EVENT: string = 'PhysicalActivitySaveEvent'
     public static readonly UPDATE_PHYSICAL_ACTIVITY_EVENT: string = 'PhysicalActivityUpdateEvent'
     public static readonly DELETE_PHYSICAL_ACTIVITY_EVENT: string = 'PhysicalActivityDeleteEvent'

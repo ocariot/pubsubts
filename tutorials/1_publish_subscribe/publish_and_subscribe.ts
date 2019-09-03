@@ -1,10 +1,10 @@
-import { IConnectionOptions, RabbitMQClient } from '../../index'
+import { IConnectionOption, IOcariotRabbitMQClient, OcariotRabbitMQClient } from '../../index'
 
-const options: IConnectionOptions = {
+const options: IConnectionOption = {
     receiveFromYourself: true
 }
 
-const rabbitMQClient: RabbitMQClient = new RabbitMQClient('activity.tracking.app', {}, options)
+const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('activity.tracking.app', {}, options)
 
 rabbitMQClient
     .subSavePhysicalActivity((message) => {

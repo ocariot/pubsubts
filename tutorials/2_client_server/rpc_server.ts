@@ -1,13 +1,13 @@
-import { IConnectionConfigs, RabbitMQClient } from '../../index'
+import { IConnectionConfig, IOcariotRabbitMQClient, OcariotRabbitMQClient } from '../../index'
 
-const connParams: IConnectionConfigs = {
+const connParams: IConnectionConfig = {
     hostname: 'localhost',
     port: 5672,
     username: 'guest',
     password: 'guest'
 }
 
-const rabbitMQClient: RabbitMQClient = new RabbitMQClient('microservice.app', connParams)
+const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('microservice.app', connParams)
 
 rabbitMQClient
     .providePhysicalActivities((query: string) => {

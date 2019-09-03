@@ -1,6 +1,6 @@
-import { IServer } from './server.interface'
+import { IRpcServer } from './rpc.server.interface'
 
-export interface IOcariotServer extends IServer {
+export interface IOcariotRpcServer extends IRpcServer {
     providePhysicalActivities(listener: (query: string) => any): Promise<void>
 
     provideLogs(listener: (query: string) => any): Promise<void>

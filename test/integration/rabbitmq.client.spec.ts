@@ -1,9 +1,9 @@
 import { expect } from 'chai'
-import { RabbitMQClient } from '../../index'
-import { IOcariotRabbitMQ } from '../../src/port/ocariot.rabbitmq.interface'
+import { OcariotRabbitMQClient } from '../../index'
+import { IOcariotRabbitMQClient } from '../../src/port/ocariot.rabbitmq.client.interface'
 
 describe('RABBITMQ CLIENT - OCARIoT', () => {
-    let ocariotRabbitMQ: IOcariotRabbitMQ
+    let ocariotRabbitMQ: IOcariotRabbitMQClient
     const child = {
         id: '5a62be07de34500146d9c544',
         type: 'child',
@@ -16,7 +16,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
     }
 
     before(() => {
-        ocariotRabbitMQ = new RabbitMQClient(
+        ocariotRabbitMQ = new OcariotRabbitMQClient(
             'test.app',
             'amqp://guest:guest@127.0.0.1',
             { receiveFromYourself: true, retries: 1, interval: 500 }
@@ -29,7 +29,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
 
     describe('CONNECTION', () => {
         it('should return an error when unable to connect', () => {
-            return (new RabbitMQClient(
+            return (new OcariotRabbitMQClient(
                 'test.app',
                 'amqp://test:test@127.0.0.1',
                 { receiveFromYourself: true, retries: 1, interval: 500 }
@@ -44,7 +44,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
         })
 
         it('should return void after successful connection', async () => {
-            return (new RabbitMQClient(
+            return (new OcariotRabbitMQClient(
                 'test.app',
                 'amqp://guest:guest@127.0.0.1',
                 { receiveFromYourself: true, retries: 1, interval: 500 }
@@ -160,7 +160,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
     describe('PROVIDE RESOURCE', () => {
         context('Provide unsuccessfully.', () => {
             it('should return error due to connection problem', () => {
-                return (new RabbitMQClient(
+                return (new OcariotRabbitMQClient(
                     'test.app',
                     'amqp://test:test@127.0.0.1',
                     { receiveFromYourself: true, retries: 1, interval: 500 }
@@ -192,7 +192,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
 
     describe('GET RESOURCE', () => {
         context('get unsuccessfully for lack of connection', () => {
-            const connFailed = new RabbitMQClient(
+            const connFailed: IOcariotRabbitMQClient = new OcariotRabbitMQClient(
                 'test.app',
                 'amqp://test:test@127.0.0.1',
                 { receiveFromYourself: true, retries: 0, interval: 500, rpcTimeout: 2000 }
@@ -222,7 +222,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
         })
 
         context('get unsuccessfully for lack of provider', () => {
-            const conn = new RabbitMQClient(
+            const conn: IOcariotRabbitMQClient = new OcariotRabbitMQClient(
                 'test.app',
                 'amqp://guest:guest@127.0.0.1',
                 { receiveFromYourself: true, retries: 0, interval: 500, rpcTimeout: 2000 }
@@ -256,7 +256,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
         })
 
         context('Provide successfully.', () => {
-            const conn = new RabbitMQClient(
+            const conn: IOcariotRabbitMQClient = new OcariotRabbitMQClient(
                 'test.app',
                 'amqp://guest:guest@127.0.0.1',
                 { receiveFromYourself: true, retries: 0, interval: 500, rpcTimeout: 2000 }

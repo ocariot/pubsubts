@@ -1,6 +1,6 @@
-import { RabbitMQClient } from '../../index'
+import { IOcariotRabbitMQClient, OcariotRabbitMQClient } from '../../index'
 
-const rabbitMQClient: RabbitMQClient = new RabbitMQClient('activity.tracking.app')
+const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('activity.tracking.app')
 
 rabbitMQClient
     .pubSaveWeight({

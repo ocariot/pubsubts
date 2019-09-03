@@ -29,11 +29,11 @@ import { ExchangeName } from '../utils/exchange.name'
 import { EventName } from '../utils/event.name'
 import { Configurations } from '../utils/configurations'
 import { EventEmitter } from 'events'
-import { IConnectionConfigs } from '../port/connection/config.interface'
-import { IOcariotRabbitMQ } from '../port/ocariot.rabbitmq.interface'
+import { IConnectionConfig } from '../port/connection/connection.config.interface'
+import { IOcariotRabbitMQClient } from '../port/ocariot.rabbitmq.client.interface'
 import { EndpointQueue } from '../utils/endpoint.queue'
 import { ResourceName } from '../utils/resource.name'
-import { IConnectionOptions } from '../port/connection/opt.interface'
+import { IConnectionOption } from '../port/connection/connection.option.interface'
 
 const defaultOptionPub: IPubExchangeOptions = {
     exchange: {
@@ -65,14 +65,14 @@ const defaultOptionRpcServer: IServerOptions = {
     }
 }
 
-const defaultConnOpt: IConnectionOptions = {
+const defaultConnOpt: IConnectionOption = {
     retries: 0,
     interval: 1000
 }
 
-export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
+export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbitMQClient {
     private readonly _connConfig: IConnectionParams | string
-    private readonly _connOpt: IConnectionOptions
+    private readonly _connOpt: IConnectionOption
 
     private defaultOptionRpcClient: IClientOptions = {
         exchange: {
@@ -100,7 +100,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
     private _clientConnection: IConnection
     private _clientConnectionInitialized: Promise<IConnection>
 
-    constructor(private appName: string, connParams?: IConnectionConfigs | string, connOptions?: IConnectionOptions) {
+    constructor(private appName: string, connParams?: IConnectionConfig | string, connOptions?: IConnectionOption) {
         super()
 
         this._connConfig = this.defaultConnConfig
@@ -113,7 +113,7 @@ export class RabbitMQClient extends EventEmitter implements IOcariotRabbitMQ {
             this._connConfig = connParams.concat('/').concat(Configurations.VHOST)
         }
 
-        this._connOpt = { ...defaultConnOpt, ...connOptions } as IConnectionOptions
+        this._connOpt = { ...defaultConnOpt, ...connOptions } as IConnectionOption
 
         if (connOptions) {
             if (connOptions.receiveFromYourself !== undefined)

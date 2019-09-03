@@ -1,7 +1,7 @@
-import { IConnectionConfigs, IConnectionOptions, RabbitMQClient } from '../../index'
+import { IConnectionConfig, IConnectionOption, IOcariotRabbitMQClient, OcariotRabbitMQClient } from '../../index'
 import * as fs from 'fs'
 
-const connOptions: IConnectionOptions = {
+const connOptions: IConnectionOption = {
     retries: 5,
     interval: 1000,
     sslOptions: {
@@ -9,7 +9,7 @@ const connOptions: IConnectionOptions = {
     }
 }
 
-const connParams: IConnectionConfigs = {
+const connParams: IConnectionConfig = {
     protocol: 'amqps',
     hostname: 'localhost',
     port: 5671,
@@ -17,7 +17,7 @@ const connParams: IConnectionConfigs = {
     password: 'guest'
 }
 
-const rabbitMQClient: RabbitMQClient = new RabbitMQClient('activity.tracking.app', connParams, connOptions)
+const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('activity.tracking.app', connParams, connOptions)
 
 rabbitMQClient
     .pubSavePhysicalActivity({

@@ -1,6 +1,6 @@
-import { IClient } from './client.interface'
+import { IRpcClient } from './rpc.client.interface'
 
-export interface IOcariotClient extends IClient {
+export interface IOcariotRpcClient extends IRpcClient {
     getPhysicalActivities(query: string, callback: (err, result) => void): void
 
     getPhysicalActivities(query: string): Promise<any>

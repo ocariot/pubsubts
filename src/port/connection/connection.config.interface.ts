@@ -1,4 +1,4 @@
-export interface IConnectionConfigs {
+export interface IConnectionConfig {
     protocol?: string,
     hostname?: string,
     port?: number,

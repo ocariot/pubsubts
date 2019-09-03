@@ -1,7 +1,7 @@
 {
   "name": "@ocariot/rabbitmq-client-node",
-  "version": "1.0.0",
-  "description": "Library for publish and subscribe events on the OCARIoT platform message bus.",
+  "version": "1.0.1",
+  "description": "High abstraction library for message handling on the OCARIoT platform RabbitMQ event bus.",
   "main": "lib/index.js",
   "scripts": {
     "start": "npm run build",
@@ -62,7 +62,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
-    "@types/node": "^11.13.9",
+    "@types/node": "^12.7.3",
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
