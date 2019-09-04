@@ -124,76 +124,43 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     }
 
     private pubEventInitialization(): void {
-        this._pubConnection.on('close_connection', () => {
+        this._pubConnection.on('disconnected', () => {
             this.emit('pub_disconnected')
+            this._pubConnection = undefined
+            this._pubConnectionInitialized = undefined
         })
-        this._pubConnection.on('re_established_connection', () => {
-            this.emit('pub_reconnected')
-        })
-        this._pubConnection.on('trying_connect', () => {
-            this.emit('pub_trying_connection')
-        })
-        this._pubConnection.on('lost_connection', () => {
-            this.emit('pub_lost_connection')
-        })
-        this._pubConnection.on('error_connection', (err) => {
-            this.emit('pub_connection_error', err)
-        })
-
+        this._pubConnection.on('trying', () => this.emit('pub_trying_connection'))
+        this._pubConnection.on('reestablished', () => this.emit('pub_reconnected'))
+        this._pubConnection.on('error', (err) => this.emit('pub_connection_error', err))
     }
 
     private subEventInitialization(): void {
-        this._subConnection.on('close_connection', () => {
+        this._subConnection.on('disconnected', () => {
             this.emit('sub_disconnected')
+            this._subConnection = undefined
+            this._subConnectionInitialized = undefined
         })
-        this._subConnection.on('re_established_connection', () => {
-            this.emit('sub_reconnected')
-        })
-        this._subConnection.on('trying_connect', () => {
-            this.emit('sub_trying_connection')
-        })
-        this._subConnection.on('lost_connection', () => {
-            this.emit('sub_lost_connection')
-        })
-        this._subConnection.on('error_connection', (err) => {
-            this.emit('sub_connection_error', err)
-        })
+        this._subConnection.on('trying', () => this.emit('sub_trying_connection'))
+        this._subConnection.on('reestablished', () => this.emit('sub_reconnected'))
+        this._subConnection.on('error', (err) => this.emit('sub_connection_error', err))
     }
 
     private serverEventInitialization(): void {
-        this._serverConnection.on('close_connection', () => {
+        this._serverConnection.on('disconnected', () => {
             this.emit('rpc_server_disconnected')
+            this._serverConnection = undefined
+            this._serverConnectionInitialized = undefined
         })
-        this._serverConnection.on('re_established_connection', () => {
-            this.emit('rpc_server_reconnected')
-        })
-        this._serverConnection.on('trying_connect', () => {
-            this.emit('rpc_server_trying_connection')
-        })
-        this._serverConnection.on('lost_connection', () => {
-            this.emit('rpc_server_lost_connection')
-        })
-        this._serverConnection.on('error_connection', (err) => {
-            this.emit('rpc_server_connection_error', err)
-        })
+        this._serverConnection.on('trying', () => this.emit('rpc_server_trying_connection'))
+        this._serverConnection.on('reestablished', () => this.emit('rpc_server_reconnected'))
+        this._serverConnection.on('error', (err) => this.emit('rpc_server_connection_error', err))
     }
 
     private clientEventInitialization(): void {
-        this._clientConnection.on('close_connection', () => {
-            this.emit('rpc_client_disconnected')
-        })
-        this._clientConnection.on('re_established_connection', () => {
-            this.emit('rpc_client_reconnected')
-        })
-        this._clientConnection.on('trying_connect', () => {
-            this.emit('rpc_client_trying_connection')
-        })
-        this._clientConnection.on('lost_connection', () => {
-            this.emit('rpc_client_lost_connection')
-        })
-        this._clientConnection.on('error_connection', (err) => {
-            this.emit('rpc_client_connection_error', err)
-        })
+        this._clientConnection.on('disconnected', () => this.emit('rpc_client_disconnected'))
+        this._clientConnection.on('trying', () => this.emit('rpc_client_connection'))
+        this._clientConnection.on('reestablished', () => this.emit('rpc_client_reconnected'))
+        this._clientConnection.on('error', (err) => this.emit('rpc_client_connection_error', err))
     }
 
     public logger(level: string): void {
@@ -306,7 +273,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
 
     private async serverConnection(): Promise<void> {
         try {
-            if (!this._serverConnectionInitialized) {
+            if (!this._serverConnection && !this._serverConnectionInitialized) {
                 this._serverConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
                 this._serverConnection = await this._serverConnectionInitialized
                 this.serverEventInitialization()

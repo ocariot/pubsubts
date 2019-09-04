@@ -108,7 +108,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
                                 user: child
                             })
                     })
-                    .catch(() => expect.fail('should not return error!'))
+                    .catch(done)
             })
 
             it('should receive UserDeleteEvent', (done) => {
@@ -127,7 +127,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
                         // Publishing event to subscribe
                         await ocariotRabbitMQ.pubDeleteUser(child)
                     })
-                    .catch(() => expect.fail('should not return error!'))
+                    .catch(done)
             })
 
             it('should receive WeightSaveEvent.', (done) => {
@@ -152,7 +152,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
                         // Publishing event to subscribe
                         await ocariotRabbitMQ.pubSaveWeight(weightSave)
                     })
-                    .catch(() => expect.fail('should not return error!'))
+                    .catch(done)
             })
         })
     })
@@ -178,14 +178,13 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
         })
 
         context('Provide successfully.', () => {
-            it('should receive a promise that is resolved when registering Child resource', () => {
+            it('should receive a promise that is resolved when registering Child resource', (done) => {
                 ocariotRabbitMQ
                     .provideChildren(query => {
                         return [child]
                     })
-                    .catch(() => {
-                        expect.fail('should not return connection error!')
-                    })
+                    .then(() => done())
+                    .catch(done)
             })
         })
     })
@@ -255,7 +254,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
             })
         })
 
-        context('Provide successfully.', () => {
+        context('get successfully.', () => {
             const conn: IOcariotRabbitMQClient = new OcariotRabbitMQClient(
                 'test.app',
                 'amqp://guest:guest@127.0.0.1',
