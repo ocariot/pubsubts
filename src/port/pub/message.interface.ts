@@ -1,10 +1,6 @@
-export interface IMessage {
+interface IMessage {
     event_name: string,
     timestamp: string
-}
-
-export interface IMessageGeneric extends IMessage {
-    generic: object
 }
 
 export interface IMessagePhysicalActivity extends IMessage {
@@ -52,13 +48,13 @@ export interface IMessageUser extends IMessage {
 }
 
 export interface IMessageInstitution extends IMessage {
-    institution: object
+    institution: any
 }
 
 export interface IMessageFitbitLastSync extends IMessage {
-    datetime: object
+    fitbit: object
 }
 
 export interface IMessageFitbitAuthError extends IMessage {
-    error: object
+    fitbit: object
 }

@@ -1,4 +1,14 @@
 import {
+    amqpClient,
+    IClientOptions,
+    IConnection,
+    IConnectionParams,
+    IPubExchangeOptions,
+    IServerOptions,
+    IServerRegister,
+    ISubExchangeOptions
+} from 'amqp-client-node'
+import {
     IMessageApplication,
     IMessageChild,
     IMessageEducator,
@@ -14,16 +24,6 @@ import {
     IMessageUser,
     IMessageWeigth
 } from '../port/pub/message.interface'
-import {
-    amqpClient,
-    IClientOptions,
-    IConnection,
-    IConnectionParams,
-    IPubExchangeOptions,
-    IServerOptions,
-    IServerRegister,
-    ISubExchangeOptions
-} from 'amqp-client-node'
 import { RoutingKeysName } from '../utils/routing.keys.name'
 import { ExchangeName } from '../utils/exchange.name'
 import { EventName } from '../utils/event.name'
@@ -91,14 +91,14 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         vhost: 'ocariot'
     }
 
-    private _pubConnection: IConnection
-    private _pubConnectionInitialized: Promise<IConnection>
-    private _subConnection: IConnection
-    private _subConnectionInitialized: Promise<IConnection>
-    private _serverConnection: IConnection
-    private _serverConnectionInitialized: Promise<IConnection>
-    private _clientConnection: IConnection
-    private _clientConnectionInitialized: Promise<IConnection>
+    private _pubConnection?: IConnection
+    private _pubConnectionInitialized?: Promise<IConnection>
+    private _subConnection?: IConnection
+    private _subConnectionInitialized?: Promise<IConnection>
+    private _serverConnection?: IConnection
+    private _serverConnectionInitialized?: Promise<IConnection>
+    private _clientConnection?: IConnection
+    private _clientConnectionInitialized?: Promise<IConnection>
 
     constructor(private appName: string, connParams?: IConnectionConfig | string, connOptions?: IConnectionOption) {
         super()
@@ -124,6 +124,8 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     }
 
     private pubEventInitialization(): void {
+        if (!this._pubConnection) return
+
         this._pubConnection.on('disconnected', () => {
             this.emit('pub_disconnected')
             this._pubConnection = undefined
@@ -131,10 +133,12 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         })
         this._pubConnection.on('trying', () => this.emit('pub_trying_connection'))
         this._pubConnection.on('reestablished', () => this.emit('pub_reconnected'))
-        this._pubConnection.on('error', (err) => this.emit('pub_connection_error', err))
+        this._pubConnection.on('_error', (err) => this.emit('pub_connection_error', err))
     }
 
     private subEventInitialization(): void {
+        if (!this._subConnection) return
+
         this._subConnection.on('disconnected', () => {
             this.emit('sub_disconnected')
             this._subConnection = undefined
@@ -142,10 +146,12 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         })
         this._subConnection.on('trying', () => this.emit('sub_trying_connection'))
         this._subConnection.on('reestablished', () => this.emit('sub_reconnected'))
-        this._subConnection.on('error', (err) => this.emit('sub_connection_error', err))
+        this._subConnection.on('_error', (err) => this.emit('sub_connection_error', err))
     }
 
     private serverEventInitialization(): void {
+        if (!this._serverConnection) return
+
         this._serverConnection.on('disconnected', () => {
             this.emit('rpc_server_disconnected')
             this._serverConnection = undefined
@@ -153,19 +159,21 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         })
         this._serverConnection.on('trying', () => this.emit('rpc_server_trying_connection'))
         this._serverConnection.on('reestablished', () => this.emit('rpc_server_reconnected'))
-        this._serverConnection.on('error', (err) => this.emit('rpc_server_connection_error', err))
+        this._serverConnection.on('_error', (err) => this.emit('rpc_server_connection_error', err))
     }
 
     private clientEventInitialization(): void {
+        if (!this._clientConnection) return
+
         this._clientConnection.on('disconnected', () => this.emit('rpc_client_disconnected'))
         this._clientConnection.on('trying', () => this.emit('rpc_client_connection'))
         this._clientConnection.on('reestablished', () => this.emit('rpc_client_reconnected'))
-        this._clientConnection.on('error', (err) => this.emit('rpc_client_connection_error', err))
+        this._clientConnection.on('_error', (err) => this.emit('rpc_client_connection_error', err))
     }
 
-    public logger(level: string): void {
+    public logger(level: string, moduleName?: string): void {
         if (level === 'warn' || level === 'error' || level === 'info' || !level) {
-            amqpClient.logger(level)
+            amqpClient.logger(level, moduleName)
         }
     }
 
@@ -184,7 +192,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     private async pubConnection(): Promise<void> {
         try {
             if (!this._pubConnection && !this._pubConnectionInitialized) {
-                this._pubConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
+                this._pubConnectionInitialized = amqpClient.createConnection(this._connConfig, this._connOpt)
                 this._pubConnection = await this._pubConnectionInitialized
                 this.pubEventInitialization()
                 this.emit('pub_connected')
@@ -202,7 +210,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         try {
             await this.pubConnection()
             const message = { content: body }
-            return this._pubConnection.pub(exchangeName, routingKey, message, defaultOptionPub)
+            return this._pubConnection!.pub(exchangeName, routingKey, message, defaultOptionPub)
         } catch (err) {
             return Promise.reject(err)
         }
@@ -212,7 +220,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         try {
             await this.pubConnection()
             const message = { content: body }
-            return this._pubConnection.pub(ExchangeName.PERSONALIZED, routingKey, message, {
+            return this._pubConnection!.pub(ExchangeName.PERSONALIZED, routingKey, message, {
                 exchange: {
                     durable: true,
                     type: 'topic'
@@ -226,7 +234,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     private async subConnection(): Promise<void> {
         try {
             if (!this._subConnection && !this._subConnectionInitialized) {
-                this._subConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
+                this._subConnectionInitialized = amqpClient.createConnection(this._connConfig, this._connOpt)
                 this._subConnection = await this._subConnectionInitialized
                 this.subEventInitialization()
                 this.emit('sub_connected')
@@ -248,7 +256,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
                     exchange: { durable: true, type: 'topic' }
                 }
             }
-            return this._subConnection.sub(this.appName.concat(EndpointQueue.PERSONALIZED_SUB),
+            return this._subConnection!.sub(this.appName.concat(EndpointQueue.PERSONALIZED_SUB),
                 ExchangeName.PERSONALIZED,
                 routingKey,
                 msg => callback(msg.content),
@@ -261,7 +269,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     private async subscribe(exchangeName: string, routingKey: string, callback: (message: any) => void): Promise<void> {
         try {
             await this.subConnection()
-            return this._subConnection.sub(this.appName,
+            return this._subConnection!.sub(this.appName,
                 exchangeName,
                 routingKey,
                 msg => callback(msg.content),
@@ -274,7 +282,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     private async serverConnection(): Promise<void> {
         try {
             if (!this._serverConnection && !this._serverConnectionInitialized) {
-                this._serverConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
+                this._serverConnectionInitialized = amqpClient.createConnection(this._connConfig, this._connOpt)
                 this._serverConnection = await this._serverConnectionInitialized
                 this.serverEventInitialization()
                 this.emit('rpc_server_connected')
@@ -291,7 +299,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     private async resource(exchangeName: string, name: string, func: (...any) => any[]): Promise<void> {
         try {
             await this.serverConnection()
-            const server: IServerRegister = this._serverConnection
+            const server: IServerRegister = this._serverConnection!
                 .createRpcServer(this.appName.concat(EndpointQueue.RPC), exchangeName, [], defaultOptionRpcServer)
             if (server.addResource(name, func)) return server.start()
             return Promise.reject(new Error('Could not add resource to RPC Server. Resource already exists!'))
@@ -303,7 +311,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     public async provide(name: string, func: (...any) => any): Promise<void> {
         try {
             await this.serverConnection()
-            const server: IServerRegister = this._serverConnection
+            const server: IServerRegister = this._serverConnection!
                 .createRpcServer(this.appName.concat(EndpointQueue.PERSONALIZED_RPC),
                     ExchangeName.PERSONALIZED_RPC, [], defaultOptionRpcServer)
             if (server.addResource(name, func)) return server.start()
@@ -313,23 +321,23 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         }
     }
 
-    public getResource(name: string, params: any[], callback: (err, result) => any): void
+    public getResource(name: string, params: any[], callback: (err: Error, result: any) => any): void
 
     public getResource(name: string, params: any[]): Promise<any>
 
-    public getResource(name: string, params: any[], callback?: (err, result) => any): void | Promise<any> {
+    public getResource(name: string, params: any[], callback?: (err: Error, result: any) => any): void | Promise<any> {
         if (!callback) {
             return this.getResourcePromise(ExchangeName.PERSONALIZED_RPC, name, params)
         }
         this.getResourceCallback(ExchangeName.PERSONALIZED_RPC, name, params, callback)
     }
 
-    private requestResource(exchangeName: string, name: string, params: any[], callback: (err, result) => any): void
+    private requestResource(exchangeName: string, name: string, params: any[], callback: (err: Error, result: any) => any): void
 
     private requestResource(exchangeName: string, name: string, params: any[]): Promise<any>
 
     private requestResource(exchangeName: string, name: string, params: any[],
-                            callback?: (err, result) => any): void | Promise<any> {
+                            callback?: (err: Error, result: any) => any): void | Promise<any> {
         if (!callback) {
             return this.getResourcePromise(exchangeName, name, params)
         }
@@ -337,7 +345,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     }
 
     public getResourceCallback(exchangeName: string, name: string, params: any[], callback: (...any) => any): void {
-        let time
+        let time: any
         if (!this._clientConnection) {
             new Promise<any>((res) => {
                 time = setTimeout(res, this.defaultOptionRpcClient.rcpTimeout)
@@ -347,7 +355,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         }
 
         if (!this._clientConnection && !this._clientConnectionInitialized) {
-            this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
+            this._clientConnectionInitialized = amqpClient.createConnection(this._connConfig, this._connOpt)
             this._clientConnectionInitialized
                 .then((conn) => {
                     this._clientConnection = conn
@@ -359,10 +367,12 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
                 })
         }
 
+        if (!this._clientConnectionInitialized) return
+
         this._clientConnectionInitialized
             .then(() => {
                 clearTimeout(time)
-                this._clientConnection.rpcClient(exchangeName, name, params, callback, this.defaultOptionRpcClient)
+                this._clientConnection!.rpcClient(exchangeName, name, params, callback, this.defaultOptionRpcClient)
             })
             .catch(err => {
                 callback(err, null)
@@ -372,7 +382,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     public async getResourcePromise(exchangeName: string, name: string, params: any[]): Promise<any> {
         return new Promise<any>(async (resolve, reject) => {
             try {
-                let time
+                let time: any
                 if (!this._clientConnection) {
                     new Promise<any>((res) => {
                         time = setTimeout(res, this.defaultOptionRpcClient.rcpTimeout)
@@ -382,14 +392,14 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
                 }
 
                 if (!this._clientConnection && !this._clientConnectionInitialized) {
-                    this._clientConnectionInitialized = amqpClient.createConnetion(this._connConfig, this._connOpt)
+                    this._clientConnectionInitialized = amqpClient.createConnection(this._connConfig, this._connOpt)
                     this._clientConnection = await this._clientConnectionInitialized
                     this.clientEventInitialization()
                     this.emit('rpc_client_connected')
                 }
                 await this._clientConnectionInitialized
                 clearTimeout(time)
-                return resolve(this._clientConnection.rpcClient(exchangeName, name, params, this.defaultOptionRpcClient))
+                return resolve(this._clientConnection!.rpcClient(exchangeName, name, params, this.defaultOptionRpcClient))
             } catch (err) {
                 this._clientConnectionInitialized = undefined
                 return reject(err)
@@ -569,20 +579,20 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.DELETE_INSTITUTIONS, message)
     }
 
-    public pubFitbitLastSync(datetime: any): Promise<void> {
+    public pubFitbitLastSync(fitbit: any): Promise<void> {
         const message: IMessageFitbitLastSync = {
-            event_name: EventName.LASTSYNC_FIIBIT_FITBIT,
+            event_name: EventName.LASTSYNC_FITBIT_FITBIT,
             timestamp: new Date().toISOString(),
-            datetime
+            fitbit
         }
         return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.LAST_SYNC_FIIBIT, message)
     }
 
-    public pubFitbitAuthError(error: any): Promise<void> {
+    public pubFitbitAuthError(fitbit: any): Promise<void> {
         const message: IMessageFitbitAuthError = {
             event_name: EventName.ERROR_FITBIT_AUTH_EVENT,
             timestamp: new Date().toISOString(),
-            error
+            fitbit
         }
         return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.ERROR_FITBIT_AUTH, message)
     }
@@ -727,132 +737,132 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         return this.resource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, listener)
     }
 
-    public getPhysicalActivities(query: string, callback: (err, result) => void): void
+    public getPhysicalActivities(query: string, callback: (err: Error, result: any) => void): void
 
     public getPhysicalActivities(query: string): Promise<any>
 
-    public getPhysicalActivities(query: string, callback?: (err, result) => void): any {
+    public getPhysicalActivities(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.PHYSICAL_ACTIVITIES, [query])
         }
         this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.PHYSICAL_ACTIVITIES, [query], callback)
     }
 
-    public getSleep(query: string, callback: (err, result) => void): void
+    public getSleep(query: string, callback: (err: Error, result: any) => void): void
 
     public getSleep(query: string): Promise<any>
 
-    public getSleep(query: string, callback?: (err, result) => void): any {
+    public getSleep(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.SLEEP, [query])
         }
         this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.SLEEP, [query], callback)
     }
 
-    public getWeights(query: string, callback: (err, result) => void): void
+    public getWeights(query: string, callback: (err: Error, result: any) => void): void
 
     public getWeights(query: string): Promise<any>
 
-    public getWeights(query: string, callback?: (err, result) => void): any {
+    public getWeights(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.WEIGHTS, [query])
         }
         this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.WEIGHTS, [query], callback)
     }
 
-    public getEnvironments(query: string, callback: (err, result) => void): void
+    public getEnvironments(query: string, callback: (err: Error, result: any) => void): void
 
     public getEnvironments(query: string): Promise<any>
 
-    public getEnvironments(query: string, callback?: (err, result) => void): any {
+    public getEnvironments(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.ENVIRONMENTS, [query])
         }
         this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.ENVIRONMENTS, [query], callback)
     }
 
-    public getLogs(query: string, callback: (err, result) => void): void
+    public getLogs(query: string, callback: (err: Error, result: any) => void): void
 
     public getLogs(query: string): Promise<any>
 
-    public getLogs(query: string, callback?: (err, result) => void): any {
+    public getLogs(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.LOGS, [query])
         }
         this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.LOGS, [query], callback)
     }
 
-    public getChildren(query: string, callback: (err, result) => void): void
+    public getChildren(query: string, callback: (err: Error, result: any) => void): void
 
     public getChildren(query: string): Promise<any>
 
-    public getChildren(query: string, callback?: (err, result) => void): any {
+    public getChildren(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILDREN, [query])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILDREN, [query], callback)
     }
 
-    public getFamilies(query: string, callback: (err, result) => void): void
+    public getFamilies(query: string, callback: (err: Error, result: any) => void): void
 
     public getFamilies(query: string): Promise<any>
 
-    public getFamilies(query: string, callback?: (err, result) => void): any {
+    public getFamilies(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.FAMILIES, [query])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.FAMILIES, [query], callback)
     }
 
-    public getFamilyChildren(familyId: string, callback: (err, result) => void): void
+    public getFamilyChildren(familyId: string, callback: (err: Error, result: any) => void): void
 
     public getFamilyChildren(familyId: string): Promise<any>
 
-    public getFamilyChildren(familyId: string, callback?: (err, result) => void): any {
+    public getFamilyChildren(familyId: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.FAMILY_CHILDREN, [familyId])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.FAMILY_CHILDREN, [familyId], callback)
     }
 
-    public getEducators(query: string, callback: (err, result) => void): void
+    public getEducators(query: string, callback: (err: Error, result: any) => void): void
 
     public getEducators(query: string): Promise<any>
 
-    public getEducators(query: string, callback?: (err, result) => void): any {
+    public getEducators(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.EDUCATORS, [query])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.EDUCATORS, [query], callback)
     }
 
-    public getEducatorChildrenGroups(educatorId: string, callback: (err, result) => void): void
+    public getEducatorChildrenGroups(educatorId: string, callback: (err: Error, result: any) => void): void
 
     public getEducatorChildrenGroups(educatorId: string): Promise<any>
 
-    public getEducatorChildrenGroups(educatorId: string, callback?: (err, result) => void): any {
+    public getEducatorChildrenGroups(educatorId: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.EDUCATORS_CHILDRES_GROUPS, [educatorId])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.EDUCATORS_CHILDRES_GROUPS, [educatorId], callback)
     }
 
-    public getHealthProfessionals(query: string, callback: (err, result) => void): void
+    public getHealthProfessionals(query: string, callback: (err: Error, result: any) => void): void
 
     public getHealthProfessionals(query: string): Promise<any>
 
-    public getHealthProfessionals(query: string, callback?: (err, result) => void): any {
+    public getHealthProfessionals(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.HEALTH_PROFESSIONALS, [query])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.HEALTH_PROFESSIONALS, [query], callback)
     }
 
-    public getHealthProfessionalChildrenGroups(healthProfessionalId: string, callback: (err, result) => void): void
+    public getHealthProfessionalChildrenGroups(healthProfessionalId: string, callback: (err: Error, result: any) => void): void
 
     public getHealthProfessionalChildrenGroups(healthProfessionalId: string): Promise<any>
 
-    public getHealthProfessionalChildrenGroups(healthProfessionalId: string, callback?: (err, result) => void): any {
+    public getHealthProfessionalChildrenGroups(healthProfessionalId: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS,
                 [healthProfessionalId])
@@ -861,22 +871,22 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
             ResourceName.HEALTH_PROFESSIONAL_CHILDREN_GROUPS, [healthProfessionalId], callback)
     }
 
-    public getApplications(query: string, callback: (err, result) => void): void
+    public getApplications(query: string, callback: (err: Error, result: any) => void): void
 
     public getApplications(query: string): Promise<any>
 
-    public getApplications(query: string, callback?: (err, result) => void): any {
+    public getApplications(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.APPLICATIONS, [query])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.APPLICATIONS, [query], callback)
     }
 
-    public getInstitutions(query: string, callback: (err, result) => void): void
+    public getInstitutions(query: string, callback: (err: Error, result: any) => void): void
 
     public getInstitutions(query: string): Promise<any>
 
-    public getInstitutions(query: string, callback?: (err, result) => void): any {
+    public getInstitutions(query: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, [query])
         }

@@ -39,7 +39,7 @@ export interface IOcariotPub extends IPub {
 
     pubDeleteInstitution(institution: any): Promise<void>
 
-    pubFitbitLastSync(datetime: any): Promise<void>
+    pubFitbitLastSync(fitbit: any): Promise<void>
 
-    pubFitbitAuthError(error: any): Promise<void>
+    pubFitbitAuthError(fitbit: any): Promise<void>
 }

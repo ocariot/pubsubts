@@ -6,7 +6,7 @@ import { IOcariotRpcServer } from './rpc/ocariot.rpc.server.interface'
 export interface IOcariotRabbitMQClient extends IOcariotPub, IOcariotSub, IOcariotRpcClient, IOcariotRpcServer {
     close(): Promise<void>
 
-    logger(level: string): void
+    logger(level: string, moduleName?: string): void
 
     on(event: string | symbol, listener: (...args: any[]) => void): void
 }

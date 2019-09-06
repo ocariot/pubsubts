@@ -194,7 +194,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
             const connFailed: IOcariotRabbitMQClient = new OcariotRabbitMQClient(
                 'test.app',
                 'amqp://test:test@127.0.0.1',
-                { receiveFromYourself: true, retries: 0, interval: 500, rpcTimeout: 2000 }
+                { receiveFromYourself: true, retries: 1, interval: 500, rpcTimeout: 2000 }
             )
 
             it('should return error due to connection problem. Version with promise', () => {
@@ -207,24 +207,13 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
                         expect(e).to.be.an('error')
                     })
             })
-
-            it('should return error due to connection problem. Version with callback', (done) => {
-                connFailed.getSleep('', (err, result) => {
-                    try {
-                        expect(err).to.be.an('error')
-                        done()
-                    } catch (e) {
-                        done(e)
-                    }
-                })
-            })
         })
 
         context('get unsuccessfully for lack of provider', () => {
             const conn: IOcariotRabbitMQClient = new OcariotRabbitMQClient(
                 'test.app',
                 'amqp://guest:guest@127.0.0.1',
-                { receiveFromYourself: true, retries: 0, interval: 500, rpcTimeout: 2000 }
+                { receiveFromYourself: true, retries: 1, interval: 500, rpcTimeout: 2000 }
             )
 
             after(async () => {
@@ -244,6 +233,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
 
             it('should return rpc timeout error. Version with callback', (done) => {
                 conn.getFamilies('', (err, result) => {
+                    console.log('', err.message, result)
                     try {
                         expect(err).to.be.an('error')
                         done()
@@ -258,7 +248,7 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
             const conn: IOcariotRabbitMQClient = new OcariotRabbitMQClient(
                 'test.app',
                 'amqp://guest:guest@127.0.0.1',
-                { receiveFromYourself: true, retries: 0, interval: 500, rpcTimeout: 2000 }
+                { receiveFromYourself: true, retries: 1, interval: 500, rpcTimeout: 2000 }
             )
 
             before(async () => {
@@ -285,8 +275,8 @@ describe('RABBITMQ CLIENT - OCARIoT', () => {
                         try {
                             expect(children).to.deep.include(child)
                             done()
-                        } catch (e) {
-                            done(e)
+                        } catch (err) {
+                            done(err)
                         }
                     })
             })
