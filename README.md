@@ -8,7 +8,7 @@ High abstraction client, subscribed to TypeScript for message handling in the OC
 
 
 ### Installation
-```shell=
+```bash
 npm install @ocariot/rabbitmq-client-node
 ```
 
@@ -16,7 +16,7 @@ npm install @ocariot/rabbitmq-client-node
 
 You do not have to worry about handling RabbitMQ connections, the library itself will perform all necessary procedures to establish and reestablish the connection as needed. You only need to provide the necessary configurations in the OcariotRabbitMQClient class constructor and use the methods to publish, subscribe, provide resources, and execute queries.
 
-```typescript=
+```typescript
 import {
     IOcariotRabbitMQClient,
     OcariotRabbitMQClient,
@@ -45,7 +45,7 @@ So far, there is no connection to the RabbitMQ instance, the connection is creat
 
 To publish events to the message bus, use one of the functions that begins with `pub`, for example, to publish the saved physical activity event, use the `pubSavePhysicalActivity(activity)` function.
 
-```typescript=
+```typescript
 ocariotRabbitMQ
     .pubSavePhysicalActivity({
         id: '5d63d221fa71a1001971634a',
@@ -71,7 +71,7 @@ If there is a connection, the event will be published immediately, otherwise the
 
 To subscribe to events on the message bus, use one of the functions beginning with `sub`, for example to subscribe to the deleted user event use the `subDeleteUser(callback)` function.
 
-```typescript=
+```typescript
 ocariotRabbitMQ
     .subDeleteUser(message => {
             console.log('Event received:', message)
@@ -98,7 +98,7 @@ As with publishing, if there is a connection, the event registration will start 
 To provide a resource on the message bus, use one of the functions beginning with `provide`. By providing a resource, it will be available for other services to consult, for example, to provide the Physical Activity resource, just use the `providePhysicalActivities (query)` function.
 To make it easier for those who query the resource, the query string concept applied in the REST API is used. This makes it possible to perform queries with filters. When a function has the `query` parameter, it indicates that the resource provider must interpret and use the query string to return the requested data. The [query-strings-parser](https://www.npmjs.com/package/query-strings-parser) library can be used as it transforms a query string into the format interpreted by MongoDB as long as the query string is in the known format.
 
-```typescript=
+```typescript
 ocariotRabbitMQ
     .providePhysicalActivities((query: string) => {
         // Search your database using the query and return the data.
@@ -120,7 +120,7 @@ ocariotRabbitMQ
 
 To query a resource available on the message bus, use one of the functions beginning with `get`, for example, to query all physical activity of the child with ID *5a62be07d6f33400146c9b61* registered in the period *2019-06-07* to *2019-08-01*, use the `getPhysicalActivities(query)` function passing the following query string `'?start_time=gte:2019-06-07&start_time=lt:2019-08-01&child_id=5a62be07d6f33400146c9b61'`
 
-```typescript=
+```typescript
 ocariotRabbitMQ
     .getPhysicalActivities(
         '?start_time=gte:2019-06-07&start_time=lt:2019-08-01&child_id=5a62be07d6f33400146c9b61'
