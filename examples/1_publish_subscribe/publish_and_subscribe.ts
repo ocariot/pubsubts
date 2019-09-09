@@ -1,12 +1,13 @@
 import { IConnectionOption, IOcariotRabbitMQClient, OcariotRabbitMQClient } from '../../index'
+import { expect } from 'chai'
 
 const options: IConnectionOption = {
     receiveFromYourself: true
 }
 
-const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('activity.tracking.app', {}, options)
+const ocariotRabbitMQ: IOcariotRabbitMQClient = new OcariotRabbitMQClient('activity.tracking.app', {}, options)
 
-rabbitMQClient
+ocariotRabbitMQ
     .subSavePhysicalActivity((message) => {
         console.log('Event received:', message)
     })
@@ -17,16 +18,14 @@ rabbitMQClient
         console.log(`Subscribe error: ${err.message}`)
     })
 
-rabbitMQClient
+ocariotRabbitMQ
     .pubSavePhysicalActivity({
-        activity: {
-            name: 'Walk',
-            start_time: '2018-12-14T12:52:59Z',
-            end_time: '2018-12-14T13:12:37Z',
-            duration: 1178000,
-            calories: 109,
-            steps: 1407
-        }
+        name: 'Walk',
+        start_time: '2018-12-14T12:52:59Z',
+        end_time: '2018-12-14T13:12:37Z',
+        duration: 1178000,
+        calories: 109,
+        steps: 1407
     })
     .then(() => {
         console.log('Physical Activity published successfully!')
@@ -34,3 +33,4 @@ rabbitMQClient
     .catch(err => {
         console.log(`Error publishing Physical Activity: ${err.message}`)
     })
+

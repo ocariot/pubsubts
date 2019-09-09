@@ -7,9 +7,9 @@ const connParams: IConnectionConfig = {
     password: 'guest'
 }
 
-const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('microservice.app', connParams)
+const ocariotRabbitMQ: IOcariotRabbitMQClient = new OcariotRabbitMQClient('microservice.app', connParams)
 
-rabbitMQClient
+ocariotRabbitMQ
     .providePhysicalActivities((query: string) => {
         // Search your database using the query and return the data.
         // You can use lib https://www.npmjs.com/package/query-strings-parser
@@ -23,7 +23,7 @@ rabbitMQClient
         console.log(`Error initializing RPC server: ${err.message}`)
     })
 
-rabbitMQClient
+ocariotRabbitMQ
     .provideChildren((query: string) => {
         // Search your database using the query and return the data.
         // You can use lib https://www.npmjs.com/package/query-strings-parser

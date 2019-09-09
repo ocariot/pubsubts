@@ -1,8 +1,8 @@
 import { IOcariotRabbitMQClient, OcariotRabbitMQClient } from '../../index'
 
-const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('activity.tracking.app')
+const ocariotRabbitMQ: IOcariotRabbitMQClient = new OcariotRabbitMQClient('activity.tracking.app')
 
-rabbitMQClient
+ocariotRabbitMQ
     .pubSaveWeight({
         weight: {
             timestamp: '2019-06-20T14:40:00Z',

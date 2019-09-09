@@ -67,6 +67,6 @@
     "lib",
     "node_modules",
     "**/*.spec.ts",
-    "tutorials"
+    "examples"
   ]
 }

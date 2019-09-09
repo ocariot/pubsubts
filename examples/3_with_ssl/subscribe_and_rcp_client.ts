@@ -16,9 +16,9 @@ const connParams: IConnectionConfig = {
     password: 'guest'
 }
 
-const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('account.app', connParams, connOptions)
+const ocariotRabbitMQ: IOcariotRabbitMQClient = new OcariotRabbitMQClient('account.app', connParams, connOptions)
 
-rabbitMQClient
+ocariotRabbitMQ
     .subSavePhysicalActivity((message) => {
         console.log(message)
     })
@@ -29,7 +29,7 @@ rabbitMQClient
         console.log(`Sub error: ${err.message}`)
     })
 
-rabbitMQClient
+ocariotRabbitMQ
     .getEnvironments('?end_at=2018-12-11&period=10d')
     .then(resource => {
         console.log('Environments received:', resource)

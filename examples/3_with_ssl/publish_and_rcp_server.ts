@@ -17,20 +17,18 @@ const connParams: IConnectionConfig = {
     password: 'guest'
 }
 
-const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('activity.tracking.app', connParams, connOptions)
+const ocariotRabbitMQ: IOcariotRabbitMQClient = new OcariotRabbitMQClient('activity.tracking.app', connParams, connOptions)
 
-rabbitMQClient
+ocariotRabbitMQ
     .pubSavePhysicalActivity({
-        activity: {
-            id: '5d63d221fa71a1001971634a',
-            start_time: '2019-06-06T15:27:46.000Z',
-            end_time: '2019-06-06T15:42:18.000Z',
-            duration: 872000,
-            child_id: '5d601e0775e1850012fd161a',
-            name: 'Outdoor Bike',
-            calories: 73,
-            steps: 0
-        }
+        id: '5d63d221fa71a1001971634a',
+        start_time: '2019-06-06T15:27:46.000Z',
+        end_time: '2019-06-06T15:42:18.000Z',
+        duration: 872000,
+        child_id: '5d601e0775e1850012fd161a',
+        name: 'Outdoor Bike',
+        calories: 73,
+        steps: 0
     })
     .then(() => {
         console.log('Physical Activity published successfully!')
@@ -39,7 +37,7 @@ rabbitMQClient
         console.log(`Error publishing Physical Activity : ${err.message}`)
     })
 
-rabbitMQClient
+ocariotRabbitMQ
     .provideEnvironments((query: string) => {
         return environments
     })

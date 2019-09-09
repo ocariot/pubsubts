@@ -1,8 +1,8 @@
 import { IOcariotRabbitMQClient, OcariotRabbitMQClient } from '../../index'
 
-const rabbitMQClient: IOcariotRabbitMQClient = new OcariotRabbitMQClient('analytics.app')
+const ocariotRabbitMQ: IOcariotRabbitMQClient = new OcariotRabbitMQClient('analytics.app')
 
-rabbitMQClient
+ocariotRabbitMQ
     .subSaveWeight((message) => {
         console.log(message)
     })
