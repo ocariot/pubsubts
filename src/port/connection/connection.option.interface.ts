@@ -1,8 +1,8 @@
 export interface IConnectionOption {
-    rpcTimeout?: number
-    receiveFromYourself?: boolean
     retries?: number
     interval?: number
+    rpcTimeout?: number
+    receiveFromYourself?: boolean
     sslOptions?: ISSLOptions
 }
 

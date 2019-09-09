@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 --------
+## v1.0.4 (2017-07-09)
+### Fixed
+- Fixed bug in pubSaveChild. The event was being published with the pubUpdateChild event routing key.
 
 ## v1.0.3 (2017-07-09)
 ### Added
