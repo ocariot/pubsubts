@@ -512,7 +512,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
             timestamp: new Date().toISOString(),
             child
         }
-        return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.UPDATE_CHILDREN, message)
+        return this.publish(ExchangeName.ACCOUNT, RoutingKeysName.SAVE_CHILDREN, message)
     }
 
     public pubUpdateChild(child: any): Promise<void> {
