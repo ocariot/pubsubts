@@ -140,6 +140,7 @@ As with resource provisioning, RPC is used. When you request a resource and have
 You can consult the [wiki](https://github.com/ocariot/rabbitmq-client-node/wiki) for full details.
 
 [Changelog](https://github.com/ocariot/rabbitmq-client-node/blob/master/CHANGELOG.md)
+ - Version [1.0.5](https://github.com/ocariot/rabbitmq-client-node/blob/master/CHANGELOG.md#v105-2019-09-30)
  - Version [1.0.4](https://github.com/ocariot/rabbitmq-client-node/blob/master/CHANGELOG.md#v104-2019-09-09)
  - Version [1.0.3](https://github.com/ocariot/rabbitmq-client-node/blob/master/CHANGELOG.md#v103-2019-09-09)
 
