@@ -1,6 +1,6 @@
 {
   "name": "@ocariot/rabbitmq-client-node",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "High abstraction library for message handling on the OCARIoT platform RabbitMQ event bus.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -58,7 +58,7 @@
     "communication"
   ],
   "dependencies": {
-    "amqp-client-node": "^1.0.7"
+    "amqp-client-node": "^1.0.8"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",

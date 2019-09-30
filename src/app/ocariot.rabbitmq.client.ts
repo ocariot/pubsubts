@@ -183,6 +183,8 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
             if (this._subConnection) await this._subConnection.close()
             if (this._clientConnection) await this._clientConnection.close()
             if (this._serverConnection) await this._serverConnection.close()
+            this.removeAllListeners()
+
             return Promise.resolve()
         } catch (err) {
             return Promise.reject(err)
