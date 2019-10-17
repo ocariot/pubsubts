@@ -42,4 +42,12 @@ export interface IOcariotPub extends IPub {
     pubFitbitLastSync(fitbit: any): Promise<void>
 
     pubFitbitAuthError(fitbit: any): Promise<void>
+
+    pubSyncPhysicalActivity(activity: any): Promise<void>
+
+    pubSyncSleep(sleep: any): Promise<void>
+
+    pubSyncWeight(weight: any): Promise<void>
+
+    pubSyncLog(log: any): Promise<void>
 }

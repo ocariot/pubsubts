@@ -603,6 +603,42 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.ERROR_FITBIT_AUTH, message)
     }
 
+    public pubSyncPhysicalActivity(activity: any): Promise<void> {
+        const message: IMessagePhysicalActivity = {
+            event_name: EventName.SYNC_PHYSICAL_ACTIVITY_EVENT,
+            timestamp: new Date().toISOString(),
+            physicalactivity: activity
+        }
+        return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_PHYSICAL_ACTIVITIES, message)
+    }
+
+    public pubSyncSleep(sleep: any): Promise<void> {
+        const message: IMessageSleep = {
+            event_name: EventName.SYNC_SLEEP_EVENT,
+            timestamp: new Date().toISOString(),
+            sleep
+        }
+        return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_SLEEP, message)
+    }
+
+    public pubSyncWeight(weight: any): Promise<void> {
+        const message: IMessageWeigth = {
+            event_name: EventName.SYNC_WEIGHT_EVENT,
+            timestamp: new Date().toISOString(),
+            weight
+        }
+        return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_WEIGHTS, message)
+    }
+
+    public pubSyncLog(log: any): Promise<void> {
+        const message: IMessageLog = {
+            event_name: EventName.SYNC_LOG_EVENT,
+            timestamp: new Date().toISOString(),
+            log
+        }
+        return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_LOGS, message)
+    }
+
     public subSavePhysicalActivity(callback: (message: any) => void): Promise<void> {
         return this.subscribe(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback)
     }
@@ -685,6 +721,22 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
 
     public subFitbitAuthError(callback: (message: any) => void): Promise<void> {
         return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.ERROR_FITBIT_AUTH, callback)
+    }
+
+    public subSyncPhysicalActivity(callback: (message: any) => void): Promise<void> {
+        return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_PHYSICAL_ACTIVITIES, callback)
+    }
+
+    public subSyncSleep(callback: (message: any) => void): Promise<void> {
+        return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_SLEEP, callback)
+    }
+
+    public subSyncWeight(callback: (message: any) => void): Promise<void> {
+        return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_WEIGHTS, callback)
+    }
+
+    public subSyncLog(callback: (message: any) => void): Promise<void> {
+        return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_LOGS, callback)
     }
 
     public providePhysicalActivities(listener: (query: string) => any): Promise<void> {
