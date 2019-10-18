@@ -2,24 +2,30 @@
 All notable changes to this project will be documented in this file.
 
 --------
+## v1.2.0 (2019-10-18)
+### Added
+ - Updated RPC Server and RPC Client:
+   - `getLogs(childId: string, query?: string): Promise<any>` to `getLogs(childId: string, dateStart: string, dateEnd: string): Promise<any>`;
+   - `provideLogs(childId: string, query?: string): Promise<void>` to `provideLogs(childId: string, dateStart: string, dateEnd: string): Promise<void>`.
+
 ## v1.1.0 (2019-10-17)
 ### Added
  - Functions for publish Data Sync Agent related events:
-  - `pubSyncPhysicalActivity(activity: any): Promise<void>`
-  - `pubSyncSleep(sleep: any): Promise<void>`
-  - `pubSyncWeight(weight: any): Promise<void>`
-  - `pubSyncLog(log: any): Promise<void>`
-  
+   - `pubSyncPhysicalActivity(activity: any): Promise<void>`
+   - `pubSyncSleep(sleep: any): Promise<void>`
+   - `pubSyncWeight(weight: any): Promise<void>`
+   - `pubSyncLog(log: any): Promise<void>`
+
  - Functions for subscribe Data Sync Agent related events:
-  - `subFitbitAuthError(callback: (message: any) => void): Promise<void>`
-  - `subSyncPhysicalActivity(callback: (message: any) => void): Promise<void>`
-  - `subSyncSleep(callback: (message: any) => void): Promise<void>`
-  - `subSyncWeight(callback: (message: any) => void): Promise<void>`
-  - `subSyncLog(callback: (message: any) => void): Promise<void>`
-  
- - Updated RPC Server and Client Roles
-  - Changed `getLogs(query: string): Promise<any>` to `getLogs(childId: string, query?: string): Promise<any>`;
-  - Now `query` parameter on all server and client functions is optional.
+   - `subFitbitAuthError(callback: (message: any) => void): Promise<void>`
+   - `subSyncPhysicalActivity(callback: (message: any) => void): Promise<void>`
+   - `subSyncSleep(callback: (message: any) => void): Promise<void>`
+   - `subSyncWeight(callback: (message: any) => void): Promise<void>`
+   - `subSyncLog(callback: (message: any) => void): Promise<void>`
+
+ - Updated RPC Server and Client Roles:
+   - Changed `getLogs(query: string): Promise<any>` to `getLogs(childId: string, query?: string): Promise<any>`;
+   - Now `query` parameter on all server and client functions is optional.
 
 ### Fixed
 - Fixed RPC client listener that was not invalidating connection objects when it is closed.
