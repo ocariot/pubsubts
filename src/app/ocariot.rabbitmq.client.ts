@@ -755,7 +755,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         return this.resource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.ENVIRONMENTS, listener)
     }
 
-    public provideLogs(listener: (childId: string, query?: string) => any): Promise<void> {
+    public provideLogs(listener: (childId: string, dateStart: string, dateEnd: string) => any): Promise<void> {
         return this.resource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.LOGS, listener)
     }
 
@@ -839,15 +839,15 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.ENVIRONMENTS, [query], callback)
     }
 
-    public getLogs(childId: string, query: string, callback: (err: Error, result: any) => void): void
+    public getLogs(childId: string, dateStart: string, dateEnd: string, callback: (err: Error, result: any) => void): void
 
-    public getLogs(childId: string, query?: string): Promise<any>
+    public getLogs(childId: string, dateStart: string, dateEnd: string): Promise<any>
 
-    public getLogs(childId: string, query?: string, callback?: (err: Error, result: any) => void): any {
+    public getLogs(childId: string, dateStart: string, dateEnd: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
-            return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.LOGS, [childId, query])
+            return this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.LOGS, [childId, dateStart, dateEnd])
         }
-        this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.LOGS, [childId, query], callback)
+        this.requestResource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.LOGS, [childId, dateStart, dateEnd], callback)
     }
 
     public getChildren(query: string, callback: (err: Error, result: any) => void): void

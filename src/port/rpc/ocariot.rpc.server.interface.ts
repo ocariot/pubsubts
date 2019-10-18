@@ -3,7 +3,7 @@ import { IRpcServer } from './rpc.server.interface'
 export interface IOcariotRpcServer extends IRpcServer {
     providePhysicalActivities(listener: (query?: string) => any): Promise<void>
 
-    provideLogs(listener: (childId: string, query?: string) => any): Promise<void>
+    provideLogs(listener: (childId: string, dateStart: string, dateEnd: string) => any): Promise<void>
 
     provideSleep(listener: (query?: string) => any): Promise<void>
 

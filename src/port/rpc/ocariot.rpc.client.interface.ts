@@ -17,9 +17,9 @@ export interface IOcariotRpcClient extends IRpcClient {
 
     getEnvironments(query?: string): Promise<any>
 
-    getLogs(childId: string, query: string, callback: (err, result) => void): void
+    getLogs(childId: string, dateStart: string, dateEnd: string, callback: (err, result) => void): void
 
-    getLogs(childId: string, query?: string): Promise<any>
+    getLogs(childId: string, dateStart: string, dateEnd: string): Promise<any>
 
     getChildren(query: string, callback: (err, children) => void): void
 
