@@ -50,4 +50,8 @@ export interface IOcariotSub extends ISub {
     subSyncWeight(callback: (message: any) => void): Promise<void>
 
     subSyncLog(callback: (message: any) => void): Promise<void>
+
+    subSaveFood(callback: (message: any) => void): Promise<void>
+
+    subUpdateFood(callback: (message: any) => void): Promise<void>
 }

@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file.
 
 --------
+## v1.3.0 (2019-10-29)
+### Added
+ - Functions for publish Food Tracking Service related events:
+   - `pubSaveFood(food: any): Promise<void>`
+   - `pubUpdateFood(food: any): Promise<void>`
+
+ - Functions for subscribe Food Tracking Service related events:
+   - `subSaveFood(callback: (message: any) => void): Promise<void>` 
+   - `subUpdateFood(callback: (message: any) => void): Promise<void>`
+  
+ - Functions for providing Food Tracking Service related resource (RPC Server):
+   - `provideFoods(listener: (childId: string, dateStart: string, dateEnd: string) => any): Promise<void>`
+   
+ - Functions for querying resources related to the Food Tracking Service (RPC Client):
+   - `getFoods(childId: string, dateStart: string, dateEnd: string): Promise<any>`
+   
 ## v1.2.0 (2019-10-18)
 ### Added
  - Updated RPC Server and RPC Client:

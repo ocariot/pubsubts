@@ -50,4 +50,8 @@ export interface IOcariotPub extends IPub {
     pubSyncWeight(weight: any): Promise<void>
 
     pubSyncLog(log: any): Promise<void>
+
+    pubSaveFood(food: any): Promise<void>
+
+    pubUpdateFood(food: any): Promise<void>
 }
