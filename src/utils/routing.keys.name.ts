@@ -24,4 +24,6 @@ export abstract class RoutingKeysName {
     public static readonly SYNC_SLEEP: string = 'sleep.sync'
     public static readonly SYNC_WEIGHTS: string = 'weights.sync'
     public static readonly SYNC_LOGS: string = 'logs.sync'
+    public static readonly SAVE_FOODS: string = 'foods.save'
+    public static readonly UPDATE_FOODS: string = 'foods.update'
 }

@@ -58,3 +58,7 @@ export interface IMessageFitbitLastSync extends IMessage {
 export interface IMessageFitbitAuthError extends IMessage {
     fitbit: object
 }
+
+export interface IMessageFood extends IMessage {
+    food: object
+}

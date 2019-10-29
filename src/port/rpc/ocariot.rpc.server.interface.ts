@@ -28,4 +28,6 @@ export interface IOcariotRpcServer extends IRpcServer {
     provideApplications(listener: (query?: string) => any): Promise<void>
 
     provideInstitutions(listener: (query?: string) => any): Promise<void>
+
+    provideFoods(listener: (childId: string, dateStart: string, dateEnd: string) => any): Promise<void>
 }

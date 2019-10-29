@@ -16,6 +16,7 @@ import {
     IMessageFamily,
     IMessageFitbitAuthError,
     IMessageFitbitLastSync,
+    IMessageFood,
     IMessageHealthProfessional,
     IMessageInstitution,
     IMessageLog,
@@ -307,7 +308,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
             await this.serverConnection()
             const server: IServerRegister = this._serverConnection!
                 .createRpcServer(this.appName.concat(EndpointQueue.RPC), exchangeName, [], defaultOptionRpcServer)
-            if (server.addResource(name, func)) return server.start()
+            if (server.addResource(name, func)) return await server.start()
             return Promise.reject(new Error('Could not add resource to RPC Server. Resource already exists!'))
         } catch (err) {
             return Promise.reject(err)
@@ -639,6 +640,24 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_LOGS, message)
     }
 
+    public pubSaveFood(food: any): Promise<void> {
+        const message: IMessageFood = {
+            event_name: EventName.SAVE_FOOD_EVENT,
+            timestamp: new Date().toISOString(),
+            food
+        }
+        return this.publish(ExchangeName.FOOD_TRACKING, RoutingKeysName.SAVE_FOODS, message)
+    }
+
+    public pubUpdateFood(food: any): Promise<void> {
+        const message: IMessageFood = {
+            event_name: EventName.UPDATE_FOOD_EVENT,
+            timestamp: new Date().toISOString(),
+            food
+        }
+        return this.publish(ExchangeName.FOOD_TRACKING, RoutingKeysName.UPDATE_FOODS, message)
+    }
+
     public subSavePhysicalActivity(callback: (message: any) => void): Promise<void> {
         return this.subscribe(ExchangeName.ACTIVITY_TRACKING, RoutingKeysName.SAVE_PHYSICAL_ACTIVITIES, callback)
     }
@@ -739,6 +758,14 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.SYNC_LOGS, callback)
     }
 
+    public subSaveFood(callback: (message: any) => void): Promise<void> {
+        return this.subscribe(ExchangeName.FOOD_TRACKING, RoutingKeysName.SAVE_FOODS, callback)
+    }
+
+    public subUpdateFood(callback: (message: any) => void): Promise<void> {
+        return this.subscribe(ExchangeName.FOOD_TRACKING, RoutingKeysName.UPDATE_FOODS, callback)
+    }
+
     public providePhysicalActivities(listener: (query?: string) => any): Promise<void> {
         return this.resource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.PHYSICAL_ACTIVITIES, listener)
     }
@@ -793,6 +820,10 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
 
     public provideInstitutions(listener: (query?: string) => any): Promise<void> {
         return this.resource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, listener)
+    }
+
+    public provideFoods(listener: (childId: string, dateStart: string, dateEnd: string) => any): Promise<void> {
+        return this.resource(ExchangeName.FOOD_TRACKING_RPC, ResourceName.FOODS, listener)
     }
 
     public getPhysicalActivities(query: string, callback: (err: Error, result: any) => void): void
@@ -949,5 +980,16 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, [query])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, [query], callback)
+    }
+
+    public getFoods(childId: string, dateStart: string, dateEnd: string, callback: (err: Error, result: any) => void): void
+
+    public getFoods(childId: string, dateStart: string, dateEnd: string): Promise<any>
+
+    public getFoods(childId: string, dateStart: string, dateEnd: string, callback?: (err: Error, result: any) => void): any {
+        if (!callback) {
+            return this.requestResource(ExchangeName.FOOD_TRACKING_RPC, ResourceName.FOODS, [childId, dateStart, dateEnd])
+        }
+        this.requestResource(ExchangeName.FOOD_TRACKING_RPC, ResourceName.FOODS, [childId, dateStart, dateEnd], callback)
     }
 }

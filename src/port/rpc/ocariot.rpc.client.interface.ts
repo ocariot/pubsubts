@@ -56,4 +56,6 @@ export interface IOcariotRpcClient extends IRpcClient {
     getInstitutions(query: string, callback: (err, institutions) => void): void
 
     getInstitutions(query?: string): Promise<any>
+
+    getFoods(childId: string, dateStart: string, dateEnd: string): Promise<any>
 }

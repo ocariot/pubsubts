@@ -14,4 +14,5 @@ export abstract class ResourceName {
     public static readonly HEALTH_PROFESSIONAL_CHILDREN_GROUPS: string = 'healthprofessionals.childrengroups'
     public static readonly APPLICATIONS: string = 'applications.find'
     public static readonly INSTITUTIONS: string = 'institutions.find'
+    public static readonly FOODS: string = 'foods.find'
 }
