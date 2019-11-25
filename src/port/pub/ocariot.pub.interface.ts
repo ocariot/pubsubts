@@ -43,6 +43,8 @@ export interface IOcariotPub extends IPub {
 
     pubFitbitAuthError(fitbit: any): Promise<void>
 
+    pubFitbitRevoke(fitbit: any): Promise<void>
+
     pubSyncPhysicalActivity(activity: any): Promise<void>
 
     pubSyncSleep(sleep: any): Promise<void>

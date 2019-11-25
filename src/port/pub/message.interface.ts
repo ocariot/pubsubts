@@ -51,11 +51,7 @@ export interface IMessageInstitution extends IMessage {
     institution: any
 }
 
-export interface IMessageFitbitLastSync extends IMessage {
-    fitbit: object
-}
-
-export interface IMessageFitbitAuthError extends IMessage {
+export interface IMessageFitbit extends IMessage {
     fitbit: object
 }
 

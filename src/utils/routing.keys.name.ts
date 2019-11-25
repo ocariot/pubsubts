@@ -20,6 +20,7 @@ export abstract class RoutingKeysName {
     public static readonly DELETE_INSTITUTIONS: string = 'institutions.delete'
     public static readonly LAST_SYNC_FIIBIT: string = 'fitbit.lastsync'
     public static readonly ERROR_FITBIT_AUTH: string = 'fitbit.auth.error'
+    public static readonly REVOKE_FITBIT: string = 'fitbit.revoke'
     public static readonly SYNC_PHYSICAL_ACTIVITIES: string = 'physicalactivities.sync'
     public static readonly SYNC_SLEEP: string = 'sleep.sync'
     public static readonly SYNC_WEIGHTS: string = 'weights.sync'

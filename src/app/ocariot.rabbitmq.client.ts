@@ -14,8 +14,7 @@ import {
     IMessageEducator,
     IMessageEnvironment,
     IMessageFamily,
-    IMessageFitbitAuthError,
-    IMessageFitbitLastSync,
+    IMessageFitbit,
     IMessageFood,
     IMessageHealthProfessional,
     IMessageInstitution,
@@ -587,7 +586,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     }
 
     public pubFitbitLastSync(fitbit: any): Promise<void> {
-        const message: IMessageFitbitLastSync = {
+        const message: IMessageFitbit = {
             event_name: EventName.LASTSYNC_FITBIT_FITBIT,
             timestamp: new Date().toISOString(),
             fitbit
@@ -596,12 +595,21 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     }
 
     public pubFitbitAuthError(fitbit: any): Promise<void> {
-        const message: IMessageFitbitAuthError = {
+        const message: IMessageFitbit = {
             event_name: EventName.ERROR_FITBIT_AUTH_EVENT,
             timestamp: new Date().toISOString(),
             fitbit
         }
         return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.ERROR_FITBIT_AUTH, message)
+    }
+
+    public pubFitbitRevoke(fitbit: any): Promise<void> {
+        const message: IMessageFitbit = {
+            event_name: EventName.REVOKE_FITBIT_EVENT,
+            timestamp: new Date().toISOString(),
+            fitbit
+        }
+        return this.publish(ExchangeName.DATA_SYNC, RoutingKeysName.REVOKE_FITBIT, message)
     }
 
     public pubSyncPhysicalActivity(activity: any): Promise<void> {
@@ -740,6 +748,10 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
 
     public subFitbitAuthError(callback: (message: any) => void): Promise<void> {
         return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.ERROR_FITBIT_AUTH, callback)
+    }
+
+    public subFitbitRevoke(callback: (message: any) => void): Promise<void> {
+        return this.subscribe(ExchangeName.DATA_SYNC, RoutingKeysName.REVOKE_FITBIT, callback)
     }
 
     public subSyncPhysicalActivity(callback: (message: any) => void): Promise<void> {

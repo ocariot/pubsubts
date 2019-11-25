@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 --------
+## v1.4.0 (2019-11-25)
+### Added
+ - `pubFitbitRevoke(fitbit: any): Promise<void>`
+ - `subFitbitRevoke(callback: (message: any) => void): Promise<void>`
+   
 ## v1.3.0 (2019-10-29)
 ### Added
  - Functions for publish Food Tracking Service related events:

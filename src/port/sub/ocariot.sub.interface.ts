@@ -43,6 +43,8 @@ export interface IOcariotSub extends ISub {
 
     subFitbitAuthError(callback: (message: any) => void): Promise<void>
 
+    subFitbitRevoke(callback: (message: any) => void): Promise<void>
+
     subSyncPhysicalActivity(callback: (message: any) => void): Promise<void>
 
     subSyncSleep(callback: (message: any) => void): Promise<void>

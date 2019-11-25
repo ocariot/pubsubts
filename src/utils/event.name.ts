@@ -20,6 +20,7 @@ export abstract class EventName {
     public static readonly DELETE_INSTITUTION_EVENT: string = 'InstitutionDeleteEvent'
     public static readonly LASTSYNC_FITBIT_FITBIT: string = 'FitbitLastSyncEvent'
     public static readonly ERROR_FITBIT_AUTH_EVENT: string = 'FitbitAuthErrorEvent'
+    public static readonly REVOKE_FITBIT_EVENT: string = 'FitbitRevokeEvent'
     public static readonly SYNC_PHYSICAL_ACTIVITY_EVENT: string = 'PhysicalActivitySyncEvent'
     public static readonly SYNC_SLEEP_EVENT: string = 'SleepSyncEvent'
     public static readonly SYNC_WEIGHT_EVENT: string = 'WeightSyncEvent'
