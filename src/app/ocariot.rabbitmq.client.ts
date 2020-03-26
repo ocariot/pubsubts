@@ -834,6 +834,14 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         return this.resource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, listener)
     }
 
+    public provideEducatorsFromChild(listener: (childId: string) => any): Promise<void> {
+        return this.resource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_EDUCATOR, listener)
+    }
+
+    public provideHealthProfessionalsFromChild(listener: (childId: string) => any): Promise<void> {
+        return this.resource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_HEALTH_PROFESSIONAL, listener)
+    }
+
     public provideFoods(listener: (childId: string, dateStart: string, dateEnd: string) => any): Promise<void> {
         return this.resource(ExchangeName.FOOD_TRACKING_RPC, ResourceName.FOODS, listener)
     }
@@ -992,6 +1000,28 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
             return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, [query])
         }
         this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.INSTITUTIONS, [query], callback)
+    }
+
+    public getEducatorsFromChild(childId: string, callback: (err: Error, result: any) => void): void
+
+    public getEducatorsFromChild(childId: string): Promise<any>
+
+    public getEducatorsFromChild(childId: string, callback?: (err: Error, result: any) => void): any {
+        if (!callback) {
+            return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_EDUCATOR, [childId])
+        }
+        this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_EDUCATOR, [childId], callback)
+    }
+
+    public getHealthProfessionalsFromChild(childId: string, callback: (err: Error, result: any) => void): void
+
+    public getHealthProfessionalsFromChild(childId: string): Promise<any>
+
+    public getHealthProfessionalsFromChild(childId: string, callback?: (err: Error, result: any) => void): any {
+        if (!callback) {
+            return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_HEALTH_PROFESSIONAL, [childId])
+        }
+        this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_HEALTH_PROFESSIONAL, [childId], callback)
     }
 
     public getFoods(childId: string, dateStart: string, dateEnd: string, callback: (err: Error, result: any) => void): void
