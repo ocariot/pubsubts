@@ -57,5 +57,9 @@ export interface IOcariotRpcClient extends IRpcClient {
 
     getInstitutions(query?: string): Promise<any>
 
+    getEducatorsFromChild(childId: string): Promise<any>
+
+    getHealthProfessionalsFromChild(childId: string): Promise<any>
+
     getFoods(childId: string, dateStart: string, dateEnd: string): Promise<any>
 }
