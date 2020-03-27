@@ -835,11 +835,11 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
     }
 
     public provideEducatorsFromChild(listener: (childId: string) => any): Promise<void> {
-        return this.resource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_EDUCATOR, listener)
+        return this.resource(ExchangeName.ACCOUNT_RPC, ResourceName.EDUCATORS_FROM_CHILD, listener)
     }
 
     public provideHealthProfessionalsFromChild(listener: (childId: string) => any): Promise<void> {
-        return this.resource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_HEALTH_PROFESSIONAL, listener)
+        return this.resource(ExchangeName.ACCOUNT_RPC, ResourceName.HEALTH_PROFESSIONALS_FROM_CHILD, listener)
     }
 
     public provideFoods(listener: (childId: string, dateStart: string, dateEnd: string) => any): Promise<void> {
@@ -1008,9 +1008,9 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
 
     public getEducatorsFromChild(childId: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
-            return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_EDUCATOR, [childId])
+            return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.EDUCATORS_FROM_CHILD, [childId])
         }
-        this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_EDUCATOR, [childId], callback)
+        this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.EDUCATORS_FROM_CHILD, [childId], callback)
     }
 
     public getHealthProfessionalsFromChild(childId: string, callback: (err: Error, result: any) => void): void
@@ -1019,9 +1019,9 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
 
     public getHealthProfessionalsFromChild(childId: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
-            return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_HEALTH_PROFESSIONAL, [childId])
+            return this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.HEALTH_PROFESSIONALS_FROM_CHILD, [childId])
         }
-        this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.CHILD_FROM_HEALTH_PROFESSIONAL, [childId], callback)
+        this.requestResource(ExchangeName.ACCOUNT_RPC, ResourceName.HEALTH_PROFESSIONALS_FROM_CHILD, [childId], callback)
     }
 
     public getFoods(childId: string, dateStart: string, dateEnd: string, callback: (err: Error, result: any) => void): void
