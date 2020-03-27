@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 
 --------
+## v1.5.1 (2020-03-27)
+### Fixed
+ - Corrects `IOcariotRpcClient` interface by adding missing methods.
+ 
+## v1.5.0 (2020-03-26)
+### Added
+ - `provideEducatorsFromChild(listener: (childId: string) => any): Promise<void>`
+ - `provideHealthProfessionalsFromChild(listener: (childId: string) => any): Promise<void>`
+ - `getEducatorsFromChild(childId: string): Promise<any>`
+ - `getHealthProfessionalsFromChild(childId: string): Promise<any>`
+ 
 ## v1.4.0 (2019-11-25)
 ### Added
  - `pubFitbitRevoke(fitbit: any): Promise<void>`
