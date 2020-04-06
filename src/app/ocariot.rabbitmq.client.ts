@@ -19,6 +19,7 @@ import {
     IMessageHealthProfessional,
     IMessageInstitution,
     IMessageLog,
+    IMessageNotification,
     IMessagePhysicalActivity,
     IMessageSleep,
     IMessageUser,
@@ -664,6 +665,15 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
             food
         }
         return this.publish(ExchangeName.FOOD_TRACKING, RoutingKeysName.UPDATE_FOODS, message)
+    }
+
+    public pubSendNotification(notification: any): Promise<void> {
+        const message: IMessageNotification = {
+            event_name: EventName.SEND_NOTIFICATION_EVENT,
+            timestamp: new Date().toISOString(),
+            notification
+        }
+        return this.publish(ExchangeName.NOTIFICATION, RoutingKeysName.SEND_NOTIFICATION, message)
     }
 
     public subSavePhysicalActivity(callback: (message: any) => void): Promise<void> {

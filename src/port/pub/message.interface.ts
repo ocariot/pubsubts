@@ -58,3 +58,7 @@ export interface IMessageFitbit extends IMessage {
 export interface IMessageFood extends IMessage {
     food: object
 }
+
+export interface IMessageNotification extends IMessage {
+    notification: object
+}

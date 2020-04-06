@@ -56,4 +56,6 @@ export interface IOcariotPub extends IPub {
     pubSaveFood(food: any): Promise<void>
 
     pubUpdateFood(food: any): Promise<void>
+
+    pubSendNotification(notification: any): Promise<void>
 }
