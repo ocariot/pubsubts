@@ -788,6 +788,10 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         return this.subscribe(ExchangeName.FOOD_TRACKING, RoutingKeysName.UPDATE_FOODS, callback)
     }
 
+    public subSendNotification(callback: (message: any) => void): Promise<void> {
+        return this.subscribe(ExchangeName.NOTIFICATION, RoutingKeysName.SEND_NOTIFICATION, callback)
+    }
+
     public providePhysicalActivities(listener: (query?: string) => any): Promise<void> {
         return this.resource(ExchangeName.ACTIVITY_TRACKING_RPC, ResourceName.PHYSICAL_ACTIVITIES, listener)
     }
