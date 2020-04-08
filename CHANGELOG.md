@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 --------
+## v1.6.1 (2020-04-08)
+### Fixed
+ - `getProcessedDataChildren(childId?: string): Promise<any>`
+ 
 ## v1.6.0 (2020-04-08)
 ### Added
  - `pubSendNotification(notification: any): Promise<void>`
