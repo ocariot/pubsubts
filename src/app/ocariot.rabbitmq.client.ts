@@ -860,6 +860,10 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
         return this.resource(ExchangeName.FOOD_TRACKING_RPC, ResourceName.FOODS, listener)
     }
 
+    public provideProcessedDataChildren(listener: (childId?: string) => any): Promise<void> {
+        return this.resource(ExchangeName.DSS_RPC, ResourceName.CHILDREN_PROCESS_DATA, listener)
+    }
+
     public getPhysicalActivities(query: string, callback: (err: Error, result: any) => void): void
 
     public getPhysicalActivities(query?: string): Promise<any>
@@ -1047,5 +1051,16 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
             return this.requestResource(ExchangeName.FOOD_TRACKING_RPC, ResourceName.FOODS, [childId, dateStart, dateEnd])
         }
         this.requestResource(ExchangeName.FOOD_TRACKING_RPC, ResourceName.FOODS, [childId, dateStart, dateEnd], callback)
+    }
+
+    public getProcessedDataChildren(childId: string, callback: (err: Error, result: any) => void): void
+
+    public getProcessedDataChildren(childId: string): Promise<any>
+
+    public getProcessedDataChildren(childId: string, callback?: (err: Error, result: any) => void): any {
+        if (!callback) {
+            return this.requestResource(ExchangeName.DSS_RPC, ResourceName.CHILDREN_PROCESS_DATA, [childId])
+        }
+        this.requestResource(ExchangeName.DSS_RPC, ResourceName.CHILDREN_PROCESS_DATA, [childId], callback)
     }
 }

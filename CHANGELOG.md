@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 ### Added
  - `pubSendNotification(notification: any): Promise<void>`
  - `subSendNotification(callback: (message: any) => void): Promise<void>`
+ - `getProcessedDataChildren(childId: string): Promise<any>`
+ - `provideProcessedDataChildren(listener: (childId?: string) => any): Promise<void>`
 
 ## v1.5.1 (2020-03-27)
 ### Fixed

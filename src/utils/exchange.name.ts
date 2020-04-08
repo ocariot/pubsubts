@@ -9,4 +9,5 @@ export abstract class ExchangeName {
     public static readonly ACTIVITY_TRACKING_RPC: string = 'iot.tracking.rpc'
     public static readonly ACCOUNT_RPC: string = 'account.rpc'
     public static readonly FOOD_TRACKING_RPC: string = 'food.tracking.rpc'
+    public static readonly DSS_RPC: string = 'dss.rpc'
 }

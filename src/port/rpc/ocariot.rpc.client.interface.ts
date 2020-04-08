@@ -66,4 +66,8 @@ export interface IOcariotRpcClient extends IRpcClient {
     getHealthProfessionalsFromChild(childId: string, callback: (err, healthProfessionals) => void): void
 
     getFoods(childId: string, dateStart: string, dateEnd: string): Promise<any>
+
+    getProcessedDataChildren(childId: string): Promise<any>
+
+    getProcessedDataChildren(childId: string, callback: (err, children) => void): void
 }
