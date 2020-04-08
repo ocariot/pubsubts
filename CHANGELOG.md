@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 --------
-## v1.6.0
+## v1.6.0 (2020-04-08)
 ### Added
  - `pubSendNotification(notification: any): Promise<void>`
  - `subSendNotification(callback: (message: any) => void): Promise<void>`
