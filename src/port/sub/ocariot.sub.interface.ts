@@ -56,4 +56,6 @@ export interface IOcariotSub extends ISub {
     subSaveFood(callback: (message: any) => void): Promise<void>
 
     subUpdateFood(callback: (message: any) => void): Promise<void>
+
+    subSendNotification(callback: (message: any) => void): Promise<void>
 }
