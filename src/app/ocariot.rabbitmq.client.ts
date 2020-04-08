@@ -1055,9 +1055,9 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
 
     public getProcessedDataChildren(childId: string, callback: (err: Error, result: any) => void): void
 
-    public getProcessedDataChildren(childId: string): Promise<any>
+    public getProcessedDataChildren(childId?: string): Promise<any>
 
-    public getProcessedDataChildren(childId: string, callback?: (err: Error, result: any) => void): any {
+    public getProcessedDataChildren(childId?: string, callback?: (err: Error, result: any) => void): any {
         if (!callback) {
             return this.requestResource(ExchangeName.DSS_RPC, ResourceName.CHILDREN_PROCESS_DATA, [childId])
         }
