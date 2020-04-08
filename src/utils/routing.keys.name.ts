@@ -27,4 +27,5 @@ export abstract class RoutingKeysName {
     public static readonly SYNC_LOGS: string = 'logs.sync'
     public static readonly SAVE_FOODS: string = 'foods.save'
     public static readonly UPDATE_FOODS: string = 'foods.update'
+    public static readonly SEND_NOTIFICATION: string = 'send.notification'
 }

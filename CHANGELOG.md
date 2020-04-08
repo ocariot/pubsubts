@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 --------
+## v1.6.0
+### Added
+ - `pubSendNotification(notification: any): Promise<void>`
+ - `subSendNotification(callback: (message: any) => void): Promise<void>`
+ - `getProcessedDataChildren(childId: string): Promise<any>`
+ - `provideProcessedDataChildren(listener: (childId?: string) => any): Promise<void>`
+
 ## v1.5.1 (2020-03-27)
 ### Fixed
  - Corrects `IOcariotRpcClient` interface by adding missing methods.

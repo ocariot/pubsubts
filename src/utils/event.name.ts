@@ -27,4 +27,5 @@ export abstract class EventName {
     public static readonly SYNC_LOG_EVENT: string = 'LogSyncEvent'
     public static readonly SAVE_FOOD_EVENT: string = 'SaveFoodEvent'
     public static readonly UPDATE_FOOD_EVENT: string = 'UpdateFoodEvent'
+    public static readonly SEND_NOTIFICATION_EVENT: string = 'SendNotificationEvent'
 }
