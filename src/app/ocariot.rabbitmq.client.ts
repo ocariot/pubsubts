@@ -171,7 +171,7 @@ export class OcariotRabbitMQClient extends EventEmitter implements IOcariotRabbi
             this._clientConnection = undefined
             this._clientConnectionInitialized = undefined
         })
-        this._clientConnection.on('trying', () => this.emit('rpc_client_connection'))
+        this._clientConnection.on('trying', () => this.emit('rpc_client_trying_connection'))
         this._clientConnection.on('reestablished', () => this.emit('rpc_client_reconnected'))
         this._clientConnection.on('_error', (err) => this.emit('rpc_client_connection_error', err))
     }
