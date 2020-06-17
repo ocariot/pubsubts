@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 --------
+## v1.6.2 (2020-06-17)
+### Fixed
+ - Updates the version of the dependencies to address vulnerability issues.
+ - Corrects the name of the event issued in the attempt to reconnect: `rpc_client_connection` to `rpc_client_trying_connection`
+ 
 ## v1.6.1 (2020-04-08)
 ### Fixed
  - `getProcessedDataChildren(childId?: string): Promise<any>`
